@@ -1,4 +1,4 @@
-# Assignment 0
+# Assignment 0: Presentation of a Visualization
 
 In this assignment, your task is to find a visualization that is "in the wild" somewhere out there on the Internet. Find what you believe is a good or interesting example of information visualization. Of course, since it's early in the quarter, and we haven't completely defined what makes a visualization "good," we don't expect you to find a flawless example, but do your best! You will then create a single HTML file to do the following:
 
