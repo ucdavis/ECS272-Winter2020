@@ -29,10 +29,12 @@ To process and transform the data for analysis, we recommend the following:
 
 ### Step 4: Analyze and visualize the data
 
-For visualizing the data, you can use the following: 
-* Seaborn[Seaborn](https://seaborn.pydata.org/) or [Altair](https://altair-viz.github.io/) for Jupyter Notebook
+For visualizing the data, we recommend the following: 
+* [Seaborn](https://seaborn.pydata.org/) or [Altair](https://altair-viz.github.io/) for Jupyter Notebook
 * [Vega-Lite](https://vega.github.io/vega-lite/) for Observable Notebook
 * For Tableau, just play with the GUI to create visualizations; if needed, please refer to the [tutorial on how to use Tableau](https://www.tutorialspoint.com/tableau/index.htm)
+
+If you want, you can use any other library for processing and visualizing the data in Python or JavaScript.
 
 ## Submission
 If you are using Jupyter Notebook, you can commit the notebook to GitHub and submit the link to the repository. For Observable Notebook, you can submit the link for sharing your notebook for this assignment. For Tableau, you would need to submit a report containing the visualizations you created in Tableau.

@@ -48,5 +48,6 @@ Here are some tutorial that could be helpful for completing the assignments and 
 #### Python
 * [Python Basics](https://www.learnpython.org/)
 * [Python Visualization Tutorials](https://realpython.com/tutorials/data-viz/)
+* [Colab Visualization Examples](https://colab.research.google.com/notebooks/charts.ipynb)
 
 
