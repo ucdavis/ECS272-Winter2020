@@ -17,9 +17,10 @@ In this class, you will learn about information visualization techniques and the
 ## Assignment and Project
 There are four homework assignments and one final project. Please find all the materials, including descriptions, tutorials, guidelines, and coding templates, from the folder assigned for each assignment and project in this GitHub repository.
 
-* [Assignment 0: Presentation of a Visualization](/Assignment0)
-* [Assignment 1: Static Visualization](Assignment1)
-* Assignment 2: Visual Interface
+* [Assignment 0: Presentation of a Visualization](tree/master/Assignment0)
+* [Assignment 1: Static Visualization](tree/master/Assignment1)
+* [Assignment 2: Visual Interface](tree/master/Assignment2)
 * Assignment 3: Interactive Visualization System
 * Final Project
 
+Here's a [list of resources](Resources.md) that can be helpful for the assignments and project.
