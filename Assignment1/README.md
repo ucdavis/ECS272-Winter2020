@@ -1,40 +1,31 @@
-# Assignment 1
+# Assignment 1: Presentation of a Visualization
 
-In this assignment, you need to choose a dataset and create three visualizations to show two different insights. For visualization, you can choose to use Jupyter Notebook (Python), Observable Notebook (JavaScript), or Tableau (GUI).  This is an individual assignment, so you may not work in groups. Your final submission will take the form of a report including the visualizations you created and the description of the insights you gained from the visualizations.
+In this assignment, your task is to find a visualization that is "in the wild" somewhere out there on the Internet. Find what you believe is a good or interesting example of information visualization. Of course, since it's early in the quarter, and we haven't completely defined what makes a visualization "good," we don't expect you to find a flawless example, but do your best! You will then create a single HTML file to do the following:
 
-### Step 1: Choose a dataset from the list below
+* Show the title and your name in the HTML header
+* Use a HTML img tag to show the image of the visualization (e.g. set the src property to be the hyperlink or URL of the image).
+* Use css to modify the style of your HTML page where the visualization should be horizontally aligned to the middle of the page.
+* Put the hyperlink to the source page that you got the visualization from.
+* Write a short, text description of the visualization at the bottom.
 
-* [LAX Passenger Counts by Terminal](https://data.lacity.org/A-Prosperous-City/Los-Angeles-International-Airport-Passenger-Traffi/g3qu-7q2u)
-* [Film Locations in San Francisco](https://data.sfgov.org/Culture-and-Recreation/Film-Locations-in-San-Francisco/yitu-d5am)
-* [2014 Kansas City Crime Data](https://data.kcmo.org/Crime/crime-data/9u7z-x596)
+Your text description should be a small paragraphs, and answer the following:
+* What is being shown? (required)
+* Is the visualization interactive or static? If interactive, how can it be interacted with?(required)
+* What are some of the design choices and visualization techniques used? These include * things like choice of color or color palettes, the type of plot/chart used, the interaction techniques, etc.(optional)
+* What, in your opinion, is the rationale behind the design choices? (optional)
+* Do you think this is a good visualization? Give a short critique on why or why not. (required)
 
-
-### Step 2: Choose a visualization tool 
-
-* [Jupyter Notebook](https://jupyter.org/) (Python)
-* [Observable Notebook](http://observablehq.com/) (JavaScript)
-* [Tableau Public](https://public.tableau.com/en-us/s/) (GUI)
-
-You can use one of these visualization tools based on your interest. If you're more interested in data analysis and exploration, we recommend using Python with Jupyter Notebook. If you're more interested in visualization design, user interface, and HCI, we recommend using JavaScript with Observable Notebook. If you are unsure or your major is not Computer Science, you can choose to use Tableau, which provides GUI for creating visualizations.
-
-### Step 3: Load and process the data
-
-Next, you are going to load the chosen dataset to your selected tool for processing and visualization. For Jupyter and Observable, please refer to coding templates provided in the example folder. For Tableau, just use the GUI to load and process the data.
-
-To process and transform the data for analysis, we recommend the following: 
-
-* Jupyter Notebook: [Pandas](https://pandas.pydata.org/) (data processing and analysis library for Python)
-* Observable: [Vega-Lite](https://vega.github.io/vega-lite/) (declarative grammars for data transformations and visualization)
-* Tableau: its GUI provides basic operations for processing and transforming data; you can refer to [this tutorial](https://www.tutorialspoint.com/tableau/index.htm) to learn how to use Tableau if you want
-
-### Step 4: Analyze and visualize the data
-
-For visualizing the data, we recommend the following: 
-* [Seaborn](https://seaborn.pydata.org/) or [Altair](https://altair-viz.github.io/) for Jupyter Notebook
-* [Vega-Lite](https://vega.github.io/vega-lite/) for Observable Notebook
-* For Tableau, just play with the GUI to create visualizations; if needed, please refer to the [tutorial on how to use Tableau](https://www.tutorialspoint.com/tableau/index.htm)
-
-If you want, you can use any other library for processing and visualizing the data in Python or JavaScript.
+Your HTML page does not have to be elaborately styled, but please make it clean-looking and succinct.
 
 ## Submission
-If you are using Jupyter Notebook, you can commit the notebook to GitHub and submit the link to the repository. For Observable Notebook, you can submit the link for sharing your notebook for this assignment. For Tableau, you would need to submit a report containing the visualizations you created in Tableau.
+
+The name of your HTML file should be the same as your UC Davis email account name (without ' @ucdavis.edu'). To submit this assignment, use the following commands to first clone this repository, and then commit your HTML file.
+
+```bash
+git clone https://github.com/ucdavis/ECS272-Winter2020
+cd ECS272-Winter2020/Assignment0
+mv <path-to-your-file> ./submission/
+git add <your-filename> 
+git commit -m "Assignment0"
+git push
+```

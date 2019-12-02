@@ -32,7 +32,7 @@ Useful tools and tutorials for learning data visualization.
 
 ## Tutorials
 
-Here are some tutorial that could be helpful for completing the assignments and final project. 
+Here are some tutorials that could be helpful for completing the assignments and final project. 
 
 #### Web Basics
 * [Basic Concepts](https://www.tutorialspoint.com/web_developers_guide/web_basic_concepts.htm)

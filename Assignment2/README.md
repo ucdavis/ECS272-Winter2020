@@ -1,27 +1,40 @@
-# Assignment 2: Visual Interface
+# Assignment 2: Static Visualization
 
-In this assignment, you will be learning how to implement a dashboard with two visualization views. You can use either JavaScript with [D3.js](https://www.d3js.org) or Python with [Dash](https://dash.plot.ly/?_ga=2.191292847.426805754.1574706741-53947978.1573166595) to do this assignment. 
+In this assignment, you need to choose a dataset and create three visualizations to show two different insights. For visualization, you can choose to use Jupyter Notebook (Python), Observable Notebook (JavaScript), or Tableau (GUI).  This is an individual assignment, so you may not work in groups. Your final submission will take the form of a report including the visualizations you created and the description of the insights you gained from the visualizations.
 
-To help get you started, a template will be provided for setting up the application and load the dataset. Your task is then to implement a visualization dashboard. The design of this dashboard should facilitate analysis of the dataset in an effective or interesting way. This dashboard must have two visualization views. Your visualizations should include one basic and one advanced visualization methods. The two visualizations should depict different dimensions or aspects of the dataset that you're examining. You can also support visual analysis techniques, such as context + focus. For instance, a bubble chart can be used as a primary view while selecting a bubble, a bar chart may be used to display extra information.
+### Step 1: Choose a dataset from the list below
 
-
-### Examples of basic visualization methods
-* Bar chart
-* Pie or donut chart
-* Line and area chart
-* 2D heatmap or matrix view
-* Scatter plot or bubble chart
-* Node-link diagram
-* Geographical map
+* [LAX Passenger Counts by Terminal](https://data.lacity.org/A-Prosperous-City/Los-Angeles-International-Airport-Passenger-Traffi/g3qu-7q2u)
+* [Film Locations in San Francisco](https://data.sfgov.org/Culture-and-Recreation/Film-Locations-in-San-Francisco/yitu-d5am)
+* [2014 Kansas City Crime Data](https://data.kcmo.org/Crime/crime-data/9u7z-x596)
 
 
-### Examples of more advanced visualization methods
-* Parallel set or parallel coordinates plot
-* Sankey or alluvial diagram
-* Star coordinates or plot
-* Chord diagram
-* Stream graph
-* Arc diagram
+### Step 2: Choose a visualization tool 
 
+* [Jupyter Notebook](https://jupyter.org/) (Python)
+* [Observable Notebook](http://observablehq.com/) (JavaScript)
+* [Tableau Public](https://public.tableau.com/en-us/s/) (GUI)
 
-For each view, you need to provide one or more visual interface widgets (e.g., a dropdown menu or slider) for changing the parameters of the visualization. For examples, a drop-down menu can be provided for selecting the data dimension that maps to the x-axis of a scatter plot or the color encoding used in a 2D heatmap.
+You can use one of these visualization tools based on your interest. If you're more interested in data analysis and exploration, we recommend using Python with Jupyter Notebook. If you're more interested in visualization design, user interface, and HCI, we recommend using JavaScript with Observable Notebook. If you are unsure or your major is not Computer Science, you can choose to use Tableau, which provides GUI for creating visualizations.
+
+### Step 3: Load and process the data
+
+Next, you are going to load the chosen dataset to your selected tool for processing and visualization. For Jupyter and Observable, please refer to coding templates provided in the example folder. For Tableau, just use the GUI to load and process the data.
+
+To process and transform the data for analysis, we recommend the following: 
+
+* Jupyter Notebook: [Pandas](https://pandas.pydata.org/) (data processing and analysis library for Python)
+* Observable: [Vega-Lite](https://vega.github.io/vega-lite/) (declarative grammars for data transformations and visualization)
+* Tableau: its GUI provides basic operations for processing and transforming data; you can refer to [this tutorial](https://www.tutorialspoint.com/tableau/index.htm) to learn how to use Tableau if you want
+
+### Step 4: Analyze and visualize the data
+
+For visualizing the data, we recommend the following: 
+* [Seaborn](https://seaborn.pydata.org/) or [Altair](https://altair-viz.github.io/) for Jupyter Notebook
+* [Vega-Lite](https://vega.github.io/vega-lite/) for Observable Notebook
+* For Tableau, just play with the GUI to create visualizations; if needed, please refer to the [tutorial on how to use Tableau](https://www.tutorialspoint.com/tableau/index.htm)
+
+If you want, you can use any other library for processing and visualizing the data in Python or JavaScript.
+
+## Submission
+If you are using Jupyter Notebook, you can commit the notebook to GitHub and submit the link to the repository. For Observable Notebook, you can submit the link for sharing your notebook for this assignment. For Tableau, you would need to submit a report containing the visualizations you created in Tableau.
