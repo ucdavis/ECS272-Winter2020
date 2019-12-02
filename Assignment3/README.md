@@ -1,4 +1,4 @@
-# Assignment 2: Visual Dashboard
+# Assignment 3: Visualization Dashboard
 
 In this assignment, you will be learning how to implement a dashboard with two visualization views. You can use either JavaScript with [D3.js](https://www.d3js.org) or Python with [Dash](https://dash.plot.ly/?_ga=2.191292847.426805754.1574706741-53947978.1573166595) to do this assignment. 
 
@@ -25,3 +25,7 @@ To help get you started, a template will be provided for setting up the applicat
 
 
 For each view, you need to provide one or more visual interface widgets (e.g., a dropdown menu or slider) for changing the parameters of the visualization. For examples, a drop-down menu can be provided for selecting the data dimension that maps to the x-axis of a scatter plot or the color encoding used in a 2D heatmap.
+
+
+## Submission
+For submission, please push all your source codes to your assigned branch in this repository on GitHub.
