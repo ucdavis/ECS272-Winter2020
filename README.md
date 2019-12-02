@@ -19,7 +19,7 @@ There are four homework assignments and one final project. Please find all the m
 
 * [Assignment 1: Presentation of a Visualization](Assignment1)
 * [Assignment 2: Static Visualization](Assignment2)
-* [Assignment 3: Visual Dashboard](Assignment3)
+* [Assignment 3: Visualization Dashboard](Assignment3)
 * [Assignment 4: Interactive Visualization System](Assignment4)
 * [Final Project](FinalProject)
 
