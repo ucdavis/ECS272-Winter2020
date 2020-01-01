@@ -17,15 +17,20 @@ Your text description should be a small paragraphs, and answer the following:
 
 Your HTML page does not have to be elaborately styled, but please make it clean-looking and succinct.
 
-## Submission
+You can use the ["example.html"](example.html) in this repository as the template for creating your html file.
 
-The name of your HTML file should be the same as your UC Davis email account name (without ' @ucdavis.edu'). To submit this assignment, use the following commands to first clone this repository, and then commit your HTML file.
+## Submission
+To submit for this assignment, you need to first fork this repository and add your html file to the submission folder. The name of your HTML file should be the same as your UC Davis email account name (without ' @ucdavis.edu'). After the fork, clone the forked repository using the following commands:
 
 ```bash
-git clone https://github.com/ucdavis/ECS272-Winter2020
-cd ECS272-Winter2020/Assignment0
+git clone https://github.com/<your-github-account-name>/ECS272-Winter2020
+cd ECS272-Winter2020/Assignment1
 mv <path-to-your-file> ./submission/
 git add <your-filename> 
-git commit -m "Assignment0"
+git commit -m "Assignment1"
 git push
 ```
+
+After you pushed your html file to your repository, follow the instruction [here](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request-from-a-fork) to create a pull request for this repository.
+
+Finally, submit the hyper link of the pull request to UCD Canvas.
