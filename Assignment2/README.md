@@ -11,7 +11,7 @@ In this assignment, you need to choose a dataset and create three visualizations
 
 ### Step 2: Choose a visualization tool 
 
-* [Jupyter Notebook](https://jupyter.org/) (Python)
+* [Jupyter Notebook on Colab](https://colab.research.google.com/) (Python)
 * [Observable Notebook](http://observablehq.com/) (JavaScript)
 * [Tableau Public](https://public.tableau.com/en-us/s/) (GUI)
 
@@ -34,7 +34,11 @@ For visualizing the data, we recommend the following:
 * [Vega-Lite](https://vega.github.io/vega-lite/) for Observable Notebook
 * For Tableau, just play with the GUI to create visualizations; if needed, please refer to the [tutorial on how to use Tableau](https://www.tutorialspoint.com/tableau/index.htm)
 
-If you want, you can use any other library for processing and visualizing the data in Python or JavaScript.
+Two examples for visualization and analysis of a multidimensional dataset are provided:
+*  [Examples in Colab](https://colab.research.google.com/drive/1PHrxxup8Iza3qbpeoSYwiQqexc96e-9H)
+*  [Examples in Observable](https://observablehq.com/d/123f819bd5e5a92b)
+
+You can also use any other libraries for processing and visualizing the data with Python or JavaScript.
 
 ## Submission
 If you are using Jupyter Notebook, you can commit the notebook to GitHub and submit the link to the repository. For Observable Notebook, you can submit the link for sharing your notebook for this assignment. For Tableau, you would need to submit a report containing the visualizations you created in Tableau.
