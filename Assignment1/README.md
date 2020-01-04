@@ -33,4 +33,4 @@ git push
 
 After you pushed your html file to your repository, follow the instruction [here](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request-from-a-fork) to create a pull request for this repository.
 
-Finally, submit the hyper link of the pull request to UCD Canvas.
+Finally, submit the hyper link of the pull request to UCD Canvas. The hyper link should look like - "https://github.com/ucdavis/ECS272-Winter2020/pull/{your-pull-request-id}".
