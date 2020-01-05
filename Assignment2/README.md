@@ -14,6 +14,12 @@ Two examples for visualization and analysis of a multidimensional dataset are pr
 *  [Examples in Colab](https://colab.research.google.com/drive/1PHrxxup8Iza3qbpeoSYwiQqexc96e-9H)
 *  [Examples in Observable](https://observablehq.com/d/123f819bd5e5a92b)
 
+Here are the tutorials for each of these tools:
+* [Welcome To Colaboratory](https://colab.research.google.com/notebooks/welcome.ipynb#)
+* [Five-Minute Introduction to Observable](https://observablehq.com/@observablehq/five-minute-introduction)
+* [Get Started with Tableau Desktop](https://help.tableau.com/current/guides/get-started-tutorial/en-us/get-started-tutorial-home.htm)
+  
+
 ### Step 2: Choose a dataset from the list below
 
 * [LAX Passenger Counts by Terminal](https://data.lacity.org/A-Prosperous-City/Los-Angeles-International-Airport-Passenger-Traffi/g3qu-7q2u)
@@ -34,6 +40,7 @@ To process and transform the data for analysis, we recommend the following:
 
 ### Step 4: Analyze and visualize the data
 
+
 For visualizing the data, we recommend the following: 
 * [Seaborn](https://seaborn.pydata.org/) or [Altair](https://altair-viz.github.io/) for Jupyter Notebook
 * [Vega-Lite](https://vega.github.io/vega-lite/) for Observable Notebook
@@ -42,4 +49,4 @@ For visualizing the data, we recommend the following:
 You can also use any other libraries for processing and visualizing the data with Python or JavaScript.
 
 ## Submission
-If you are using Jupyter Notebook, you can commit the notebook to GitHub and submit the link to the repository. For Observable Notebook, you can submit the link for sharing your notebook for this assignment. For Tableau, you would need to submit a report containing the visualizations you created in Tableau.
+For Colab and Observable notebooks, enable link sharing for your notebook and submit the link to Assignment 2 in UCD Canvas. For Tableau, you would need to submit a report containing the visualizations and explanation of your insights.

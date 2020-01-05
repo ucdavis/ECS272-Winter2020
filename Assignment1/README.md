@@ -19,6 +19,9 @@ Your HTML page does not have to be elaborately styled, but please make it clean-
 
 You can use the ["example.html"](example.html) in this repository as the template for creating your html file.
 
+For references on HTML and CSS, please refer to the [W3Schools HTML Tutorial](https://www.w3schools.com/html/default.asp) and [W3Schools CSS Tutorial](https://www.w3schools.com/css/default.asp).
+
+
 ## Submission
 To submit for this assignment, you need to first fork this repository and add your html file to the submission folder. The name of your HTML file should be the same as your UC Davis email account name (without ' @ucdavis.edu'). After the fork, clone the forked repository using the following commands:
 
