@@ -15,9 +15,9 @@ Two examples for visualization and analysis of a multidimensional dataset are pr
 *  [Examples in Observable](https://observablehq.com/d/123f819bd5e5a92b)
 
 Here are the tutorials for each of these tools:
-* [Welcome To Colaboratory](https://colab.research.google.com/notebooks/welcome.ipynb#)
-* [Five-Minute Introduction to Observable](https://observablehq.com/@observablehq/five-minute-introduction)
-* [Get Started with Tableau Desktop](https://help.tableau.com/current/guides/get-started-tutorial/en-us/get-started-tutorial-home.htm)
+* Colab: [Welcome To Colaboratory](https://colab.research.google.com/notebooks/welcome.ipynb#)
+* Observable: [Five-Minute Introduction to Observable](https://observablehq.com/@observablehq/five-minute-introduction)
+* Tableau: [Get Started with Tableau Desktop](https://help.tableau.com/current/guides/get-started-tutorial/en-us/get-started-tutorial-home.htm)
   
 
 ### Step 2: Choose a dataset from the list below
