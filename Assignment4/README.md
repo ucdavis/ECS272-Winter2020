@@ -48,7 +48,7 @@ __Python__ data analysis libraries:
 * [Natural Language Toolkit](https://www.nltk.org/) - NLP
 
 ## Submission
-For submission, please push all your source codes to your assigned branch in this repository on GitHub.
+To submit, push all your source codes to the forked repository you used for Assignment 1 and 3. For this assignment, you do not need to create a pull request. Instead, submit the hyperlink to your repository in UCD Canvas.
 After submission, please make an appointment to meet with the TA for grading this assignment. Please be prepared to answer questions about the tasks you did for this assignment, which is listed below with the grading breakdown: 
 
 * Data Analysis Method (30 pts)
