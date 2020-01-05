@@ -1,12 +1,13 @@
 # Final Project
 
-For the final project, you will implement a system or technique from a published paper. We have curated more than a dozen papers for you and made them available on Canvas. Pick one from the list or propose a paper to Tarik and me to implement. Most of these systems come with demo videos which you can use to help learn about system interactions and functionality. Note that the same paper cannot be chosen by more than two teams. Therefore, email your selection to Tarik as soon as you and your partner have decided.
+For the final project, you will implement a system or technique from a published paper. We have curated more than a dozen papers for you to pick one in the Google Doc [here](https://docs.google.com/document/d/16rtpJ0q1DjUTXBih1Me7YhXmEuCw6R4Qy8NhCyEsP30/edit?usp=sharing). Note that the same paper cannot be chosen by more than two teams. Most of these systems come with demo videos which you can use to help learn about system interactions and functionality. 
 
 You are expected to find your own dataset(s). The papers usually contain several examples, which you may use. But we also encourage you to find other datasets to see how well they work with the implemented system.
 
 Your objective for this project is to recreate the presented system (or technique) as close as possible. For each paper, we list some of the primary items of highest importance (system features, visualizations, algorithms, functionality, interactions, etc.), as well as optional tasks that can merit extra credit (for example, a 2nd or 3rd dataset can be imported and tested for all papers). However, you should strive to make your system as close to the paper-version (or better!) as possible. This includes things like color palette choices, menu layouts and icons, font stylings, interactions, etc. For some papers that are more technique-oriented (as opposed to published systems), such as NodeTrix, you can implement your own UI. You will still have to carefully read through the paper to understand the necessary technique features and how to implement them.
 
 At the end of the quarter, you will present your system to the class! So strive to do good work and create a nice looking system.
+
 
 Note that some of these papers have implementations on the web. You should do your own work and development. We will check submitted systems for plagiarism.
 
