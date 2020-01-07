@@ -24,7 +24,6 @@ Here are the tutorials for each of these tools:
 
 * [LAX Passenger Counts by Terminal](https://data.lacity.org/A-Prosperous-City/Los-Angeles-International-Airport-Passenger-Traffi/g3qu-7q2u)
 * [Film Locations in San Francisco](https://data.sfgov.org/Culture-and-Recreation/Film-Locations-in-San-Francisco/yitu-d5am)
-* [2014 Kansas City Crime Data](https://data.kcmo.org/Crime/crime-data/9u7z-x596)
 * [List of Historical Ballot Measures in San Francisco](https://data.sfgov.org/City-Management-and-Ethics/List-of-Historical-Ballot-Measures/xzie-ixjw)
 * [Louisville Restaurant Health Inspections](https://data.louisvilleky.gov/dataset/restaurant-inspection-data)
 
@@ -32,10 +31,8 @@ Here are the tutorials for each of these tools:
 For Observable notebook and Tableau, you can attach or load the dataset as CSV files.
 
 For Colab, you can use the datasets stored in our data server for this assignment by using the following URLs (also see how to use "urllib.request" to load the datasets in the [Examples in Colab](https://colab.research.google.com/drive/1PHrxxup8Iza3qbpeoSYwiQqexc96e-9H)):
-* LAX Passenger Counts by Terminal - http://stream.cs.ucdavis.edu/datasets/LAX_Temrinal_Passengers.csv
+* LAX Passenger Counts by Terminal - http://stream.cs.ucdavis.edu/datasets/LAX_Terminal_Passengers.csv
 * Film Locations in San Francisco - http://stream.cs.ucdavis.edu/datasets/SF_Flim_Locations.csv
-* 2014 Kansas City Crime Data - http://stream.cs.ucdavis.edu/datasets/Kanas_Crime.csv
-
 * List of Historical Ballot Measures in San Francisco - http://stream.cs.ucdavis.edu/datasets/SF_Historical_Ballot_Measures.csv
 * Louisville Restaurant Health Inspections - http://stream.cs.ucdavis.edu/datasets/Restaurant_Inspection.csv
 
