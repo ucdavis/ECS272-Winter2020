@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<head>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <title>ECS 272 Assignment 1</title>
+    <div class="container-fluid">
+        <div style="background: rgba(76, 175, 80, 0.3);" class="jumbotron" background ="blue">
+            <h1>A Guide to Who Is Fighting Whom in Syria</h1>
+            <h3><i>Suchita Mukherjee</i></h3>
+        </div>
+    </div>
+    <style>
+        img {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 60%;
+        border:2px solid #000000;
+        }
+        label {
+            display: block;
+            margin-left: 38%;
+            margin-right: auto;
+            margin-bottom: 3%;
+            width: 60%;
+        }
+        .panel {
+            margin-left: 20%;
+            margin-right: 20%;
+            margin-top: 2%;
+            margin-bottom: 3%;
+        }
+    </style>
+    
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="panel panel-success">
+            <div class="panel-heading">
+                <b>Context</b>
+            </div>
+            <div class="panel-body">
+                This visualization presents the relationships between the 
+                various socio-political entities involved in Syria during the Syrian civil war. 
+                The dynamics of the various forces at play during this time is quite difficult 
+                for even dedicated followers to keep track of and this visualization provides 
+                a comprehensive look at that.
+                <br><br>
+                Link: <a href="http://www.slate.com/blogs/the_slatest/2015/10/06/syrian_conflict_relationships_explained.html/" target="_blank">Syrian Conflicts Relationships Explained</a>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <a href="http://www.slate.com/blogs/the_slatest/2015/10/06/syrian_conflict_relationships_explained.html/" target="_blank">
+                <img id="img1" src="./sumukherjeeImage1.png"> 
+            </a>
+            <label for="img1">Figure 1: The Friends And Enemy Matrix</label>
+        </div>
+        <div class="container-fluid">
+            <a href="http://www.slate.com/blogs/the_slatest/2015/10/06/syrian_conflict_relationships_explained.html/" target="_blank">
+                <img id="img2" src="./sumukherjeeImage2.png">
+            </a>
+            <label for="img2">Figure 2: Additional information on clicking a relationship symbol</label>
+        </div>
+        <div class="panel panel-success">
+            <div class="panel-heading">
+                <b>Description</b>
+            </div>
+            <div class="panel-body">
+                The visualization puts forward a relationship matrix using a symbol 
+                value to signify the relationship between the two entities which intersect at 
+                that point. 
+                <br><br>
+                The visualization is interactive and the viewer can click on the symbols to get more information about 
+                that specific relationship (Fig 2).
+                <br><br>
+                The choice of color used for the icons, red, green and yellow are quite useful for the purpose of 
+                instantly conveying the relationship status. Viewers will automatically associate red with danger, 
+                green with stable conditions and yellow with the middle ground thus not requiring further explanation 
+                of what the symbols mean. The interaction in this visualization is that on clicking one of the relationship 
+                icons, a popup provides further data on the relationship. Also, on hovering on an icon, 
+                the connected organiations are highlighted. The click action interaction makes sure that there is sufficient 
+                data abstraction at a first glance, but more date can be gathered by exploring the figure. The hover action 
+                helps users track what exactly they are looking for.
+                <br><br>
+                I think this is a good visualization because it effectively summarizes the information, makes it memorable 
+                and easy to explore. Without visualization, this sort of non-numeric data would have to be written down in 
+                several paragraphs and that would leave the reader with the responsibility of forming all the connections 
+                in their minds. This visualization makes the data available at a glance and even provides the option to 
+                allow the users to learn more about a specific relationship that they may be interested in.
+            </div>
+        </div>
+    </div>
+</body>
