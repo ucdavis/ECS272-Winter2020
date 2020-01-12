@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>ECS 272 InfoVis Assignment 1</title>
+	<meta name="description" content="ECS 272 InfoVis Assignment 1">
+	<meta name="author" content="Austin Chau, UID: 999275124">
+	<style>
+		body {
+			font-family: -apple-system, BlinkMacSystemFont, Helvetica, sans-serif;
+		}
+		img {
+			width: 100%;
+		}
+		h3 {
+			margin-top: 2rem;
+		}
+		p {
+			color: #333;
+			line-height: 1.25rem;
+		}
+		a {
+			text-decoration: None;
+			color: sienna;
+			background-color: khaki;
+			padding: 0 0.25rem;
+		}
+		a:hover {
+			text-decoration: underline;
+		}
+		#main_title {
+			padding-top: 2rem;
+		}
+		#author {
+			color: #555;
+			margin-top: -1rem;
+		}
+		.content {
+			margin: auto;
+			width: 80%;
+			min-width: 480px;
+			max-width: 880px;
+		}
+		.image {
+			background: white;
+
+		}
+		.text {
+			margin-bottom: 5rem;
+		}
+	</style>
+</head>
+<body>
+	<div class="content">
+		<h2 id="main_title">ECS 272 InfoVis Assignment 1</h2>
+		<p id="author">Austin Chau</p>
+		<div class="image">
+			<img src="https://i.imgur.com/8ou9XUP.gif"/>
+			<p>
+				Image source: <a href="https://www.reddit.com/r/dataisbeautiful/comments/dpnmnz/oc_recognizing_handwritten_digits_as_they_are/?utm_source=share&utm_medium=web2x" target="_blank" rel="noopener">Recognizing Handwritten Digits As They Are Being Drawn, u/trevorData, r/dataisbeautiful</a>
+			</p>
+		</div>
+
+		<div class="text">
+			<h3>Description</h3>
+			<p>
+				This visualization is showing the softmax prediction of three neural digit recognition models as the character is being drawn. We can see how the models are gravitating towards their predictions differently giving the same input.
+			</p>
+			<p>
+				This visualization is not interactive, but is animated. It is presented as a gif format and is supposed to be played passively.
+			</p>
+			<p>
+				In terms of colors, it uses different colors to differentiate the three ML model predictions for an easier view. The color saturation is proportional to the activation value, so that higher activation is more saturated. All softmax plots are bar plots and aligned with each other, such that it can be very easy to see the different activations across the ML models. The animation allows us to see the digits drawn out across time, which is relevant to what the visualization is trying to demonstrate.
+			</p>
+			<p>
+				This visualization is chosen since it is the most relevant way to demonstrate the models activation across time. The design is minimalistic, only showing the most important details (the activation value, and the digit), with colors and layout designed for easy viewing. Bar plot is chosen as it can show the proportion of activation values clearly.
+			</p>
+			<p>
+				I think this is a good visualization as it gets its point across very efficiently. The main thing to be displayed is the change of activation values across time, which we can see clearly with the animation and the change in color saturation. The layout also allows us to compare the ML models easily. We can also see how the activation changes as the digits is being drawn, allowing us to easily see what the ML model thinks as the input digit is realized. The design is also minimalistic and clean, not getting in the way of the data it is trying to present.
+			</p>
+		</div>
+	</div>
+</body>
+</html>
