@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>ECS 272 InfoVis Assignment 1</title>
+    <style>
+            /* Use css to modify the style of your HTML page 
+      *  where the visualization should be horizontally 
+      *  aligned to the middle of the page.
+      */
+      img{
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 40%;
+      } 
+      h2{
+        text-align: center;
+      }
+
+      .page-content {
+        padding: 1em;
+      }
+
+    </style>
+  </head>
+  <body>
+    <div class="page-content">
+      <h2>Visualizing with t-SNE - Mingye Fu</h2>
+      <div class="image">
+        <img src="https://indico.io/wp-content/uploads/2015/08/mnist-1024x607-1.jpg" />
+        <p style="text-align:center">
+          Image source: <a href="https://indico.io/blog/visualizing-with-t-sne/">Visualizing with t-SNE</a>
+        </p>
+      </div>
+
+      <div class="text">
+        <p><Strong> What is being shown?</Strong> The above picture shows an example of t-SNE visualization. It is one way to tackle high dimensional visualization problems. </p>
+        <p><Strong> Is the visualization interactive or static?</Strong> The t-SNE visualization is static. </p>
+        <p><Strong> What, in your opinion, is the rationale behind the design choices?</Strong> Instead of trying to maintain the global structure, as what was implemented by many other dimensionality reduction methods, t-SNE tries to group local data points closer to each other. </p>
+        <p><Strong> Do you think this is a good visualization? </Strong> I think it's a good visualization method, grouping local data points closer to each other is a better match for building human reasoning.  </p>
+      </div>
+    </div>
+  </body>
+</html>
