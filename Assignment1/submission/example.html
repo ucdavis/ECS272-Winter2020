@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<style>
+    .center {
+        margin: auto;
+        width: 60%;
+        padding: 10px;
+    }
+</style>
+
+<body>
+
+    <header>
+        <h1>Visualization of Transformer Attention</h1>
+        Qingyang Wu
+    </header>
+
+    <div class="center">
+
+        <img src="https://1.bp.blogspot.com/-AVGK0ApREtk/WaiAuzddKVI/AAAAAAAAB_A/WPV5ropBU-cxrcMpqJBFHg73K9NX4vywwCLcBGAs/s640/image2.png"
+            alt="Transformer Attention">
+
+        <a href="https://ai.googleblog.com/2017/08/transformer-novel-neural-network.html"> the link</a>
+
+        <br>
+        <br>
+        This image visualizes the attention distribution in the BERT (a recent NLP model).
+        This original visualization is static, but later someone provides a more powerful tool that supports interation.
+        (https://github.com/jessevig/bertviz)
+        <br>
+        It uses lines and the width to represent the attention intensity.
+        The color is used to reflect the intensity as well (from less blue to more blue). 
+        <br>
+        The rationale is to better show how different word choices affect the attention distribution.
+        <br>
+        It is a good visualization, as it interprets the attention mechanism in BERT. However, it might be biased because in BERT, attention is multi-head and multi-layer. 
+        Not all those attention distributions support this visualization.   
+    </div>
+
+
+
+</body>
+
+</html>
