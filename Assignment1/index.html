@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>ECS 272 InfoVis, Winter 2020, Assignment 1</title>
+    <style>
+      #container {
+        display: flex;
+        flex-wrap: wrap;
+      }
+      #container > div {
+        margin: 0.5em;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page-content">
+      <h2>ECS 272 InfoVis Assignment 1</h2>
+      <div id="container"> </div>
+    </div>
+    <script type="text/javascript">
+      fetch('./imageURLs.json').then(res => {
+        return res.json()
+      }).then(data => {
+        var container = document.querySelector('#container')
+        data.forEach(d => {
+          var div = document.createElement('div');
+          var img = document.createElement('img');
+          var link = document.createElement('a');
+          link.href = 'submission/' + d.filename;
+          img.src = d.img
+          img.width = "220"
+          img.height = "180"
+          div.appendChild(link)
+          link.appendChild(img)
+          container.appendChild(div)
+        })
+      })
+    </script>
+  </body>
+</html>
