@@ -57,5 +57,9 @@ For visualizing the data, we recommend the following:
 
 You can also use any other libraries for processing and visualizing the data with Python or JavaScript.
 
+
+## Requirement
+Regardless of which visualization tool or dataset you chose, you need to create __at least three different visualizations__, and you need to describe __at least two insights__ (e.g. useful or important information) from your visualizations. For Colab and Observerable notebooks, you can use the "Text" blocks to write down your insights. For Tabeleau, please prepare a PDF or Word document containing your visualizations and descriptions of your insights. 
+
 ## Submission
 For Colab and Observable notebooks, enable link sharing for your notebook and submit the link to Assignment 2 in UCD Canvas. For Tableau, you need to submit a report containing the visualizations and explanation of your insights.
