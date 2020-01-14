@@ -1,6 +1,6 @@
 # Assignment 2: Static Visualization
 
-In this assignment, you need to choose a dataset and create three visualizations to show two different insights. For visualization, you can choose to use Jupyter Notebook (Python), Observable Notebook (JavaScript), or Tableau (GUI).  This is an individual assignment, so you may not work in groups. Your final submission will take the form of a report including the visualizations you created and the description of the insights you gained from the visualizations.
+In this assignment, you need to choose a dataset and create at least three visualizations to show at least two different insights. For visualization, you can choose to use Jupyter Notebook (Python), Observable Notebook (JavaScript), or Tableau (GUI).  This is an individual assignment, so you may not work in groups. Your final submission will take the form of a report including the visualizations you created and the description of the insights you gained from the visualizations.
 
 ### Step 1: Choose a visualization tool 
 
@@ -58,4 +58,4 @@ For visualizing the data, we recommend the following:
 You can also use any other libraries for processing and visualizing the data with Python or JavaScript.
 
 ## Submission
-For Colab and Observable notebooks, enable link sharing for your notebook and submit the link to Assignment 2 in UCD Canvas. For Tableau, you would need to submit a report containing the visualizations and explanation of your insights.
+For Colab and Observable notebooks, enable link sharing for your notebook and submit the link to Assignment 2 in UCD Canvas. For Tableau, you need to submit a report containing the visualizations and explanation of your insights.
