@@ -3,7 +3,7 @@
 In this assignment, you will be learning how to implement a dashboard with two visualization views. You can use either JavaScript with [D3.js](https://d3js.org) or Python with [Dash](https://dash.plot.ly/?_ga=2.191292847.426805754.1574706741-53947978.1573166595) to do this assignment. 
 
 Before coding, please go over one of the following tutorials:
-* D3: [Introduction](https://d3js.org/#introduction), [Bar Chart Example](http://bost.ocks.org/mike/bar/), [Selection](http://bost.ocks.org/mike/selection/)
+* D3: [Introduction](https://d3js.org/#introduction), [Bar Chart Example](http://bost.ocks.org/mike/bar/), [Selection](http://bost.ocks.org/mike/selection/), [Update Patterns](https://www.d3indepth.com/enterexit/)
 * Dash: Dash Tutorial [Part 1](https://dash.plot.ly/installation), [2](https://dash.plot.ly/getting-started), and [3](https://dash.plot.ly/getting-started-part-2).
 
 If you need to learn more about JavaScript or Python, you can refer to [A re-introduction to JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript/A_re-introduction_to_JavaScript) or [Python Basics](https://www.learnpython.org/).
