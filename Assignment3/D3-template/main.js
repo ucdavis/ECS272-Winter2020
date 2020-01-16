@@ -37,8 +37,9 @@
         .domain([0, d3.max(data, d => d.no)])
         .range([height, 0]);
 
+      
       // create a scatter plot
-      view.selectAll('circle')
+      var scatterPlot = view.selectAll('circle')
         .data(data)
         .enter()
           .append('circle')
@@ -46,9 +47,19 @@
           .attr('cy', d => y(d.no))
           .attr('data-x', d => d.yes)
           .attr('data-y', d => d.no)
-          .attr("r", 5)
+          .attr("r", 8)
           .attr('opacity', 0.5)
-          .attr("fill", "green");
+          .attr("fill", "green")
+      
+      var tooltip = document.getElementById('tooltip')
+      scatterPlot
+        .on('mouseenter', function(d) {
+          d3.select(this).style('fill', 'red')
+          tooltip.innerHTML = 'Yes Votes = ' + d.yes + ', No Votes = ' + d.no
+        })
+        .on('mouseleave', function(d) {
+          d3.select(this).style('fill', 'green')
+        })
 
       // x axis
       view.append("g")	
