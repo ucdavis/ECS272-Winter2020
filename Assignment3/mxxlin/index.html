@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>ECS 272 InfoVis Assignment 3</title>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <style>
+      #tooltip {
+        min-width: 100px;
+        min-height: 50px;
+        background-color: white;
+      }
+      #container {
+        float: left;
+      }
+      #streamcontainer{
+        float: left;
+      }
+      #streamtip {
+        margin-bottom: 3em;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>ECS 272 Assignment 3: LAX Passenger Visualization</h2>
+    <p>Author: Mengxiao Lin</p>
+        <div>
+    <div id="container"> <div id="tooltip"></div></div>
+    <div id="streamcontainer"><div id="streamtip">Choosing a terminal by hover the mouse on the pie chart!</div></div>
+    </div>
+    <script src="lax_vis.js"></script>
+  </body>
+</html>
