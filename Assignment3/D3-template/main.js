@@ -1,78 +1,18 @@
 (function () {
   // first, load the dataset from a CSV file
-  d3.csv('../datasets/SF_Historical_Ballot_Measures.csv')
+  d3.csv('../datasets/globalterrorismdb_0718dist_shortened.csv')
     .then(csv => {
       // log csv in browser console
       console.log(csv);
 
-      // create data by selecting two columns from csv 
       var data = csv.map(row => {
         return {
-          yes: Number(row['Yes Votes']),
-          no: Number(row['No Votes'])
+          latitude: Number(row['latitude']),
+          longitude: Number(row['longitude'])
         }
       })
 
-      /********************************* 
-      * Visualization codes start here
-      * ********************************/
-      var width = 600;
-      var height = 400;
-      var margin = {left: 60, right: 20, top: 20, bottom: 60}
-
-      var svg = d3.select('#container')
-        .append('svg')
-          .attr('width', width + margin.left + margin.right)
-          .attr('height', height + margin.top + margin.bottom) 
-
-      var view = svg.append("g")
-        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-      //scale functions
-      var x = d3.scaleLinear()
-        .domain([0, d3.max(data, d => d.yes)])
-        .range([0, width]);
-        
-      var y = d3.scaleLinear()
-        .domain([0, d3.max(data, d => d.no)])
-        .range([height, 0]);
-
-      // create a scatter plot
-      view.selectAll('circle')
-        .data(data)
-        .enter()
-          .append('circle')
-          .attr('cx', d => x(d.yes))
-          .attr('cy', d => y(d.no))
-          .attr('data-x', d => d.yes)
-          .attr('data-y', d => d.no)
-          .attr("r", 5)
-          .attr('opacity', 0.5)
-          .attr("fill", "green");
-
-      // x axis
-      view.append("g")	
-        .attr("transform", "translate(0," + height + ")")
-        .call(d3.axisBottom(x).ticks(6))
-      	.append("text")
-          .attr("fill", "#000")
-          .attr("x", width / 2)
-          .attr('y', margin.bottom / 2)
-          .attr("dy", "0.71em")
-          .attr("text-anchor", "end")
-          .text("Yes Votes");
-
-      // y axis
-      view.append("g")
-        .call(d3.axisLeft(y).ticks(6))
-        .append("text")
-          .attr("fill", "#000")
-          .attr("transform", "rotate(-90)")
-          .attr("x", - height / 2)
-          .attr("y", - margin.left)
-          .attr("dy", "0.71em")
-          .attr("text-anchor", "end")
-          .text("No Votes");
-
+      var map_visualization = new MapVisualization(data);
+      map_visualization.draw();
     })
 })()
