@@ -54,7 +54,7 @@ For each view, you need to provide one or more visual interface widgets (e.g., a
 
 ## Submission
 To submit this assignment, follow the procedures below:
-* Create a new folder inside the Assignment 2 directory in the forked repository for Assignment 1. The name of the folder should be the same as your UC Davis email account name (without ' @ucdavis.edu'). 
+* Create a new folder inside the Assignment 3 directory in the forked repository for Assignment 1. The name of the folder should be the same as your UC Davis email account name (without ' @ucdavis.edu'). 
 * Put all your codes inside this folder, and use "git add" to add all your codes, and then commit.
 * After commit and push all the codes to your own repository, create a pull request by following the same procedure used for Assignment 1 (see instructions [here](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request-from-a-fork)). 
 * To complete your submission, submit the hyperlink of the pull request in UCD Canvas. 
