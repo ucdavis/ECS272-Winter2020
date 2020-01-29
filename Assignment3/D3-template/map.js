@@ -15,7 +15,9 @@ class MapVisualization {
     // called upon slider change
     update(csv){
         var array = this.transform_data(csv)
-        this.draw(array)
+        this.mymap.removeLayer(this.heatlayer)
+        this.heatlayer = L.heatLayer(array, { radius: 10, max: 5 })
+        this.heatlayer.addTo(this.mymap)
     }
 
     // transforms csv into array accessible by heatmap 
@@ -55,7 +57,7 @@ class MapVisualization {
     // draws the map with overlayed heatmap
     draw(array) {
         // draw map
-        var mymap = L.map('mapid').setView([37.775, -122.403], 11);
+        this.mymap = L.map('mapid').setView([37.775, -122.403], 11);
 
         L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
             maxZoom: 18,
@@ -63,9 +65,10 @@ class MapVisualization {
                 '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
                 'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
             id: 'mapbox/streets-v11'
-        }).addTo(mymap);
+        }).addTo(this.mymap);
 
         // add heatmap layer
-        L.heatLayer(array, { radius: 10, max: 10 }).addTo(mymap);
+        this.heatlayer = L.heatLayer(array, { radius: 10, max: 5})
+        this.heatlayer.addTo(this.mymap);
     }
 }

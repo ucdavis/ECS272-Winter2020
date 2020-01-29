@@ -17,7 +17,6 @@
   <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
     integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
     crossorigin=""></script>
-  <div id="mapid" style="width: 1000px; height: 400px;"></div>
   <script src="leaflet-heat.js"></script>
   <script src="map.js"></script>
   <script src="main.js"></script>
@@ -25,10 +24,13 @@
 </head>
 
 <body>
-  
+
+  <h2 id="time" font-family="sans-serif">24:00</h2>
+  <div id="mapid" style="width: 1000px; height: 400px;"></div>
+
   <div class="slidecontainer">
     <input id="hour_range" type="range" min="0" max="24" value="24" class="slider" id="hourslider" style="width: 600px"
-      onchange="onSimpleChartSelectionChanged(this.value)">
+      onchange="onMapSelectionChanged(this.value)">
   </div>
 
 </body>
