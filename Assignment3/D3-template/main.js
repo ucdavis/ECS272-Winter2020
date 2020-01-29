@@ -6,9 +6,10 @@ d3.csv('../datasets/Police_Department_Incidents_-_Previous_Year__2016_.csv')
     .then(csv => {
         data = csv
 
-        var fdata = filterCSV(12)
+        var fdata = filterCSV(1)
 
         map_visualization = new MapVisualization(fdata);
+        pie_visualization = new PieVisualization(fdata);
         filterCSV()
 
     })

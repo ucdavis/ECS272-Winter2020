@@ -19,6 +19,7 @@
     crossorigin=""></script>
   <script src="leaflet-heat.js"></script>
   <script src="map.js"></script>
+  <script src="pie.js"></script>
   <script src="main.js"></script>
 
 </head>
@@ -29,9 +30,12 @@
   <div id="mapid" style="width: 1000px; height: 400px;"></div>
 
   <div class="slidecontainer">
-    <input id="hour_range" type="range" min="0" max="24" value="24" class="slider" id="hourslider" style="width: 600px"
+    <input id="hour_range" type="range" min="0" max="24" value="1" class="slider" id="hourslider" style="width: 600px"
       onchange="onMapSelectionChanged(this.value)">
   </div>
+
+  <div id="container"> <div id="tooltip"></div></div>
+
 
 </body>
 
