@@ -25,8 +25,10 @@ To use a dataset, download data file from one of the URLs above and put it in th
 
 ### Coding Template
 
-To help you get started, you can use a template for setting up the application and load the dataset. For D3.js, you can use the "D3-template" in the Assignment 3 folder. For Dash, you can use the example in the [Dash Tutorial Part 3](https://dash.plot.ly/getting-started-part-2).
+To help you get started, you can use a template for setting up the application and load the dataset. For D3.js, you can use the "D3-template" in the Assignment 3 folder. 
+To run the D3-template code locally, you can start a web server using python command line "python -m SimpleHTTPServer" in the Assignment 3 folder, then you can use a web browser to "http://localhost:8000/D3-template/".
 
+For Dash, you can use the example in the [Dash Tutorial Part 3](https://dash.plot.ly/getting-started-part-2).
 
 ## Requirement
 
