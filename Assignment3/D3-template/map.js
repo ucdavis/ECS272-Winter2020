@@ -1,12 +1,61 @@
 class MapVisualization {
 
-    constructor(data) {
-        this.data = data
+    constructor(csv) {
+        this.sampling = 1000
+
+        this.init(csv)
     }
 
-    draw() {
-        // draw basic map
-        var mymap = L.map('mapid').setView([37.775, -122.403], 10);    
+    // called upon initialize
+    init(csv){
+        var array = this.transform_data(csv)
+        this.draw(array)
+    }
+
+    // called upon slider change
+    update(csv){
+        var array = this.transform_data(csv)
+        this.draw(array)
+    }
+
+    // transforms csv into array accessible by heatmap 
+    transform_data(csv) {
+        var data = csv.map(row => {
+            return {
+                latitude: Number(row['X']),
+                longitude: Number(row['Y']),
+            }
+        })
+
+        // sample by rounding coords
+        data.forEach(element => {
+            element.latitude = Math.round(element.latitude * this.sampling) / this.sampling
+            element.longitude = Math.round(element.longitude * this.sampling) / this.sampling
+        });
+
+        // group coords
+        var grouped_data = d3.nest()
+            .key(d => { return d.longitude + '#' + d.latitude })
+            .rollup(v => { return { 
+                count: v.length,
+             } })
+            .entries(data)
+
+        // turn into array
+        var grouped_data_array = []
+        grouped_data.forEach(element => {
+            grouped_data_array.push(
+                [parseFloat(element["key"].split("#", 1)[0]), parseFloat(element["key"].split("#", 2)[1]), element["value"]["count"]]
+            )
+        });
+
+        return grouped_data_array
+    }
+
+    // draws the map with overlayed heatmap
+    draw(array) {
+        // draw map
+        var mymap = L.map('mapid').setView([37.775, -122.403], 11);
 
         L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
             maxZoom: 18,
@@ -16,39 +65,7 @@ class MapVisualization {
             id: 'mapbox/streets-v11'
         }).addTo(mymap);
 
-        this.data.forEach(element => {
-            L.marker([element.latitude, element.longitude], 500).addTo(mymap);
-        });
+        // add heatmap layer
+        L.heatLayer(array, { radius: 10, max: 10 }).addTo(mymap);
     }
-
-
-
-    // L.marker([51.5, -0.09]).addTo(mymap)
-    //   .bindPopup("<b>Hello world!</b><br />I am a popup.").openPopup();
-
-    // L.circle([37.775420706711, -122.403404791479], 500, {
-    //     color: 'red',
-    //     fillColor: '#f03',
-    //     fillOpacity: 0.5
-    // }).addTo(mymap).bindPopup("I am a circle.");
-
-    // L.polygon([
-    //     [51.509, -0.08],
-    //     [51.503, -0.06],
-    //     [51.51, -0.047]
-    // ]).addTo(mymap).bindPopup("I am a polygon.");
-
-
-    // var popup = L.popup();
-
-    // function onMapClick(e) {
-    //     popup
-    // .setLatLng(e.latlng)
-    // .setContent("You clicked the map at " + e.latlng.toString())
-    // .openOn(mymap);
 }
-
-// mymap.on('click', onMapClick);
-
-// }
-
