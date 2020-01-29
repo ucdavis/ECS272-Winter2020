@@ -6,7 +6,7 @@ class MapVisualization {
 
     draw() {
         // draw basic map
-        var mymap = L.map('mapid').setView([0, 0], 1);    
+        var mymap = L.map('mapid').setView([37.775, -122.403], 10);    
 
         L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
             maxZoom: 18,
