@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Assignment 3 Jingxian LAX terminal passengers</title>
+	
+	<style type="text/css">
+		.chart div {
+  			font: 15px sans-serif;
+  			background-color: green;
+  			text-align: right;
+  			padding: 3px;
+  			margin: 1px;
+  			color: white;
+}
+	</style>
+
+</head>
+<body>
+	<h2>ECS 272 Assignment 3 Jingxian Liao</h2>
+	<div>
+		<!-- Initialize a select button -->
+		<select id="selectButton"></select>
+		<div id='vis-barplot' class='chart'></div>
+	</div>
+	<br><br><br>
+
+	<div>
+		<div>
+			Year Range: <!--<input type="select" id="years" value="01/2006-03/2019" onchange="updateyear()">-->
+			<select id="dr1" onchange="updatedr2(this)"></select>
+			<select id="dr2">
+				<!-- <option value="2006">2006</option>
+				<option value="2007">2007</option>
+				<option value="2008">2008</option>
+				<option value="2009">2009</option>
+				<option value="2010">2010</option>
+				<option value="2011">2011</option>
+				<option value="2012">2012</option>
+				<option value="2013">2013</option>
+				<option value="2014">2014</option>
+				<option value="2015">2015</option>
+				<option value="2016">2016</option>
+				<option value="2017">2017</option> -->
+			</select>
+
+			<!--<input type="button" value='Update' onclick="updateyear()">-->
+		</div> 
+		
+		<div id='vis-stream' class='chart'></div>
+		
+	</div>
+
+	
+
+	<!--<script type="text/javascript" src="figures.js"></script> -->
+	<script src='lib/d3.js'></script>
+	<script src='lib/lodash.js'></script>
+	<script src='figures.js'></script>
+	<script src='figure2.js'></script>
+	<script src='test3.js'></script>
+	<!-- jQuery library -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	
+
+</body>
+</html>
