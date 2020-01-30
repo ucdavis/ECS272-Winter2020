@@ -101,7 +101,8 @@ def update_Sankey(xaxis_column1_name):
             thickness = 15,
             line = dict(color = 'blue',width = 0.8),
             label = size,
-            color='blue'
+            color=['rgb(50, 168, 160)', 'yellow', 'green',
+                   'purple', 'white', 'orange', 'rgb(131, 207, 56)', 'rgb(43, 196, 156)', 'rgb(28, 92, 156)', 'rgb(11, 120, 230)', 'rgb(232, 39, 120)', 'rgb(186, 103, 48)', 'rgb(23, 156, 76)', 'rgb(55, 21, 176)', 'rgb(100, 156, 123)', 'rgb(31, 66, 110)', 'rgb(186, 150, 48)', 'rgb(131, 207, 56)', 'rgb(232, 39, 120)']
         ),
         link=getData(size, dff, week, xaxis_column1_name)
     )])
