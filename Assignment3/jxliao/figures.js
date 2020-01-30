@@ -23,7 +23,7 @@ function checkLabel (label) {
     	}
     }
 
-d3.csv('LAX_Terminal_Passengers.csv').then(function(data){
+d3.csv('../datasets/LAX_Terminal_Passengers.csv').then(function(data){
 
     data.forEach(function(d) {
     	d.Passenger_Count = +d.Passenger_Count;
