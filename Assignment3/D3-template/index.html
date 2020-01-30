@@ -3,7 +3,7 @@
 
 <head>
 
-  <title>Quick Start - Leaflet</title>
+  <title>ECS 272 Assignment 3 - Lukas Masopust</title>
 
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -26,16 +26,25 @@
 
 <body>
 
-  <h2 id="time" font-family="sans-serif">24:00</h2>
-  <div id="mapid" style="width: 1000px; height: 400px;"></div>
+  <h1 style="margin-left: 100px; font-family: Arial, Helvetica, sans-serif">ECS 272 Assignment 3 - Lukas Masopust</h1>
+  <h2 id="time" style="margin-left: 100px; font-family: Arial, Helvetica, sans-serif">Crimes commited at 17:00</h2>
 
-  <div class="slidecontainer">
-    <input id="hour_range" type="range" min="0" max="24" value="1" class="slider" id="hourslider" style="width: 600px"
-      onchange="onMapSelectionChanged(this.value)">
+  <div style="float: left; margin-left: 100px">
+    <div id="mapid" style="width: 700px; height: 400px;"></div>
+    <input id="hour_range" type="range" min="0" max="23" value="17" class="slider" id="hourslider" style="width: 700px; padding: 50px 0px"
+    onchange="onMapSelectionChanged(this.value)">
   </div>
-
-  <div id="container"> <div id="tooltip"></div></div>
-
+  
+  <div style="float: left">
+    <select style="margin: 0 20px;" id="comboA" onchange="onSelectChanged(this.value)">
+      <option value="3">Top 3 Crimes</option>
+      <option value="4">Top 4 Crimes</option>
+      <option value="5" selected="selected">Top 5 Crimes</option>
+      <option value="6">Top 6 Crimes</option>
+      <option value="7">Top 7 Crimes</option>
+    </select>
+    <div id="chart"></div>
+  </div>
 
 </body>
 

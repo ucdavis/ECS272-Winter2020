@@ -1,7 +1,7 @@
 class MapVisualization {
 
     constructor(csv) {
-        this.sampling = 1000
+        this.sampling = 10000
 
         this.init(csv)
     }
@@ -16,7 +16,7 @@ class MapVisualization {
     update(csv){
         var array = this.transform_data(csv)
         this.mymap.removeLayer(this.heatlayer)
-        this.heatlayer = L.heatLayer(array, { radius: 10, max: 5 })
+        this.heatlayer = L.heatLayer(array, { radius: 20, max: 10 })
         this.heatlayer.addTo(this.mymap)
     }
 
@@ -68,7 +68,7 @@ class MapVisualization {
         }).addTo(this.mymap);
 
         // add heatmap layer
-        this.heatlayer = L.heatLayer(array, { radius: 10, max: 5})
+        this.heatlayer = L.heatLayer(array, { radius: 20, max: 10})
         this.heatlayer.addTo(this.mymap);
     }
 }
