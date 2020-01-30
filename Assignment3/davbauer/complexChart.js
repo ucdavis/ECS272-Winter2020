@@ -191,14 +191,7 @@ class ComplexChart {
             }))
         }))
         this.y.domain([ymin*1.1, ymax*1.1])
-        d3.select(this.html_root).select(".x.axis")
-            .transition()
-            .duration(500)
-            .call(this.xAxis)
-        d3.select(this.html_root).select(".y.axis")        
-            .transition()
-            .duration(500)
-            .call(this.yAxis)
+
 
         // Update chart
         var layers = d3.select(this.html_root).selectAll("path")
@@ -226,5 +219,18 @@ class ComplexChart {
             .duration(500)
             .style("fill", d => { return this.colors(d.key); })
             .attr("d", this.plot_function)
+
+
+        // Call axis
+        d3.select(this.html_root).select(".x.axis")
+            .transition()
+            .duration(500)
+            .call(this.xAxis)
+        d3.select(this.html_root).select(".y.axis")        
+            .transition()
+            .duration(500)
+            .call(this.yAxis)
+
+        
     }
 }
