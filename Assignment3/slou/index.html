@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>ECS 272 InfoVis Assignment 3</title>
+  <script src="https://d3js.org/d3.v5.min.js"></script>
+  <!-- <style>
+      #tooltip {
+        min-width: 100px;
+        min-height: 50px;
+        background-color: white;
+      }
+    </style> -->
+</head>
+
+<body>
+  <h2>ECS 272 Assignment 3 (by Fred Lou)</h2>
+  <h3>Basic Visualization Method</h3>
+  <div id="q1">
+    <p>Adjust this to change the report time</p>
+    <input type='range' min='0' max='1' value='0' id='slider' onchange='onChange1()' style="width: 400px;" /> <br />
+    <h4 id='reportperiod'>Data Currently Unavailable</h4>
+    <svg id='bar-chart' />
+  </div>
+  <script src="q1.js"></script>
+  <h3>Advanced Visualization Method</h3>
+  <div id="q2">
+    <p>How do you like to divide the stream? </p>
+    <select onchange="onChange2()" style="width: 400px;" id = 'dropDown'>
+      <option selected='true' disabled='disabled'>Please Select...</option>
+      <option value='terminal'>Terminal</option>
+      <option value='arrival_departure'>Arrival vs Departure</option>
+      <option value='domestic_international'>Domestic vs International</option>
+    </select> <br/>
+    <p id='Tooltip'></p>
+    <svg id='stream-graph'/>
+  </div>
+  <script src="q2.js"></script>
+</body>
+
+</html>
