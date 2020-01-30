@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+
+<head>
+    <style>
+        #tip {
+            display: none;
+            pointer-events: none;
+            position: absolute;
+            /*background: url('gray.png');*/
+            -moz-border-radius: 5px;
+            border-radius: 5px;
+            padding: 10px 10px 10px 7px;
+            color: white;
+            z-index: 1337;
+            width: 300px;
+            /*   text-align: left;*/
+        }
+
+        #tip .zip {
+            margin-left: 5px;
+            font-size: 20px;
+            line-height: 22px;
+        }
+
+        #tip .ziphead {
+            margin-left: 5px;
+            font-size: 20px;
+            font-family: Arial, Verdana, sans-serif;
+            color: palegreen;
+            line-height: 22px;
+        }
+
+        #tip .zipdir {
+            margin-left: 5px;
+            font-size: 15 px;
+            line-height: 16px;
+        }
+
+        #tip .zipactors {
+            margin-left: 5px;
+            font-size: 15px;
+            font-style: italic;
+            line-height: 18px;
+        }
+
+
+        #tip .ziprating {
+            color: tomato;
+            margin-left: 5px;
+            font-size: 15px;
+            line-height: 18px;
+        }
+
+        #tip img {
+            float: left;
+            width: 130px;
+            margin-right: 10px;
+        }
+
+        #lpic {
+            display: none;
+            pointer-events: none;
+            position: absolute;
+            /*background: url('gray.png');*/
+            -moz-border-radius: 5px;
+            border-radius: 5px;
+            padding: 10px 10px 10px 7px;
+            color: white;
+            z-index: 1337;
+            width: 280px;
+            text-align: left;
+        }
+
+        #lpic .hoods {
+            margin-bottom: 10px;
+            font-style: italic;
+            margin-left: 10px;
+        }
+
+        #lpic img {
+            width: 280px;
+        }
+
+        div.tooltip {
+            position: absolute;
+            text-align: center;
+            padding: .5rem;
+            background: #FFFFFF;
+            color: #313639;
+            border: 1px solid #313639;
+            border-radius: 8px;
+            pointer-events: none;
+            font-size: 1rem;
+        }
+
+        div.dist-tooltip {
+            position: absolute;
+            text-align: center;
+            padding: .5rem;
+            background: #FFFFFF;
+            color: #313639;
+            border: 1px solid #313639;
+            border-radius: 8px;
+            pointer-events: none;
+            font-size: 1rem;
+        }
+
+
+        /* sankey */
+        .node rect {
+            fill-opacity: .9;
+            shape-rendering: crispEdges;
+        }
+
+        .node text {
+            font: 10px sans-serif;
+            pointer-events: none;
+            text-shadow: 0 1px 0 #fff;
+        }
+
+        .link {
+            fill: none;
+            stroke: darkblue;
+            stroke-opacity: .2;
+        }
+
+        .link:hover {
+            stroke-opacity: .5;
+        }
+
+
+
+/* The switch - the box around the slider */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+    </style>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+
+</head>
+
+<body style="background-color: #f0f8ff">
+    <div id="tip"></div>
+    <div class="container-fluid">
+        <div class="container-fluid jumbotron" style="background-color:rgba(76, 175, 80, 0.3);">
+            <h1>Assignment 3</h1>
+            <h3><i>Suchita Mukherjee</i></h3>
+        </div>
+        <div class="row">
+            <div class="col-md-4" style="margin-top: 1%;"><b>Choose Crime Category</b>
+                <select class="custom-select custom-select-lg"
+                    onchange="changeFilter()" id="widget" style="margin-top: 2%;">
+
+                </select>
+                <p><i>*Surrounding Islands have been removed from the map</i></p>
+            </div>
+            <div class="col-md-8" style="padding-left: 10%;"><svg id="test"></svg></div>
+
+        </div>
+        <div class="row" style="margin-top: 5%;">
+            <div class="col-md-4" style="margin-top: 1%;"><b>Choose Third Level</b>
+                <select class="custom-select custom-select-lg" onchange="changeSankyFilter()" id="widget2" style="margin-top: 2%;">
+                    <option value="DayOfWeek">Days of the Week</option>
+                    <option value="Time">Time Of Day</option>
+
+                </select>
+
+                <!-- Rounded switch -->
+                <label class="switch" style="margin-top: 5%; margin-left: 5%;">
+                    <input type="checkbox" onchange="toggleNone()" >
+                    <span class="slider round" id="slideCheck" ></span><label for="slideCheck" style="margin-top: 15%;">Include 'NONE' resolution</label>
+
+                </label>
+                <p style="margin-top: 10%; margin-left: 10%;"><i>Drag nodes to adjust position</i></p>
+            </div>
+            <div class="col-md-8" style="padding-left: 10%;">
+                <svg id="chart"></svg>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="http://d3js.org//d3.v3.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-sankey/0.4.2/d3-sankey.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript" src="main.js"></script>
+</body>
