@@ -49,12 +49,17 @@ def build_year_select():
     )
 
 
-def get_sankey_data():
+def get_sankey_data(year_range=None):
     node_maps = {}
     node_labels = []
     link_srcs, link_tgts, link_vals = [], [], []
 
     filtered_df = df
+
+    if year_range:
+        start_year, end_year = year_range
+        years = filtered_df['iyear']
+        filtered_df = filtered_df[(years >= start_year) & (years <= end_year)]
 
     def make_success_label(v):
         return f'success={v}'
@@ -101,8 +106,8 @@ app.layout = html.Div(children=[
     ),
     html.Hr(),
     html.H3("'Advanced Visualization'. Sankey of successful events"),
-    #html.Label("Year"),
-    #build_year_select(),
+    html.Label("Year"),
+    build_year_select(),
     dcc.Graph(
         id='sankey-graph'
     ),
@@ -113,7 +118,6 @@ app.layout = html.Div(children=[
     Output('bar-graph', 'figure'),
     [Input('region-dropdown', 'value')])
 def update_bar_chart(selected_regions):
-    #filtered_df = df[df.year == selected_year]
     return {
         'data': get_bar_data(selected_regions),
         'layout': {
@@ -131,11 +135,12 @@ def update_bar_chart(selected_regions):
 
 @app.callback(
     Output('sankey-graph', 'figure'),
-    [Input('region-dropdown', 'value')])
+    [Input('range-slider', 'value')])
 def update_bar_sankey(selected_years):
     #filtered_df = df[df.year == selected_year]
+    print(selected_years)
     return {
-        'data': get_sankey_data(),
+        'data': get_sankey_data(selected_years),
     }
 
 
