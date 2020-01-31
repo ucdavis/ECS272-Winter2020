@@ -1,6 +1,6 @@
 (function () {
   // first, load the dataset from a CSV file
-  d3.csv("Police_Department_Incidents_-_Previous_Year__2016_.csv")
+  d3.csv("../datasets/Police_Department_Incidents_-_Previous_Year__2016_.csv")
     .then(csv => {
       // log csv in browser console
       console.log(csv);
