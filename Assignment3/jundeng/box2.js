@@ -55,8 +55,7 @@
       var view = svg.append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
        
-
-      
+/*var tempY = 20000;
 //slider 
   var data = [0,5000, 10000, 15000, 20000, 25000,30000,35000,40000,45000,50000,55000];
 
@@ -67,9 +66,10 @@
     .width(700)
     .ticks(10)
     .default(20000)
-    .on('onchange', val => {
+    .on('onchange', val=> {
       d3.select('p#value-simple').text(d3.val);
     });
+      
 
   var gSimple = d3
     .select('div#slider-simple')
@@ -79,8 +79,8 @@
     .append('g')
     .attr('transform', 'translate(30,30)');
 
-  gSimple.call(sliderSimple);
-   
+  gSimple.call(sliderSimple);*/
+
       // X axis
       var x = d3.scaleBand()
         .range([ 0, width ])
@@ -156,7 +156,7 @@ var dimensions = [
   },
   {
     name: "PdDistrict",
-    scale: d3.scaleOrdinal(distCount.keys(),[0, height1]),
+    scale: d3.scaleOrdinal(dayCount.keys(),[0, height1]),
     type: "string"
   },
   {
@@ -268,3 +268,117 @@ function draw(d) {
   })
 })
   ()
+
+function myFunction(){
+d3.csv('../datasets/Police_Department_Incidents_-_Previous_Year__2016_.csv')
+    .then(csv => {
+      // log csv in browser console
+      console.log(csv);
+
+      // select Category row
+      var data = csv.map(row => {
+        return {
+          Category: String(row['Category']),
+          Day: String(row["DayOfWeek"]),
+          Location_x: Number(row["X"]),
+          Location_y: Number(row["Y"])
+        }
+      })
+      
+      //group by category then count for bar chart
+      var crimeCount=d3.nest()
+      .key(function(d){return d.Category;})
+      .rollup(function(v){return v.length;})
+      .entries(data)
+      console.log(crimeCount);   
+      
+      //group by category then count for bar chart
+      var dayCount=d3.nest()
+      .key(function(d){return d.Day;})
+      .key(function(d){return d.Category;})
+      .rollup(function(v){return v.length;})
+      .entries(data)
+      console.log(dayCount);
+      //      .rollup(function(v){return v.length;})
+      
+      //sort by occurance
+      crimeCount.sort(function(b,a){
+          return a.value-b.value;
+      });
+      /********************************* 
+      * Bar Chart Visualization codes start here
+              * ********************************/
+        var margin = {top: 30, right: 40, bottom: 150, left: 100},
+            width = 700 - margin.left - margin.right,
+            height = 700 - margin.top - margin.bottom;
+
+    // append the svg object to the body of the page
+        var svg = d3.select("#container")
+            .append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+            .attr("transform",
+                  "translate(" + margin.left + "," + margin.top + ")");
+      
+      var view = svg.append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+    
+      // X axis
+      var x = d3.scaleBand()
+        .range([ 0, width ])
+        .domain(crimeCount.map(function(d) { return d.key; }))
+        .padding(0.2);
+      
+      svg.append("g")
+        .attr("transform", "translate(0," + height + ")")
+        .call(d3.axisBottom(x))
+      
+        .selectAll("text")
+          .attr("transform", "translate(-30,0)rotate(-45)")
+          .style("text-anchor", "end");
+
+
+    // Add Y axis
+      var y = d3.scaleLinear()
+        .domain([0, 20000])
+        .range([ height, 0]);
+      
+      svg.append("g")
+        .call(d3.axisLeft(y));
+
+      var color = d3.scaleOrdinal(d3.schemeCategory10);
+      var tooltip = d3.select("body").append("div").attr("class", "toolTip");
+      
+      // Bars
+      svg.selectAll("mybar")
+        .data(crimeCount)
+        .enter()
+        .append("rect")
+          .attr("x", function(d) { return x(d.key); })
+          .attr("y", function(d) { if(d.value>500){
+          return y(d.value); }})
+          .attr("width", x.bandwidth())
+          .attr("height", function(d) {if(d.value>500){ return height - y(d.value); }})
+          .attr("fill", function(d, i) {
+            return color(i);
+          })
+          .attr("id", function(d, i) {
+            return i;
+            })
+          .on("mouseover",function(d){
+          d3.select(this).attr("fill","blue");
+          tooltip
+          .style("left", d3.event.pageX - 50 + "px")
+              .style("top", d3.event.pageY - 70 + "px")
+              .style("display", "inline-block")
+              .html((d.key) + "<br>" + + (d.value));})
+      
+          .on("mouseout", function(d, i) {
+            d3.select(this).attr("fill", function() {
+                tooltip.style("display", "none");
+                return "" + color(this.id) + "";
+            });
+      })
+       
+})}
