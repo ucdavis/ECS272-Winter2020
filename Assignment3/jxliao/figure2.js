@@ -3,6 +3,9 @@ var margin2 = {top: 30, right: 100, bottom: 40, left: 100},
     width2 = 1000 - margin2.left - margin2.right,
     height2 = 400 - margin2.top - margin2.bottom;
 
+var Group_options = ["Passenger_Count_Domestic", "Passenger_Count_International"]
+var Terminals = ["Imperial Terminal","Misc. Terminal","Terminal 1","Terminal 2","Terminal 3","Terminal 4","Terminal 5","Terminal 6","Terminal 7","Terminal 8","Tom Bradley International Terminal"]
+
 
 // append the svg object to the body of the page
 var svg2 = d3.select("#vis-stream").append("svg")
@@ -31,25 +34,80 @@ function updatedr2(startdate){
 
 
 
-d3.csv('traffic_povit_dom.csv').then(function(data){
-  var keys = data.columns.slice(1)
-  console.log(keys)
-  console.log(data[0].YearMonth)
+d3.csv('../datasets/LAX_Terminal_Passengers.csv').then(function(data){ //traffic_povit_dom.csv
+  var newDat = [];
+  data.forEach(d => {
 
-  var parser = d3.timeParse("%m/%Y");
+  if (d['Domestic_International'] == 'Domestic') {
+      d.Passenger_Count = +d.Passenger_Count;
+      d.ReportPeriod = d.ReportPeriod.split(" ")[0]
+      newDat.push(d);
+
+    }
+      // 
+      // return d
+    });
+
+  var selectednewDat = newDat.map(function(d){
+    return {
+      ReportPeriod: d.ReportPeriod,
+      //Domestic_International:d.Domestic_International,
+      Arrival_Departure: d.Arrival_Departure,
+      Terminal: d.Terminal,
+      Passenger_Count: d.Passenger_Count
+    }
+  })
+
+  var parser = d3.timeParse("%m/%d/%Y");
   //data.YearMonth = parser(data.YearMonth);
-  console.log(parser(data[0].YearMonth))
 
-  data.forEach(function(d) {
-    d.YearMonth = parser(d.YearMonth);
-    d.Passenger_Count = +d.Passenger_Count;
-  });
+  selectednewDat2 = d3.nest()
+      .key(function(d) {return d.ReportPeriod; })
+      .key(function(d) { return d.Terminal; })
+      .rollup(function(v) { return d3.sum(v, function(d){return d.Passenger_Count}); })
+      .entries(selectednewDat)
+      .map(function(group){
+        let oneDat = {
+          "ReportPeriod":0,
+        "Imperial Terminal":0,
+            "Misc. Terminal":0,
+            "Tom Bradley International Terminal":0,
+            "Terminal 1": 0,
+            "Terminal 2": 0,
+            "Terminal 3": 0,
+            "Terminal 4": 0,
+            "Terminal 5": 0,
+            "Terminal 6": 0,
+            "Terminal 7": 0,
+            "Terminal 8": 0
+          }
+          oneDat.ReportPeriod = parser(group.key);
+          for (let i = 0; i < group.values.length; i++) {
+            oneDat[group.values[i].key] = group.values[i].value;
+          }
+          return oneDat
+      });
+
+  console.log(selectednewDat2)
+
+  
+
+
+  var keys = Terminals//selectednewDat2.columns.slice(1)
+  //console.log(keys)
+  //console.log(selectednewDat2[0].ReportPeriod)
+
+  // selectednewDat2 = selectednewDat2.forEach(function(d) {
+  //   d.YearMonth = parser(d.ReportPeriod);
+  // });
 
 
   // Add X axis
   var x = d3.scaleTime()
-          .domain(d3.extent(data, function(d) { return d.YearMonth; }))//[new Date(2006,0,1), new Date(2019, 2, 1)])    // values between for month of january
+          .domain(d3.extent(selectednewDat2, function(d) { return d.ReportPeriod; }))//[new Date(2006,0,1), new Date(2019, 2, 1)])    // values between for month of january
           .range([0,width2]);
+
+  console.log(d3.extent(selectednewDat2, function(d) { return d.ReportPeriod; }))
 
   //console.log(d3.extent(data, function(d) { return d.YearMonth; }))
 
@@ -95,7 +153,10 @@ d3.csv('traffic_povit_dom.csv').then(function(data){
   var stackedData = d3.stack()
     .offset(d3.stackOffsetSilhouette)
     .keys(keys)
-    (data)
+    (selectednewDat2)
+
+  console.log(stackedData)
+
 
   //console.log(stackedData)
 
@@ -141,7 +202,7 @@ d3.csv('traffic_povit_dom.csv').then(function(data){
 
    // Area generator
    var area = d3.area()
-     .x(function(d) { return x(d.data.YearMonth); })
+     .x(function(d,i) { return x(selectednewDat2[i]['ReportPeriod']); })
      .y0(function(d) { return y(d[0]); })
      .y1(function(d) { return y(d[1]); })
 
@@ -160,9 +221,8 @@ d3.csv('traffic_povit_dom.csv').then(function(data){
       .on("mousemove", mousemove)
       .on("mouseleave", mouseleave)
 
-
-  var Group_options = ["Passenger_Count_Domestic", "Passenger_Count_International"]
-  var Terminals = ["Imperial Terminal","Misc. Terminal","Terminal 1","Terminal 2","Terminal 3","Terminal 4","Terminal 5","Terminal 6","Terminal 7","Terminal 8","International Terminal"]
+  console.log(stackplot)
+  
   
   var years_range = ["2006","2007", "2008","2009","2010","2011","2012","2013","2014","2015","2016","2017","2018","2019"]
 
@@ -201,7 +261,7 @@ d3.csv('traffic_povit_dom.csv').then(function(data){
     .attr("height", height2);
 
     // Update X axis
-    x.domain([parser("01/" + opt1),parser("01/" + opt2)]).range([0,width2])
+    x.domain([parser("01/01/" + opt1),parser("01/01/" + opt2)]).range([0,width2])
     xAxis.transition().duration(1000).call(d3.axisBottom(x))
 
     stackplot

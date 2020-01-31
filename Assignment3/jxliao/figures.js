@@ -42,7 +42,8 @@ d3.csv('../datasets/LAX_Terminal_Passengers.csv').then(function(data){
   			}
   		});
 
-  	console.log(JSON.stringify(PassengerCountsum_AD));
+  console.log(JSON.stringify(PassengerCountsum_AD));
+  console.log(data.Terminal);
 
   var allGroup = ["Passenger_Count_Arrival", "Passenger_Count_Departure"]
 	var Terminals = ["Imperial Terminal","Misc. Terminal","Terminal 1","Terminal 2","Terminal 3","Terminal 4","Terminal 5","Terminal 6","Terminal 7","Terminal 8","International Terminal"]
