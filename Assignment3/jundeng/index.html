@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>ECS 272 InfoVis Assignment 3 Zijun Deng</title>
+	<script type="text/javascript" src="http://d3js.org/d3.v5.min.js"></script>
+    <script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
+    <script src="../datasets/Police_Department_Incidents_-_Previous_Year__2016_.csv"></script>
+    <script src="https://unpkg.com/d3-simple-slider"></script>
+	<style>
+        .axis {
+            opacity: 0.4;
+        }
+        .axis:hover {
+            opacity: 1;
+        }
+		#tooptip{
+			min-width: 100px;
+			min-height: 50px;
+			background-color: white;
+		}
+        .slidecontainer {
+          width: 100%; 
+        }
+
+        /* The slider itself */
+        .slider {
+          -webkit-appearance: none;  
+          appearance: none;
+          width: 200ps; 
+          height: 25px; 
+          background: #d3d3d3; 
+          outline: none; 
+          opacity: 0.7; 
+          -webkit-transition: .2s; 
+          transition: opacity .2s;
+        }
+
+        /* Mouse-over effects */
+        .slider:hover {
+          opacity: 1; 
+        }
+        .slider::-webkit-slider-thumb {
+          -webkit-appearance: none; /* Override default look */
+          appearance: none;
+          width: 25px; /* Set a specific slider handle width */
+          height: 25px; /* Slider handle height */
+          background: #4CAF50; /* Green background */
+          cursor: pointer; /* Cursor on hover */
+        }
+
+        .slider::-moz-range-thumb {
+          width: 25px; /* Set a specific slider handle width */
+          height: 25px; /* Slider handle height */
+          background: #4CAF50; /* Green background */
+          cursor: pointer; /* Cursor on hover */
+        }
+        
+.toolTip {
+  position: absolute;
+  display: none;
+  min-width: 50px;
+  height: auto;
+  background: none repeat scroll 0 0 #ffffff;
+  border: 1px solid #6F257F;
+  padding: 10px;
+  text-align: center;
+}
+        
+        
+svg {
+  font: 12px sans-serif;
+}
+
+.background path {
+  fill: none;
+  stroke: none;
+  stroke-width: 20px;
+  pointer-events: stroke;
+}
+
+.foreground path {
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 1.5px;
+}
+
+.axis .title {
+  font-size: 11px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.axis line,
+.axis path {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.axis.string {
+  font-size: 6px;
+}
+
+.label {
+  -webkit-transition: fill 125ms linear;
+}
+
+.active .label:not(.inactive) {
+  font-weight: bold;
+  font-size: 11px;
+}
+
+.label.inactive {
+  fill: #ccc;
+}
+
+.foreground path.inactive {
+  stroke: #ccc;
+  stroke-opacity: .5;
+  stroke-width: 1px;
+}
+  
+	</style>
+</head>
+	<body>
+		<h2>Figure 1: Bar Chart -- Based on the Type of Incident</h2>
+		<div id="container"><div id="tooltip">
+        <div class="row align-items-center">
+        <div class="col-sm-2"><p id="value-simple"></p></div>
+        <div class="col-sm"><div id="slider-simple"></div></div>
+        </div></div></div>
+		<script src="box2.js"></script>
+        
+        
+        <h2>Figure 2: Parallel Coordinate Graph -- Include multiple perspectives</h2>
+<!--        <div>
+        <input type ="checkbox" class="checkbox" value="Monday" checked><label>Mon</label>
+        <input type ="checkbox" class="checkbox" value="Tuesday" checked><label>Tue</label>
+        <input type ="checkbox" class="checkbox" value="Wednesday" checked><label>Wed</label>
+        <input type ="checkbox" class="checkbox" value="Thursay" checked><label>Thu</label>
+        <input type ="checkbox" class="checkbox" value="Friday" checked><label>Fri</label>
+        <input type ="checkbox" class="checkbox" value="Saturdat" checked><label>Sat</label>
+        <input type ="checkbox" class="checkbox" value="Sunday" checked><label>Sun</label>
+        </div>-->
+
+        <div id="parallel"><div id="tooltip"></div></div>
+	</body>
+</html>
