@@ -117,20 +117,26 @@ def get_sankey_data(year_range=None):
 app.layout = html.Div(children=[
     html.H1(children='Vis Assignment 3. David Gros'),
     html.H2(children='Data from Global Terrorism Dataset'),
-    html.H3("'Basic Visualization'. Barplot of events by year"),
-    html.Label("Regions"),
-    build_region_dropdown(),
-    dcc.Graph(
-        id='bar-graph'
-    ),
-    html.Hr(style={"border-top": "1px solid black"}),
-    html.H3("'Advanced Visualization'. Sankey of successful events"),
-    html.Label("Year"),
-    build_year_select(),
-    html.Br(),
-    dcc.Graph(
-        id='sankey-graph'
-    ),
+    html.Div("Use the tabs to select a visualization"),
+    dcc.Tabs(children=[
+        dcc.Tab(label="'Basic Visualization' Barplot", children=[
+            html.H3("Visualization 1: Barplot of events by year"),
+            html.Label("Regions"),
+            build_region_dropdown(),
+            dcc.Graph(
+                id='bar-graph'
+            ),
+        ]),
+        dcc.Tab(label="'Advanced Visualization' Sankey", children=[
+            html.H3("Visualization 2: Sankey of successful events"),
+            html.Label("Year"),
+            build_year_select(),
+            html.Br(),
+            dcc.Graph(
+                id='sankey-graph'
+            )
+        ])
+    ])
 ])
 
 
@@ -163,4 +169,4 @@ def update_bar_sankey(selected_years):
 
 
 if __name__ == '__main__':
-    app.run_server(debug=True)
+    app.run_server(debug=False)
