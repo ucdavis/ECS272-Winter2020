@@ -150,15 +150,38 @@
 
     var parcoords = d3.parcoords()("#example")
     .data(data)
+    .showControlPoints(false)
     .color(color)
     .alpha(0.25)
     .composite("darken")
     .margin({ top: 24, left: 150, bottom: 12, right: 0 })
     .mode("queue")
     .render()
+    .reorderable()
+    .interactive()
     .brushMode("1D-axes");  // enable brushing
 
     parcoords.svg.selectAll("text")
       .style("font", "10px sans-serif");
+
+    // opacity
+	d3.select("#opacity").on("change", function() {
+		d3.select("#opac").text(this.value);
+		parcoords.alpha(this.value).render();
+	});
+s
+    //brightness
+	d3.select("#brightness").on("click", function() {
+		var mode = this.value;
+		console.log(mosde);
+		if (mode == "darken") {
+			this.value = "lighten";
+			parcoords.composite("darken");
+		}
+		else {
+			this.value = "darken";
+			parcoords.composite("lighten");
+		}
+	});
    });
   
