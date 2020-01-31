@@ -71,17 +71,7 @@ d3.json("SFN.geojson", function (data) {
     .attr("stroke-width", 1)
 });
 
-// var xy = xym([longitude, latitude])
-// console.log(xy)
-// hoods.append('text')
-//   .attr('x', 960)
-//   .attr('y', 30)
-//   .text('San Francisco Crime')
-//   .attr('fill', 'tomato')
-//   .attr('font-family', 'sans-serif')
-//   .attr('font-size', 32)
-//   .transition().duration(1000)
-//   .attr('x', 10);
+
 var div = d3.select("body").append("div")
   .attr("class", "tooltip");
 
@@ -149,7 +139,7 @@ async function selectfiltering(loadedRows, selectedStr) {
 
 }
 
-d3.csv("Police_Department_Incidents_-_Previous_Year__2016_.csv", function (loadedRows) {
+d3.csv("../datasets/Police_Department_Incidents_-_Previous_Year__2016_.csv", function (loadedRows) {
   //var positions = [];
   //mData = loadedRows;  
   allRows = loadedRows;
