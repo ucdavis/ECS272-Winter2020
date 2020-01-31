@@ -149,7 +149,7 @@ async function selectfiltering(loadedRows, selectedStr) {
 
 }
 
-d3.csv("../../datasets/Police_Department_Incidents_-_Previous_Year__2016_.csv", function (loadedRows) {
+d3.csv("Police_Department_Incidents_-_Previous_Year__2016_.csv", function (loadedRows) {
   //var positions = [];
   //mData = loadedRows;  
   allRows = loadedRows;

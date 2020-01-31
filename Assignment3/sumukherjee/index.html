@@ -57,30 +57,6 @@
             margin-right: 10px;
         }
 
-        #lpic {
-            display: none;
-            pointer-events: none;
-            position: absolute;
-            /*background: url('gray.png');*/
-            -moz-border-radius: 5px;
-            border-radius: 5px;
-            padding: 10px 10px 10px 7px;
-            color: white;
-            z-index: 1337;
-            width: 280px;
-            text-align: left;
-        }
-
-        #lpic .hoods {
-            margin-bottom: 10px;
-            font-style: italic;
-            margin-left: 10px;
-        }
-
-        #lpic img {
-            width: 280px;
-        }
-
         div.tooltip {
             position: absolute;
             text-align: center;
@@ -120,8 +96,8 @@
 
         .link {
             fill: none;
-            stroke: darkblue;
-            stroke-opacity: .2;
+            stroke: rgb(212, 144, 41);
+            stroke-opacity: .4;
         }
 
         .link:hover {
@@ -208,15 +184,17 @@ input:checked + .slider:before {
 
 </head>
 
-<body style="background-color: #f0f8ff">
+<body style="background-color: #e0ffff">
     <div id="tip"></div>
     <div class="container-fluid">
-        <div class="container-fluid jumbotron" style="background-color:rgba(76, 175, 80, 0.3);">
-            <h1>Assignment 3</h1>
-            <h3><i>Suchita Mukherjee</i></h3>
+        <div class="container-fluid jumbotron" style="background-color:rgba(45, 241, 52, 0.534);">
+            <div style="margin-left:5%">
+                <h1>Assignment 3</h1>
+                <h3><i>Suchita Mukherjee</i></h3>
+            </div>
         </div>
         <div class="row">
-            <div class="col-md-4" style="margin-top: 1%;"><b>Choose Crime Category</b>
+            <div class="col-md-4" style="margin-top: 1%; padding-left:5%"><b>Choose Crime Category</b>
                 <select class="custom-select custom-select-lg"
                     onchange="changeFilter()" id="widget" style="margin-top: 2%;">
 
@@ -227,7 +205,7 @@ input:checked + .slider:before {
 
         </div>
         <div class="row" style="margin-top: 5%;">
-            <div class="col-md-4" style="margin-top: 1%;"><b>Choose Third Level</b>
+            <div class="col-md-4" style="margin-top: 1%; padding-left:5%"><b>Choose Third Level</b>
                 <select class="custom-select custom-select-lg" onchange="changeSankyFilter()" id="widget2" style="margin-top: 2%;">
                     <option value="DayOfWeek">Days of the Week</option>
                     <option value="Time">Time Of Day</option>
