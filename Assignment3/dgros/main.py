@@ -41,11 +41,18 @@ def build_region_dropdown():
 
 def build_year_select():
     min_year, max_year = min(df['iyear']), max(df['iyear'])
-    return dcc.RangeSlider(
-        id='range-slider',
-        min=min_year,
-        max=max_year,
-        value=[min_year, max_year]
+    return html.Div(
+        dcc.RangeSlider(
+            id='range-slider',
+            min=min_year,
+            max=max_year,
+            value=[min_year, max_year],
+            marks={
+                year: {"label": f"{year}"}
+                for year in range(min_year, max_year+1, 5)
+            }
+        ),
+        style={"margin": "20px"}
     )
 
 
@@ -108,6 +115,7 @@ app.layout = html.Div(children=[
     html.H3("'Advanced Visualization'. Sankey of successful events"),
     html.Label("Year"),
     build_year_select(),
+    html.Br(),
     dcc.Graph(
         id='sankey-graph'
     ),
@@ -137,8 +145,6 @@ def update_bar_chart(selected_regions):
     Output('sankey-graph', 'figure'),
     [Input('range-slider', 'value')])
 def update_bar_sankey(selected_years):
-    #filtered_df = df[df.year == selected_year]
-    print(selected_years)
     return {
         'data': get_sankey_data(selected_years),
     }
