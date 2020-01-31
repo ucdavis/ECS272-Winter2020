@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ECS 272 InfoVis Assignment 3 - Haitong Li</title>
+    <script src="https://d3js.org/d3.v5.js"></script>
+    <script src="//d3js.org/d3-scale-chromatic.v0.3.min.js"></script>
+    <script src="https://unpkg.com/d3-array@1"></script>
+    <script src="https://unpkg.com/d3-collection@1"></script>
+    <script src="https://unpkg.com/d3-path@1"></script>
+    <script src="https://unpkg.com/d3-shape@1"></script>
+    <script src="https://unpkg.com/d3-sankey@0"></script>
+
+    <style>
+
+      #container1, #container2 {
+        text-align:center;
+      }
+      #tooltip1 {
+        min-width: 200px;
+        min-height: 80px;
+        text-align: center;
+      }
+      #tooltip2 {
+        min-width: 200px;
+        min-height: 80px;
+        text-align: center;
+      }
+      #selectButton {
+        display: inline-block;
+        min-height:60px;
+        display: inline-block;
+      }
+
+      h1, h2, h3, p, #select, #tooltip1, #tooltip2, text{
+        font-family: palatino;
+        color: #6b486b;
+      }
+
+      body {
+        background-color: beige;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>ECS272 Visualization Dashboard - SF Crime Dataset</h2>
+    <h3>Haitong Li</h3>
+    <div id="container1">
+      <h2>Breakdown of Incidents by District/ Day of Week</h2> 
+      <div id="tooltip1"></div>
+      <div id="select">
+      Select an attribute:
+      <select id="selectButton"></select>
+    </div>
+      <p>Hover on the slices to get details of each segment</p>
+    </div>
+    <div id="container2">
+      <h2>Total Number of Incidents in Each Day of Week by Categories</h3> 
+      <div id="tooltip2"></div>
+      <p>Hover among the segments to get details of different segments.<br>
+        Hover along the x axis to see details for each day.
+      </p>
+    </div>
+    <script src="main.js"></script>
+  </body>
+</html>
