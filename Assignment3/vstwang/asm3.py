@@ -8,7 +8,6 @@ from dash.dependencies import Input, Output
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
-# directory need to be changed
 df = pd.read_csv('/Users/Vincent/Google 云端硬盘/MS/Winter/ECS272 Info Visu/ECS272-Winter2020/Assignment3/datasets/Los_Angeles_International_Airport_-_Passenger_Traffic_By_Terminal.csv')
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
@@ -159,8 +158,12 @@ def pie_chart(selected_month, selected_year, selected_terminal, selected_arrival
             data.append(this_y['Passenger_Count'].values)
             term.append(t)
 
+        hover_data = data.copy()
+
         for i in range(1, len(data)):
             data[i] = [sum(x) for x in zip(data[i], data[i-1])]
+
+        print(hover_data)
 
         graph_data = []
         for i in range(len(data)):
@@ -175,6 +178,8 @@ def pie_chart(selected_month, selected_year, selected_terminal, selected_arrival
                 "type": "scatter",
                 "x": x_value,
                 "y": data[i],
+                "hovertext": hover_data[i],
+                "hoverinfo": 'text'
             }
             graph_data.append(this_data)
 
@@ -186,11 +191,11 @@ def pie_chart(selected_month, selected_year, selected_terminal, selected_arrival
                 {
                 'data': graph_data,
                 'layout': dict(
-                    title="Stream Plot of the Number of Arrivals and/or Departures in LAX (Number indicates total number)",
+                    title="Stream Plot of the Number of Arrivals and/or Departures in LAX",
                     xaxis={
                         "ticks": "outside",
                         "mirror": True,
-                        "ticklen": 5,
+                        "ticklen": 20,
                         "showgrid": False,
                         "showline": True,
                         "tickfont": {
@@ -212,7 +217,8 @@ def pie_chart(selected_month, selected_year, selected_terminal, selected_arrival
                         "zeroline": True,
                         "tickwidth": 1,
                         "showticklabels": True
-                    }
+                    },
+
                 )
                 }]
     return None
