@@ -4,7 +4,6 @@ import dash_html_components as html
 import plotly.graph_objects as go
 from dash.dependencies import Input, Output
 import pandas as pd
-import plotly.express as px
 
 df = pd.read_csv('../datasets/Police_Department_Incidents_-_Previous_Year__2016_.csv')
 
