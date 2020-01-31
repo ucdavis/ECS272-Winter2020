@@ -7,7 +7,7 @@ from dash.dependencies import Input, Output
 import plotly.express as px
 import numpy as np
 
-file = pd.read_csv("globalterrorismdb_0718dist.csv",encoding = "ISO-8859-1")
+file = pd.read_csv("../datasets/globalterrorismdb_0718dist.csv",encoding = "ISO-8859-1")
 
 Xoptions = ["attacktype1_txt",
                          "city",
