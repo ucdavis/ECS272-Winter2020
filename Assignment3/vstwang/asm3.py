@@ -160,15 +160,18 @@ def pie_chart(selected_month, selected_year, selected_terminal, selected_arrival
 
         hover_data = data.copy()
 
-        for i in range(1, len(data)):
-            data[i] = [sum(x) for x in zip(data[i], data[i-1])]
+        for i in range(len(selected_terminal)):
+            t = selected_terminal[i]
+            hover_data[i] = [", ".join([t, str(x)]) for x in hover_data[i]]
 
         print(hover_data)
+
+        for i in range(1, len(data)):
+            data[i] = [sum(x) for x in zip(data[i], data[i-1])]
 
         graph_data = []
         for i in range(len(data)):
             this_data = {
-                "id": t,
                 "fill": "tonexty",
                 "line": {
                     "shape": "spline",
@@ -178,6 +181,7 @@ def pie_chart(selected_month, selected_year, selected_terminal, selected_arrival
                 "type": "scatter",
                 "x": x_value,
                 "y": data[i],
+                "hovername": term[i],
                 "hovertext": hover_data[i],
                 "hoverinfo": 'text'
             }
