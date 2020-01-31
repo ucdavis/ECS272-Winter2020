@@ -49,7 +49,7 @@ d3.json("SFN.geojson", function (data) {
   hoods.selectAll("path").data(data.features)
     .enter().append("svg:path")
     .attr("d", path)
-    .style("fill", function () { return "teal" })
+    .style("fill", function () { return "#003366" })
     .on("mouseover", function (e) {
 
       districtdiv.style("display", "none");
@@ -60,28 +60,28 @@ d3.json("SFN.geojson", function (data) {
         .style("opacity", 1)
         .style("display", "block")
         .transition().duration(10000)
-      d3.select(this).style("fill", "gray");
+      d3.select(this).style("fill", "teal");
     })
     .on("mouseout", function (e) {
       districtdiv.html(" ").style("display", "none");
 
-      d3.select(this).style("fill", "teal")
+      d3.select(this).style("fill", "#003366")
     })
     .attr("stroke", "white")
     .attr("stroke-width", 1)
 });
 
-var xy = xym([longitude, latitude])
-console.log(xy)
-hoods.append('text')
-  .attr('x', 960)
-  .attr('y', 30)
-  .text('San Francisco Crime')
-  .attr('fill', 'tomato')
-  .attr('font-family', 'sans-serif')
-  .attr('font-size', 32)
-  .transition().duration(1000)
-  .attr('x', 10);
+// var xy = xym([longitude, latitude])
+// console.log(xy)
+// hoods.append('text')
+//   .attr('x', 960)
+//   .attr('y', 30)
+//   .text('San Francisco Crime')
+//   .attr('fill', 'tomato')
+//   .attr('font-family', 'sans-serif')
+//   .attr('font-size', 32)
+//   .transition().duration(1000)
+//   .attr('x', 10);
 var div = d3.select("body").append("div")
   .attr("class", "tooltip");
 

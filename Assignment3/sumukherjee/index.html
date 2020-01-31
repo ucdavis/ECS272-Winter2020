@@ -184,17 +184,18 @@ input:checked + .slider:before {
 
 </head>
 
-<body style="background-color: #e0ffff">
+<body style="background-color: #F6FBFC">
     <div id="tip"></div>
     <div class="container-fluid">
-        <div class="container-fluid jumbotron" style="background-color:rgba(45, 241, 52, 0.534);">
+        <div class="container-fluid jumbotron" style="background-color:rgba(51, 255, 190, 0.37);">
             <div style="margin-left:5%">
-                <h1>Assignment 3</h1>
-                <h3><i>Suchita Mukherjee</i></h3>
+                <h1>San Francisco Police Incidents</h1>
+                <h3><i>Suchita Mukherjee - Assignment 3</i></h3>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-4" style="margin-top: 1%; padding-left:5%"><b>Choose Crime Category</b>
+        <div class="row" style="margin-bottom: 5%;">
+            <div class="col-md-12" style="margin-bottom: 1%; padding-left:5%;  text-align: center;"><h3>Geographical Distribution of Selected Crime Category</h3></div> 
+            <div class="col-md-4" style="margin-top: 1%; padding-left:5%">Choose Crime Category
                 <select class="custom-select custom-select-lg"
                     onchange="changeFilter()" id="widget" style="margin-top: 2%;">
 
@@ -204,8 +205,10 @@ input:checked + .slider:before {
             <div class="col-md-8" style="padding-left: 10%;"><svg id="test"></svg></div>
 
         </div>
-        <div class="row" style="margin-top: 5%;">
-            <div class="col-md-4" style="margin-top: 1%; padding-left:5%"><b>Choose Third Level</b>
+        
+        <div class="row" style="margin-top: 2%;">
+            <div class="col-md-12" style="margin-bottom: 1%; padding-left:5%; text-align: center;"><h3>Resolutions of Selected Crime Category</h3></div> 
+            <div class="col-md-4" style="margin-top: 1%; padding-left:5%">Choose Third Level
                 <select class="custom-select custom-select-lg" onchange="changeSankyFilter()" id="widget2" style="margin-top: 2%;">
                     <option value="DayOfWeek">Days of the Week</option>
                     <option value="Time">Time Of Day</option>
