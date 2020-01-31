@@ -137,20 +137,20 @@ def update_advanced_figure(selected_year_group):
     # selects the year group's data
     filtered_dataset = dataset[dataset['Year Group'] == selected_year_group]
 
-    # creates the type measure column's dimension
-    type_dim = go.parcats.Dimension(
-        values=filtered_dataset['Type Measure'],
-        label='Ballot Type of Measure'
+    # creates the pass or fail column's dimension
+    pass_dim = go.parcats.Dimension(
+        values=filtered_dataset['Pass or Fail'],
+        label='Pass or Fail'
     )
     # creates the by column's dimension
     by_dim = go.parcats.Dimension(
         values=filtered_dataset['By'],
         label='Placed on Ballot By'
     )
-    # creates the pass or fail column's dimension
-    pass_dim = go.parcats.Dimension(
-        values=filtered_dataset['Pass or Fail'],
-        label='Pass or Fail'
+    # creates the type measure column's dimension
+    type_dim = go.parcats.Dimension(
+        values=filtered_dataset['Type Measure'],
+        label='Ballot Type of Measure'
     )
 
     # converts the pass or fail column into a binary list
@@ -158,7 +158,7 @@ def update_advanced_figure(selected_year_group):
 
     # returns the components needed to update the alluvial diagram
     return {
-        'data': [go.Parcats(dimensions=[type_dim, by_dim, pass_dim],
+        'data': [go.Parcats(dimensions=[pass_dim, by_dim, type_dim],
                             line={'color': color_list, 'colorscale': colorscale},
                             hoveron='color', hoverinfo='probability',
                             labelfont={'size': 17, 'family': 'Times'},
@@ -174,7 +174,6 @@ def update_advanced_figure(selected_year_group):
             margin={'b': 20},
             titlefont={'size': 20}
         )
-
     }
 
 
