@@ -115,7 +115,7 @@ def get_sankey_data(year_range=None):
 
 
 app.layout = html.Div(children=[
-    html.H1(children='Vis Assignment 3. David Gros'),
+    html.H1(children='ECS 272 Assignment 3. David Gros'),
     html.H2(children='Data from Global Terrorism Dataset'),
     html.Div("Use the tabs to select a visualization"),
     dcc.Tabs(children=[
