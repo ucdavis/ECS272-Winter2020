@@ -123,7 +123,7 @@ app.layout = html.Div(children=[
     dcc.Graph(
         id='bar-graph'
     ),
-    html.Hr(),
+    html.Hr(style={"border-top": "1px solid black"}),
     html.H3("'Advanced Visualization'. Sankey of successful events"),
     html.Label("Year"),
     build_year_select(),
