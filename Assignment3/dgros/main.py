@@ -68,25 +68,37 @@ def get_sankey_data(year_range=None):
         years = filtered_df['iyear']
         filtered_df = filtered_df[(years >= start_year) & (years <= end_year)]
 
-    def make_success_label(v):
-        return f'success={v}'
+    def make_label_for_val(kind, v):
+        if kind == "success":
+            return f'Successful' if v == 1 else "Not Successful"
+        else:
+            return v
 
     success_vals = filtered_df['success'].unique().tolist()
     for s in success_vals:
-        l = make_success_label(s)
+        l = make_label_for_val("success", s)
         node_maps[l] = len(node_maps)
         node_labels.append(l)
 
-    region_counts = filtered_df['region_txt'].value_counts()
-    for l, rcount in zip(region_counts.index.tolist(), region_counts.values.tolist()):
-        node_maps[l] = len(node_maps)
-        node_labels.append(l)
-        for s in success_vals:
-            val = len(filtered_df[(filtered_df['region_txt'] == l) & (filtered_df['success'] == s)])
-            if val > 0:
-                link_srcs.append(node_maps[l])
-                link_tgts.append(node_maps[make_success_label(s)])
-                link_vals.append(val)
+
+    def add_links(source_field, tgt_field):
+        src_vals = filtered_df[source_field].unique()
+        for src_val in src_vals:
+            src_label = make_label_for_val(source_field, src_val)
+            if source_field not in node_maps:
+                node_maps[src_label] = len(node_maps)
+                node_labels.append(src_label)
+            matches_src = (filtered_df[source_field] == src_val)
+            for tgt_val in filtered_df[tgt_field].unique():
+                tgt_label = make_label_for_val(tgt_field, tgt_val)
+                num_in_link = len(filtered_df[matches_src & (filtered_df[tgt_field] == tgt_val)])
+                if num_in_link > 0:
+                    link_srcs.append(node_maps[src_label])
+                    link_tgts.append(node_maps[tgt_label])
+                    link_vals.append(num_in_link)
+
+    add_links("attacktype1_txt", "success")
+    add_links("region_txt", "attacktype1_txt")
 
     return [go.Sankey(
         node=dict(
