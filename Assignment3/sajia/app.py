@@ -43,6 +43,9 @@ for index in dataset.index:
     else:
         dataset.at[index, 'Year Group'] = 4
 
+# expands 'p' to 'passed' and 'f' to 'failed' in 'pass or fail' column
+dataset.loc[dataset['Pass or Fail'] == 'P', 'Pass or Fail'] = 'Passed'
+dataset.loc[dataset['Pass or Fail'] == 'F', 'Pass or Fail'] = 'Failed'
 
 app.layout = html.Div(style={'padding': '1em', 'border-style': 'solid'}, children=[
     html.H2(
@@ -156,7 +159,7 @@ def update_advanced_figure(selected_year_group):
     )
 
     # converts the pass or fail column into a binary list
-    color_list = [0 if result == 'F' else 1 for result in filtered_dataset['Pass or Fail']]
+    color_list = [0 if result == 'Failed' else 1 for result in filtered_dataset['Pass or Fail']]
 
     # returns the components needed to update the alluvial diagram
     return {
