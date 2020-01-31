@@ -7,6 +7,7 @@ import dash_html_components as html
 from dash.dependencies import Input, Output
 import plotly.graph_objects as go
 import pandas
+import os
 
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
@@ -14,7 +15,8 @@ external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
 # gets the ballot measures dataset; csv file should be in the datasets folder
-dataset = pandas.read_csv('../datasets/List_of_Historical_Ballot_Measures.csv')
+relative_path = os.path.join('..', 'datasets', 'List_of_Historical_Ballot_Measures.csv')
+dataset = pandas.read_csv(relative_path)
 
 # breaks the years into groups; there are 5 groups
 min_year = dataset['Year'].min()
