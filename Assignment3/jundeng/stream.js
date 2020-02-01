@@ -60,7 +60,7 @@ var catCount=d3.nest()
 .key(function(d){return d['Category'];})
 .rollup(function(v){return v.length;})
 .entries(data_new)
-//console.log(catCount);   
+console.log(catCount);   
 
 //group by PdDistrict then count each district
 var pdCount=d3.nest()
@@ -71,12 +71,22 @@ var pdCount=d3.nest()
 //console.log(pdCount);
 
 //sort by occurance
-catCount.sort(function(b,a){
-  return a.value-b.value;
+//catCount.sort(function(a,b){
+//  return a.key-b.key;
+//});
+    
+catCount.sort(function(a,b){
+  // Turn your strings into dates, and then subtract them
+  // to get a value that is either negative, positive, or zero.
+  return new Date(a.key) - new Date(b.key);
 });
-pdCount.sort(function(b,a){
-  return a.value-b.value;
+    
+pdCount.sort(function(a,b){
+  // Turn your strings into dates, and then subtract them
+  // to get a value that is either negative, positive, or zero.
+  return new Date(a.key) - new Date(b.key);
 });
+    
 
 //reformat all data: catData
 catCount.forEach(function(d){
