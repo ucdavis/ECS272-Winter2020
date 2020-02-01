@@ -4,7 +4,7 @@
   d3.csv('../datasets/Police_Department_Incidents_-_Previous_Year__2016_.csv')
     .then(csv => {
       // log csv in browser console
-      console.log(csv);
+      //console.log(csv);
 
       // select Category row
       var data = csv.map(row => {
@@ -12,7 +12,9 @@
           Category: String(row['Category']),
           Day: String(row["DayOfWeek"]),
           Location_x: Number(row["X"]),
-          Location_y: Number(row["Y"])
+          Location_y: Number(row["Y"]),
+          Date:Date(row['Date']),
+          PdDistrict:String(row['PdDistrict'])
         }
       })
       
@@ -21,7 +23,9 @@
       .key(function(d){return d.Category;})
       .rollup(function(v){return v.length;})
       .entries(data)
-      console.log(crimeCount);   
+      
+      
+    //console.log(crimeCount);   
       
       //group by category then count for bar chart
       var dayCount=d3.nest()
@@ -29,7 +33,7 @@
       .key(function(d){return d.Category;})
       .rollup(function(v){return v.length;})
       .entries(data)
-      console.log(dayCount);
+      //console.log(dayCount);
       //      .rollup(function(v){return v.length;})
       
       //sort by occurance
@@ -273,7 +277,7 @@ function myFunction(){
 d3.csv('../datasets/Police_Department_Incidents_-_Previous_Year__2016_.csv')
     .then(csv => {
       // log csv in browser console
-      console.log(csv);
+      //console.log(csv);
 
       // select Category row
       var data = csv.map(row => {
@@ -289,7 +293,7 @@ d3.csv('../datasets/Police_Department_Incidents_-_Previous_Year__2016_.csv')
       .key(function(d){return d.Category;})
       .rollup(function(v){return v.length;})
       .entries(data)
-      console.log(crimeCount);   
+      //console.log(crimeCount);   
       
       //group by category then count for bar chart
       var dayCount=d3.nest()
@@ -297,7 +301,7 @@ d3.csv('../datasets/Police_Department_Incidents_-_Previous_Year__2016_.csv')
       .key(function(d){return d.Category;})
       .rollup(function(v){return v.length;})
       .entries(data)
-      console.log(dayCount);
+      //console.log(dayCount);
       //      .rollup(function(v){return v.length;})
       
       //sort by occurance

@@ -7,7 +7,14 @@
     <script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
     <script src="../datasets/Police_Department_Incidents_-_Previous_Year__2016_.csv"></script>
     <script src="https://unpkg.com/d3-simple-slider"></script>
+<script type="text/javascript" src = 
+"https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js"> 
+</script>
 	<style>
+        .button{
+                margin-left: auto;
+                margin-right: auto;
+        }
         .axis {
             opacity: 0.4;
         }
@@ -125,26 +132,35 @@ svg {
 </head>
 	<body>
 		<h2>Figure 1: Bar Chart -- Based on the Type of Incident</h2>
-        <button onclick="myFunction()">See Fewer Data</button>
+        <div>
+        <p>Add a new graph with selected maximum value for y-axis</p>
+        <select onchange="myFunction()" id = 'selectY'>
+        <option selected='true' disabled='disabled'>Select Maximum Height for Y axis</option>
+        <option value=10000>10000</option>
+        <option value=20000>20000</option>
+        <option value=30000>30000</option>
+        <option value=40000>40000</option>
+        </select>
+        </div>
 		<div id="container"><div id="tooltip">
         <div class="row align-items-center">
         <div class="col-sm-2"><p id="value-simple"></p></div>
         <div class="col-sm"><div id="slider-simple"></div></div>
-        </div></div></div>
-		<script src="box2.js"></script>
+            </div></div></div>
+		<script src="boxnew.js"></script>
         
         
-        <h2>Figure 2: Parallel Coordinate Graph -- Include multiple perspectives</h2>
-<!--        <div>
-        <input type ="checkbox" class="checkbox" value="Monday" checked><label>Mon</label>
-        <input type ="checkbox" class="checkbox" value="Tuesday" checked><label>Tue</label>
-        <input type ="checkbox" class="checkbox" value="Wednesday" checked><label>Wed</label>
-        <input type ="checkbox" class="checkbox" value="Thursay" checked><label>Thu</label>
-        <input type ="checkbox" class="checkbox" value="Friday" checked><label>Fri</label>
-        <input type ="checkbox" class="checkbox" value="Saturdat" checked><label>Sat</label>
-        <input type ="checkbox" class="checkbox" value="Sunday" checked><label>Sun</label>
-        </div>-->
-
-        <div id="parallel"><div id="tooltip"></div></div>
+        <h2>Figure 2: Stream Graph -- Divide by the Incident's Category or PdDistrict, area incidate incident count</h2>
+        <div>
+        <p>Lesson learnen: When thera are too many categories(>10), it would be wise to not plot any form of stack graph. </p>
+        <p>Stream Graph: Incident category and PdDistrict</p>
+        <select onchange="myFunction2()" id = 'selectType'>
+        <option selected='true' disabled='disabled'>Select Category or PdDistrict</option>
+        <option value='Category'>Category</option>
+        <option value='PdDistrict'>PdDistrict</option>
+        </select>
+        </div>
+        <svg id="streamGraph"/>
+        <script src="stream.js"></script>
 	</body>
 </html>
