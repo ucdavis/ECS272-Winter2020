@@ -84,6 +84,18 @@ def sankeyMap(month):
     sank_source = []
     sank_target = []
     sank_value  = []
+    
+    #month str
+    month += 1
+    if month < 10:
+        month_str = '0'+str(month)
+    else:
+        month_str = str(month)
+    
+    #take only 1 month of ten_df
+    month_df = ten_df[ten_df.Date.str.slice(stop=2) == month_str]
+    
+    #calculate mappings
     for i in range(len(district_labels)):
         for j in range(len(crime_labels)):
             
@@ -92,7 +104,7 @@ def sankeyMap(month):
             sank_target.append(j + crime_offset)
             
             #value
-            inter_df = ten_df[ten_df.PdDistrict == district_labels[i]]
+            inter_df = month_df[month_df.PdDistrict == district_labels[i]]
             inter_df = inter_df[inter_df.Category == crime_labels[j]]
             sank_value.append(inter_df.size)
             
@@ -105,7 +117,7 @@ def sankeyMap(month):
             sank_target.append(j + resolution_offset)
             
             #value
-            inter_df = ten_df[ten_df.Category == crime_labels[i]]
+            inter_df = month_df[month_df.Category == crime_labels[i]]
             inter_df = inter_df[inter_df.Resolution == resolution_labels[j]]
             sank_value.append(inter_df.size)
         

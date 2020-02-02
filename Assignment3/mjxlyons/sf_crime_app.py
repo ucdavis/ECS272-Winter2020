@@ -17,7 +17,7 @@ from dash.dependencies import Input, Output
 
 import pandas as pd
 
-from sf_crime_data import ten_df, day_crimes, hour_crimes, sankey_labels, month_list
+from sf_crime_data import ten_df, day_crimes, hour_crimes, sankey_labels, sankeyMap, month_list
 
 #css style
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
@@ -113,8 +113,8 @@ def update_bar_graph(time_radio_index):
     ]
 )
 def update_sankey_fig(month_index):
-    #calculate output based on month
     
+    #calculate output based on month
     [sank_source,sank_target,sank_value] = sankeyMap(month_index)
     
     #return figure
@@ -130,7 +130,7 @@ def update_sankey_fig(month_index):
             }
         )],
         'layout': {
-            'title': '10 most common crimes, with district and outcome',
+            'title': '10 most common crimes, with district and outcome, month of {}'.format(month_list[month_index]),
             'plot_bgcolor':colors['background'],
             'paper_bgcolor':colors['background'],
             'font': {'color':colors['text'],'size':14}
