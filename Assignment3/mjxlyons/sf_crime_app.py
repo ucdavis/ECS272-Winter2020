@@ -17,7 +17,7 @@ from dash.dependencies import Input, Output
 
 import pandas as pd
 
-from sf_crime_data import df, district_df, crime_df, day_crimes, hour_crimes, sankey_labels, sank_source, sank_target, sank_value
+from sf_crime_data import ten_df, day_crimes, hour_crimes, sankey_labels, month_list
 
 #css style
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
@@ -60,40 +60,32 @@ app.layout = html.Div(
     
     #sankey graph
     dcc.Graph(
-        id='sankey_cat',
-        figure = {
-            'data':[go.Sankey(
-                node = {
-                    'label':sankey_labels,
-                },
-                link = {
-                    "source":sank_source, # indices correspond to labels, eg A1, A2, A2, B1, ...
-                    "target":sank_target,
-                    "value":sank_value
-                }
-            )],
-            'layout': {
-                'title': 'Sankey crimes',
-                'plot_bgcolor':colors['background'],
-                'paper_bgcolor':colors['background'],
-                'font': {'color':colors['text'],'size':18}
-            }
-        
-        }
+        id='sankey_ten'
     ),
     
+    #slider to change month of sankey graph
+    html.Div([
+        dcc.Slider(
+            id="month_slider",
+            min=0,
+            max=11,
+            marks={i: '{}'.format(month_list[i]) for i in range(0, 12)},
+            value=0,
+        )
+    ]),
+
     ]
 )
 
-#inputs to update graphs
+#bar graph radio function
 radio_choice = [day_crimes,hour_crimes]
 @app.callback(
     Output('crime_time_bar', 'figure'),
-    [Input('time_x_axis', 'value'),
+    [Input('time_x_axis', 'value')
     ]
 )
 #arguments are in order of input
-def update_graphs(time_radio_index):
+def update_bar_graph(time_radio_index):
     
     return{
         'data':[
@@ -113,7 +105,40 @@ def update_graphs(time_radio_index):
         }
         
     }
+
+#sankey graph, plot by month
+@app.callback(
+    Output("sankey_ten",'figure'),
+    [Input("month_slider","value")
+    ]
+)
+def update_sankey_fig(month_index):
+    #calculate output based on month
     
+    [sank_source,sank_target,sank_value] = sankeyMap(month_index)
+    
+    #return figure
+    return {
+        'data':[go.Sankey(
+            node = {
+                'label':sankey_labels,
+            },
+            link = {
+                "source":sank_source, # indices correspond to labels, eg A1, A2, A2, B1, ...
+                "target":sank_target,
+                "value":sank_value
+            }
+        )],
+        'layout': {
+            'title': '10 most common crimes, with district and outcome',
+            'plot_bgcolor':colors['background'],
+            'paper_bgcolor':colors['background'],
+            'font': {'color':colors['text'],'size':14}
+        }
+    
+    }
+
+
 
 if __name__ == '__main__':
     app.run_server(debug=True)

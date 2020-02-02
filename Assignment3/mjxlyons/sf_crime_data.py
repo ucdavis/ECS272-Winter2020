@@ -38,8 +38,12 @@ hour_crimes = hour_crimes.reindex(ordered_time)
 
 #################### SANKEY GRAPH ################################
 
+#month list
+month_list = ['Jan','Feb','Mar','Apr','May',"Jun","Jul","Aug","Sep","Oct","Nov","Dec"]
+
 #list of top 10 crimes
-crime_count = dict(crime_df['Category'].value_counts())
+ten_df = crime_df.dropna(subset=['PdDistrict'])
+crime_count = dict(ten_df['Category'].value_counts())
 crimes_l = []
 for crime in crime_count:
     crimes_l.append( (crime_count[crime], crime) )
@@ -49,13 +53,16 @@ for i in range(10):
     ten_crimes.append(crimes_l[i][1])
 
 #reduce df to only the top 10 crimes
-indexNames = crime_df[ (not crime_df['Category'] in ten_crimes) ].index
-crime_df.drop(indexNames , inplace=True)
+#https://pandas.pydata.org/pandas-docs/stable/user_guide/merging.html
+frames = []
+for crime in ten_crimes:
+    frames.append(ten_df[ten_df.Category == crime])
+ten_df = pd.concat(frames)
 
 #sankey labels: district, crime, resolution
-district_labels =   list(crime_df['PdDistrict'].unique())
-crime_labels =      list(crime_df['Category'].unique())
-resolution_labels = list(crime_df['Resolution'].unique())
+district_labels =   list(ten_df['PdDistrict'].unique())
+crime_labels =      list(ten_df['Category'].unique())
+resolution_labels = list(ten_df['Resolution'].unique())
 sankey_labels = district_labels + crime_labels + resolution_labels
 
 #label offsets
@@ -63,40 +70,46 @@ crime_offset = len(district_labels)
 resolution_offset = crime_offset + len(crime_labels)
     
 #test
+#print(crime_labels)
+#print(ten_df.size)
 #print(sankey_labels[resolution_offset])
 #print(sankey_labels)
 #print(district_df.size)
 
 #mappings: source, target, value
-sank_source = []
-sank_target = []
-sank_value  = []
-
-##district to crime
-#for i in range(len(district_labels)):
-#    for j in range(len(crime_labels)):
-#        
-#        #source and target
-#        sank_source.append(i)
-#        sank_target.append(j + crime_offset)
-#        
-#        #value
-#        inter_df = district_df[district_df.PdDistrict == district_labels[i]]
-#        inter_df = inter_df[inter_df.Category == crime_labels[j]]
-#        sank_value.append(inter_df.size)
-#        
-##crime to resolution
-#for i in range(len(crime_labels)):
-#    for j in range(len(resolution_labels)):
-#        
-#        #source and target
-#        sank_source.append(i + crime_offset)
-#        sank_target.append(j + resolution_offset)
-#        
-#        #value
-#        inter_df = district_df[district_df.Category == crime_labels[i]]
-#        inter_df = inter_df[inter_df.Resolution == resolution_labels[j]]
-#        sank_value.append(inter_df.size)
+#return sankey mappings, for that month
+def sankeyMap(month):
+    
+    #mappings
+    sank_source = []
+    sank_target = []
+    sank_value  = []
+    for i in range(len(district_labels)):
+        for j in range(len(crime_labels)):
+            
+            #source and target
+            sank_source.append(i)
+            sank_target.append(j + crime_offset)
+            
+            #value
+            inter_df = ten_df[ten_df.PdDistrict == district_labels[i]]
+            inter_df = inter_df[inter_df.Category == crime_labels[j]]
+            sank_value.append(inter_df.size)
+            
+    #crime to resolution
+    for i in range(len(crime_labels)):
+        for j in range(len(resolution_labels)):
+            
+            #source and target
+            sank_source.append(i + crime_offset)
+            sank_target.append(j + resolution_offset)
+            
+            #value
+            inter_df = ten_df[ten_df.Category == crime_labels[i]]
+            inter_df = inter_df[inter_df.Resolution == resolution_labels[j]]
+            sank_value.append(inter_df.size)
+        
+    return [sank_source,sank_target,sank_value]
 
 
 
