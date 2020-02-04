@@ -1,6 +1,6 @@
 # Assignment 4: Interactive Visualization System
 
-For this assignment, you will implement a system that integrates interactive visualizations with advanced data analytics methods (e.g., ML and NLP) for exploring a complex dataset of your choice. You should work in __teams of 2 to 3 students__ for this assignment.
+For this assignment, you will implement a system that integrates interactive visualizations with advanced data analytics methods (e.g., ML and NLP) for exploring a complex dataset of your choice. You should work in __teams of 2 students__ for this assignment.
 
 
 ## Requirement
