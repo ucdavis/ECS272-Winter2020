@@ -34,12 +34,13 @@ Since your work is based on a published paper, your report should be more about 
 * Discuss the strengths and limitations of your implementation, and ways of further improving the work (beyond what is presented in the paper)
 
 
-## Tasks and Grading Breakdown (100pts)
-* Proposal (15 pts)
-* Milestone (20 pts)
-* Implementation (40 pts)
-* Final Presentation (10 pts)
-* Report (15 pts)
+## Timelines and Grading Breakdown (100pts)
+* Proposal (15 pts) - due 2/24/2020 11:55pm
+* Milestone (20 pts) - due 3/2/2020 11:55pm
+* Implementation (40 pts) 
+* Report (15 pts) - 3/16/2020 11:55pm
+* Final Presentation (10 pts) - 3/17/2020 1-5pm
+
 
 
 ## Submission
