@@ -17,7 +17,8 @@ Your proposal will describe what you will implement from the paper. First, start
 
 ## Milestone
 
-The milestone will gauge that you are progressing appropriately on the project. Submit your current source codes and/or interim report along with a short milestone.txt noting your current progress.
+The milestone will gauge that you are progressing appropriately 
+on the project. Submit your current source codes and/or interim report along with a short milestone.txt noting your current progress.
 
 
 ## Final Report
@@ -42,4 +43,4 @@ Since your work is based on a published paper, your report should be more about 
 
 
 ## Submission
-Both project milestones and the full systems are due at 11:55 pm on the respective due dates. You will submit a zipped file for each full project (unless otherwise specified). Name the zip file like this: lastname_firstname.zip. For each project, include a screenshot of your interface, name it cover.png and put it in the root directory of your zipped folder (same directory as your index.html file). Name your PDF write-up as report.pdf.
+You need to submit both your source codes and the final report Please push all your source codes to the forked repository you used for Assignment 1, 3 and 4, and submit the link to your repository on Canvas. You also need to submit the final report as a PDF file on Canvas.
