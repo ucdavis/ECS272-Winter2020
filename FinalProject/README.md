@@ -1,6 +1,6 @@
 # Final Project
 
-For the final project, you will implement a system or technique from a published paper. We have curated more than a dozen papers for you to pick one in the Google Doc [here](https://docs.google.com/document/d/16rtpJ0q1DjUTXBih1Me7YhXmEuCw6R4Qy8NhCyEsP30/edit?usp=sharing). Note that the same paper cannot be chosen by more than two teams. Most of these systems come with demo videos which you can use to help learn about system interactions and functionality. 
+For the final project, you will work in a team of 3 members to implement a system or technique from a published paper. We have curated more than a dozen papers for you to pick one in the Google Doc [here](https://docs.google.com/document/d/16rtpJ0q1DjUTXBih1Me7YhXmEuCw6R4Qy8NhCyEsP30/edit?usp=sharing). Note that the same paper cannot be chosen by more than two teams. Most of these systems come with demo videos which you can use to help learn about system interactions and functionality. 
 
 You are expected to find your own dataset(s). The papers usually contain several examples, which you may use. But we also encourage you to find other datasets to see how well they work with the implemented system.
 
