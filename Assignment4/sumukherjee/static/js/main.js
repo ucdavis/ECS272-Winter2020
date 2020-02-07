@@ -1,6 +1,29 @@
+var origData = null;
+var select = false;
 window.onload = function() {
     $.get("output1", function(data){
-        data = JSON.parse(data);
+      origData = JSON.parse(data);
+      renderScatter(origData);
+      renderBar(origData);
+    });
+  }
+
+  function renderBar(data) {
+//     var margin = {top: 20, right: 160, bottom: 35, left: 30};
+
+// var width = 960 - margin.left - margin.right,
+//     height = 500 - margin.top - margin.bottom;
+
+// var svg = d3.select("#bar")
+//   .append("svg")
+//   .attr("width", width + margin.left + margin.right)
+//   .attr("height", height + margin.top + margin.bottom)
+//   .append("g")
+//   .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+  }
+
+  function renderScatter(data) {
         var xmin = undefined,
             xmax = undefined,
             ymin = undefined,
@@ -73,9 +96,27 @@ window.onload = function() {
               return color(d.cluster);
             })
             .style("stroke", "black")
-            .on("mouseover", function(d) {highlight(d);})
-            .on("mouseout", function(d) {doNotHighlight(d); })
-            .on("click", function(d) {console.log(d.cluster)});
+            .on("mouseover", function(d) {
+              if (!select) {
+                highlight(d);
+              }
+            })
+            .on("mouseout", function(d) {
+              if (!select) {
+                doNotHighlight(d); 
+              }
+            })
+            .on("click", function(d) {
+              console.log(d.cluster);
+              if (select == false) {
+                select = true;
+                highlight(d);
+              } else {
+                select = false;
+                doNotHighlight(d);
+              }
+            });
+
 
 
             var highlight = function(d){
@@ -102,5 +143,22 @@ window.onload = function() {
                 .style("fill", function(dat) {return color(dat.cluster)})
                 .attr("r", 5 )
             }
-  });
+}
+
+function changeCluster() {
+  console.log($('#widget option:selected').text());
+  console.log(origData);
+  // $.post("cluster", JSON.stringify(origData), function(data) {
+  //   console.log(data);
+  // });
+  $.ajax("cluster", {
+    data: JSON.stringify({"clusterNum":$('#widget option:selected').text(), "dat":origData}),
+    method: "POST",
+    contentType: "application/json"
+ }).done(function(data) {
+   console.log(data);
+   origData = JSON.parse(data);
+   d3.select("#scatter").selectAll("*").remove();
+   renderScatter(origData);
+ });
 }

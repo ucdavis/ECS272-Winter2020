@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <head>
     <!--<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>-->
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
@@ -13,17 +14,27 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
-        <script src="https://d3js.org/d3.v4.js"></script>
-        <script src="https://unpkg.com/d3-3d/build/d3-3d.min.js"></script>
+    <script src="https://d3js.org/d3.v4.js"></script>
+    <script src="https://unpkg.com/d3-3d/build/d3-3d.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-sankey/0.4.2/d3-sankey.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 </head>
+
 <body>
     <div class="container-fluid">
-    <div class="jumbotron">Assignment 4</div>
-    <div class="row">
-        <div class="col-md-2">lolol</div>    
-    <div class="col-md-10" id="scatter"></div>
-</div>
-</div>
+        <div class="jumbotron">Assignment 4</div>
+        <div class="row">
+            <div class="col-md-2" style="margin-top: 1%; padding-left:5%">Choose Number of Clusters
+                <select onchange="changeCluster()" class="custom-select custom-select-lg" o id="widget"
+                    style="margin-top: 2%;">
+                    <option value="2">2</option>
+                    <option value="3" selected>3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+            </div>
+            <div class="col-md-6" id="scatter"></div>
+            <div class="col-md-4" id="bar"></div>
+        </div>
+    </div>
 </body>
