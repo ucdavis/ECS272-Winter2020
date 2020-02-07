@@ -19,18 +19,23 @@ def output1():
     df.dropna(inplace=True)
     X = np.array(df.iloc[:,:19])
     #df.drop(df.columns.difference(['Music','Slow songs or fast songs', 'Dance, Disco, Funk', 'Folk music', 'Country', 'Classical', 'Musicals', 'Pop', 'Rock', 'Metal, Hard rock', 'Punk', 'Hip hop, Rap', 'Reggae, Ska', 'Swing, Jazz', 'Rock n Roll', 'Alternative music', 'Latin', 'Techno, Trance', 'Opera']), 1, inplace=True)
-    print(df.iloc[0])
+    #print(df.iloc[0])
     #print(df.to_dict(orient = "records")[1])
-    kmeans = KMeans(n_clusters=5).fit(X)  #parameters to change
+    kmeans = KMeans(n_clusters=3).fit(X)  #parameters to change
     centroids = kmeans.cluster_centers_
     predicted_music_group = kmeans.predict(X) # predicted group labelling
     pca = PCA(n_components=2)
     pca.fit(X)
-    X2 = pca.transform(X) # 2d dimension reduction for x,y axis
-    
-    print(centroids)
+    X_trans = pca.transform(X) # 2d dimension reduction for x,y axis
+    X1 = X_trans[:,0].tolist()
+    X2 = X_trans[:,1].tolist()
+    labels = kmeans.labels_.tolist()
+    df['X'] = X1
+    df['Y'] = X2
+    df['cluster'] = labels
+    #print(centroids)
+    #print(type(X2[:,0]))
     print(len(kmeans.labels_))
-    print(kmeans.cluster_centers_)
     return json.dumps(df.to_dict(orient = "records"))
 
 if __name__ == "__main__":
