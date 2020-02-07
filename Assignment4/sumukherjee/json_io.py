@@ -17,7 +17,7 @@ def output1():
     df = pd.read_csv('input/responses.csv')
     #df = df.head(10)
     df.dropna(inplace=True)
-    X = np.array(young_music_full.iloc[:,:19])
+    X = np.array(df.iloc[:,:19])
     #df.drop(df.columns.difference(['Music','Slow songs or fast songs', 'Dance, Disco, Funk', 'Folk music', 'Country', 'Classical', 'Musicals', 'Pop', 'Rock', 'Metal, Hard rock', 'Punk', 'Hip hop, Rap', 'Reggae, Ska', 'Swing, Jazz', 'Rock n Roll', 'Alternative music', 'Latin', 'Techno, Trance', 'Opera']), 1, inplace=True)
     print(df.iloc[0])
     #print(df.to_dict(orient = "records")[1])
