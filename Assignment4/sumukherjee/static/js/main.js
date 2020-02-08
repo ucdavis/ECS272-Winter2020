@@ -1,7 +1,7 @@
-var origData = null;
+var origData = null; //has all data {d.X, d.Y, d.cluster}
 var select = false;
-window.onload = function() {
-    $.get("output1", function(data){
+window.onload = function() { // calls this on loading index.html
+    $.get("loadData", function(data){ //first api call
       origData = JSON.parse(data);
       renderScatter(origData);
       renderBar(origData);
@@ -115,14 +115,13 @@ window.onload = function() {
                 select = false;
                 doNotHighlight(d);
               }
+              //TODO: add barplot interaction code
             });
 
 
 
             var highlight = function(d){
-              console.log("yaya");
               selected_cluster = d.cluster;
-              console.log(selected_cluster);
               d3.selectAll(".dot")
                 .transition()
                 .duration(200)
@@ -146,11 +145,6 @@ window.onload = function() {
 }
 
 function changeCluster() {
-  console.log($('#widget option:selected').text());
-  console.log(origData);
-  // $.post("cluster", JSON.stringify(origData), function(data) {
-  //   console.log(data);
-  // });
   $.ajax("cluster", {
     data: JSON.stringify({"clusterNum":$('#widget option:selected').text(), "dat":origData}),
     method: "POST",

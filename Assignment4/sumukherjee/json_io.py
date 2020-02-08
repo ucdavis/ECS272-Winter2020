@@ -7,12 +7,11 @@ from sklearn.cluster import KMeans
 from sklearn.decomposition import PCA
 app = Flask(__name__, template_folder="templates", static_folder="static", static_url_path="/static")
 
-@app.route("/output")
+@app.route("/")
 def output():
-    
     return render_template("index.html")
 
-@app.route("/output1")
+@app.route("/loadData")
 def output1():
     df = pd.read_csv('input/responses.csv')
     #df = df.head(10)
@@ -42,7 +41,7 @@ def processData(df, clusterNum):
     #print(df.iloc[0])
     #print(df.to_dict(orient = "records")[1])
     kmeans = KMeans(n_clusters=clusterNum).fit(X)  #parameters to change
-    pca = PCA(n_components=2)
+    pca = PCA(n_components=2) #TODO remove PCA data to diff function 
     pca.fit(X)
     X_trans = pca.transform(X) # 2d dimension reduction for x,y axis
     X1 = X_trans[:,0].tolist()
