@@ -16,20 +16,51 @@ dataset = pandas.read_csv(relative_path)
 
 
 def create_basic_bar_chart():
+    subset = dataset.loc[dataset['Type_1'] == 'Grass']
+
+    sorted_subset = subset.sort_values(by='Total', ascending=False)
+    sorted_subset_names = sorted_subset['Name'].values.tolist()
+    sorted_subset_vals = sorted_subset['Total'].values.tolist()
+
+    target_index = sorted_subset_names.index('Bulbasaur')
+
+    bar_colors = ['lightslategray', ] * len(sorted_subset_names)
+    bar_colors[target_index] = 'crimson'
+
+    for index in range(len(sorted_subset_names)):
+        ranking = index + 1
+        sorted_subset_names[index] = sorted_subset_names[index] + ', #' + str(ranking)
+
+    bar_fig = go.Figure(data=[
+        go.Bar(x=sorted_subset_names, y=sorted_subset_vals, marker_color=bar_colors)
+    ])
+
+    bar_chart_title = 'Grass Type Total Stats Ranking Bar Chart'
+    bar_fig.update_layout(title={'text': bar_chart_title, 'y': 0.9, 'x': 0.5, 'xanchor': 'center', 'yanchor': 'top'})
+    return bar_fig
+
+
+def create_advanced_star_plot():
     data_sample = dataset.loc[dataset['Name'] == 'Bulbasaur']
 
     stats = ['HP', 'Attack', 'Defense', 'SP Attack', 'SP Defense', 'Speed']
     stat_vals = [data_sample.at[0, 'HP'], data_sample.at[0, 'Attack'], data_sample.at[0, 'Sp_Atk'],
                  data_sample.at[0, 'Sp_Def'], data_sample.at[0, 'Speed']]
 
-    bar_chart_title = 'Bulbasaur\'s Stats Bar Chart'
+    star_fig = go.Figure(data=go.Scatterpolar(r=stat_vals, theta=stats, fill='toself'))
 
-    bar_fig = go.Figure(data=[
-        go.Bar(x=stats, y=stat_vals)
-    ])
+    star_plot_title = 'Bulbasaur\'s Stats Bar Chart'
+    star_fig.update_layout(
+        polar=dict(
+            radialaxis=dict(
+                visible=True
+            ),
+        ),
+        showlegend=False,
+        title={'text': star_plot_title, 'y': 0.9, 'x': 0.5, 'xanchor': 'center', 'yanchor': 'top'}
+    )
 
-    bar_fig.update_layout(title={'text': bar_chart_title, 'y': 0.9, 'x': 0.5, 'xanchor': 'center', 'yanchor': 'top'})
-    return bar_fig
+    return star_fig
 
 
 app.layout = html.Div(style={'padding': '1em', 'border-style': 'solid'}, children=[
@@ -45,7 +76,8 @@ app.layout = html.Div(style={'padding': '1em', 'border-style': 'solid'}, childre
     ], style={'width': '49%', 'display': 'inline-block', 'padding': '0 20'}),
     html.Div([
         # basic bar graph goes here; will show the stats of one pokemon
-        dcc.Graph(id='basic-bar-graph', figure=create_basic_bar_chart())
+        dcc.Graph(id='basic-bar-chart', figure=create_basic_bar_chart()),
+        dcc.Graph(id='advanced-star-plot', figure=create_advanced_star_plot())
     ], style={'display': 'inline-block', 'width': '49%'})
 
 ])
