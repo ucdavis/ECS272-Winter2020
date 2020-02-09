@@ -27,7 +27,7 @@ window.onload = function() { // calls this on loading index.html
       var selecteddata  = [];
       
       data.forEach(function(d){
-        if (cluster_number==false) {
+        if (cluster_number==false) { // should it be false or undefined/null?
           if (d.cluster=='all'){
             selecteddata.push(d)
           } 
@@ -364,7 +364,7 @@ window.onload = function() { // calls this on loading index.html
                 .style("fill", function(dat) {return color(dat.cluster)})
                 .attr("r", 5 )
             }
-
+            renderBar(clusterData,selected_cluster_num);
             
 }
 
