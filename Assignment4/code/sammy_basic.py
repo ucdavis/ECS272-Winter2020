@@ -35,8 +35,10 @@ def create_basic_bar_chart():
         go.Bar(x=sorted_subset_names, y=sorted_subset_vals, marker_color=bar_colors)
     ])
 
-    bar_chart_title = 'Grass Type Total Stats Ranking Bar Chart'
-    bar_fig.update_layout(title={'text': bar_chart_title, 'y': 0.9, 'x': 0.5, 'xanchor': 'center', 'yanchor': 'top'})
+    bar_chart_title = 'Grass Type Total Stats Rankings Bar Chart'
+    bar_fig.update_layout(title={'text': bar_chart_title, 'y': 0.9, 'x': 0.5, 'xanchor': 'center', 'yanchor': 'top'},
+                          xaxis={'showticklabels': False, 'title': 'Grass Type Pokemon by Descending Ranking'},
+                          yaxis={'title': 'Total Stats'})
     return bar_fig
 
 
@@ -49,7 +51,7 @@ def create_advanced_star_plot():
 
     star_fig = go.Figure(data=go.Scatterpolar(r=stat_vals, theta=stats, fill='toself'))
 
-    star_plot_title = 'Bulbasaur\'s Stats Bar Chart'
+    star_plot_title = 'Bulbasaur\'s Stats Star Plot'
     star_fig.update_layout(
         polar=dict(
             radialaxis=dict(
