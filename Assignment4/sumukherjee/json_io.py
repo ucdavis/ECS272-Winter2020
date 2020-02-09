@@ -5,6 +5,7 @@ import json
 from flask import Flask, request, render_template
 from sklearn.cluster import KMeans
 from sklearn.decomposition import PCA
+from collections import defaultdict
 app = Flask(__name__, template_folder="templates", static_folder="static", static_url_path="/static")
 
 @app.route("/")
@@ -17,15 +18,19 @@ def output1():
     #df = df.head(10)
     df.dropna(inplace=True)
     df = processData(df, 3)
+    cluster_otherquestion = countsdf(df,['Movies','History','Psychology','Internet'],3)
+    json_data = {'df': df.to_dict(orient="records"),'cluster_otherquestion':cluster_otherquestion.to_dict(orient="records")}
     #print(centroids)
     #print(type(X2[:,0]))
     #print(len(kmeans.labels_))
-    return json.dumps(df.to_dict(orient = "records"))
+    return json.dumps(json_data)#df.to_dict(orient = "records"),cluster_otherquestion.to_dict(orient='records')])
+#@app.route('/loadVisual2Data')
+#def output2():
 
 @app.route("/cluster", methods=["POST"])
 def changeCluster():
     #print(json.loads(request.data)["dat"][0])
-    df = pd.DataFrame.from_records(json.loads(request.data)["dat"])
+    df = pd.DataFrame.from_records(json.loads(request.data)["dat"]["df"])
     #print(df.iloc[0])
     #df = pd.read_json(json.loads(request.data)["dat"])
     df.drop(columns=['X'], inplace=True, axis = 1)
@@ -33,6 +38,24 @@ def changeCluster():
     df.drop(columns=['cluster'], inplace=True, axis = 1)
     df = processData(df, int(json.loads(request.data)["clusterNum"], base=10))
     return json.dumps(df.to_dict(orient = "records"))
+
+
+def countsdf(df,questions,n_cluster):
+    return_df = pd.DataFrame(columns = ['cluster','question']) 
+    for question in questions:
+        raw_count_series = df.groupby('cluster')[question].value_counts().unstack().fillna(0)
+        raw_count_df = raw_count_series.reset_index()
+        raw_count_df['question'] = question
+        return_df = return_df.append(raw_count_df,ignore_index=True,sort=False)
+
+        general_count = pd.DataFrame(df[question].value_counts()).T
+        general_count['cluster'] = 'all'
+        general_count['question'] = question
+        
+        return_df = return_df.append(general_count,ignore_index=True)
+           
+        
+    return(return_df)
 
 
 def processData(df, clusterNum):
@@ -50,6 +73,9 @@ def processData(df, clusterNum):
     df['X'] = X1
     df['Y'] = X2
     df['cluster'] = labels
+
+
+
     return df
 
 if __name__ == "__main__":
