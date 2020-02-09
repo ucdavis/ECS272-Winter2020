@@ -338,6 +338,7 @@ window.onload = function() { // calls this on loading index.html
               
 
               //TODO: add barplot interaction code
+              //here you have selected cluster so add update function from here
             });
 
 
