@@ -3,6 +3,7 @@ import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output
 import plotly.graph_objects as go
+from sklearn.cluster import KMeans
 import pandas
 import os
 
@@ -14,6 +15,26 @@ app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 relative_path = os.path.join('..', 'dataset', 'pokemon_alopez247.csv')
 dataset = pandas.read_csv(relative_path)
 
+def get_stat_vector(df):
+    df_copy = df.copy()
+    df_copy['HP'] = df.apply(lambda row: (row['HP']/255), axis=1)
+    df_copy['Attack'] = df.apply(lambda row: (row['Attack']/154), axis=1)
+    df_copy['Defense'] = df.apply(lambda row: (row['Defense']/230), axis=1)
+    df_copy['Sp_Atk'] = df.apply(lambda row: (row['Sp_Atk']/160), axis=1)
+    df_copy['Sp_Def'] = df.apply(lambda row: (row['Sp_Def']/230), axis=1)
+    df_copy['Speed'] = df.apply(lambda row: (row['Speed']/160), axis=1)
+    stat_vectors = df_copy[['HP', 'Attack', 'Defense', 'Sp_Atk', 'Sp_Def', 'Speed']].copy()
+    return stat_vectors.values
+
+def get_clusters(stat_vectors, k=5):
+    dbscan = KMeans(n_clusters=k)
+    clustering = dbscan.fit(stat_vectors)
+    return clustering.labels_.tolist()
+
+def apply_labels(labels, df):
+    df['Cluster'] = df.apply(lambda row: labels[row['Number'] - 1], axis=1)
+    print (df)
+    return df
 
 def create_basic_bar_chart():
     subset = dataset.loc[dataset['Type_1'] == 'Grass']
@@ -116,4 +137,7 @@ app.layout = html.Div(style={'padding': '1em', 'border-style': 'solid'}, childre
 #    return create_time_series(dff, axis_type, title)
 
 if __name__ == '__main__':
+    sv = get_stat_vector(dataset)
+    cl = get_clusters(sv)
+    apply_labels(cl, dataset)
     app.run_server(debug=True)
