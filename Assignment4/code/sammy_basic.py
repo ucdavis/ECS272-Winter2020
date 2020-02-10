@@ -46,7 +46,7 @@ def create_basic_bar_chart():
     bar_fig = go.Figure()
 
     bar_fig.add_trace(go.Bar(x=sorted_subset_names1, y=sorted_subset_vals1, marker_color=bar_colors1,
-                             name='Other Pokemon'))
+                             name='Other Pokemon', showlegend=False))
     bar_fig.add_trace(go.Bar(x=sorted_subset_names2, y=sorted_subset_vals2, marker_color=bar_colors2,
                              name='Selected Pokemon'))
     bar_fig.add_trace(go.Bar(x=sorted_subset_names3, y=sorted_subset_vals3, marker_color=bar_colors3,
