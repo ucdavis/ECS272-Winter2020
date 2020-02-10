@@ -24,45 +24,23 @@ def create_basic_bar_chart():
 
     target_index = sorted_subset_names.index('Bulbasaur')
 
-    bar_colors = ['lightslategray', ] * len(sorted_subset_names)
-    bar_colors[target_index] = 'crimson'
-
     for index in range(len(sorted_subset_names)):
         ranking = index + 1
         sorted_subset_names[index] = sorted_subset_names[index] + ', #' + str(ranking)
 
-    bar_fig = go.Figure(data=[
-        go.Bar(x=sorted_subset_names, y=sorted_subset_vals, marker_color=bar_colors)
-    ])
-
-    bar_chart_title = 'Grass Type Total Stats Rankings Bar Chart'
-    bar_fig.update_layout(title={'text': bar_chart_title, 'y': 0.9, 'x': 0.5, 'xanchor': 'center', 'yanchor': 'top'},
-                          xaxis={'showticklabels': False, 'title': 'Grass Type Pokemon by Descending Ranking'},
-                          yaxis={'title': 'Total Stats'})
-    return bar_fig
-
-
-def test():
-    subset = dataset.loc[dataset['Type_1'] == 'Grass']
-
-    sorted_subset = subset.sort_values(by='Total', ascending=False)
-    sorted_subset_names = sorted_subset['Name'].values.tolist()
-    sorted_subset_vals = sorted_subset['Total'].values.tolist()
-
-    target_index = sorted_subset_names.index('Bulbasaur')
-
-    for index in range(len(sorted_subset_names)):
-        ranking = index + 1
-        sorted_subset_names[index] = sorted_subset_names[index] + ', #' + str(ranking)
-
+    # bars that occur before the selected pokemon
     sorted_subset_names1 = sorted_subset_names[:target_index]
-    sorted_subset_names2 = [sorted_subset_names[target_index]]
-    sorted_subset_names3 = sorted_subset_names[target_index + 1:]
     sorted_subset_vals1 = sorted_subset_vals[:target_index]
-    sorted_subset_vals2 = [sorted_subset_vals[target_index]]
-    sorted_subset_vals3 = sorted_subset_vals[target_index + 1:]
     bar_colors1 = ['lightslategray', ] * len(sorted_subset_names1)
+
+    # selected pokemon's bar
+    sorted_subset_names2 = [sorted_subset_names[target_index]]
+    sorted_subset_vals2 = [sorted_subset_vals[target_index]]
     bar_colors2 = ['crimson']
+
+    # bars that occur after the selected pokemon
+    sorted_subset_names3 = sorted_subset_names[target_index + 1:]
+    sorted_subset_vals3 = sorted_subset_vals[target_index + 1:]
     bar_colors3 = ['lightslategray', ] * len(sorted_subset_names3)
 
     bar_fig = go.Figure()
@@ -117,7 +95,7 @@ app.layout = html.Div(style={'padding': '1em', 'border-style': 'solid'}, childre
     ], style={'width': '49%', 'display': 'inline-block', 'padding': '0 20'}),
     html.Div([
         # basic bar graph goes here; will show the stats of one pokemon
-        dcc.Graph(id='basic-bar-chart', figure=test()),
+        dcc.Graph(id='basic-bar-chart', figure=create_basic_bar_chart()),
         dcc.Graph(id='advanced-star-plot', figure=create_advanced_star_plot())
     ], style={'display': 'inline-block', 'width': '49%'})
 
