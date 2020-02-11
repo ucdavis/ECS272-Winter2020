@@ -14,6 +14,7 @@ class ScatterVis {
         this.xAxis = null
         this.yAxis = null
         this.plot_function = null
+        this.lasso = null
 
         this.color_by = "sex"
 
@@ -95,7 +96,7 @@ class ScatterVis {
         this.yAxis = d3.axisLeft(this.y)
             
         // create a scatter plot
-        view.selectAll(".dot")
+        var dots = view.selectAll(".dot")
             .data(this.data)
             .enter()
             .append("circle")
@@ -105,7 +106,6 @@ class ScatterVis {
             .attr("opacity", "0.5")
             .attr("cx", d => { return this.x(d.x) })
             .attr("cy", d => { return this.y(d.y) })
-            .attr("data-legend", d => { return d.row[this.color_by] })
     
     
         // x axis
@@ -157,7 +157,18 @@ class ScatterVis {
             .attr("x", 5 + 10)
             .attr("y", 5)
             .text(d => { return d })
+
+        // lasso
+        this.lasso = d3.lasso()
+            .closePathSelect(true)
+            .closePathDistance(100)
+            .items(dots)
+            .targetArea(svg)
+            .on("start", () => { this.lassoStart() })
+            .on("draw", () => { this.lassoDraw() })
+            .on("end", () => { this.lassoEnd() })
     
+        svg.call(this.lasso)
     }
 
     update(data) {
@@ -166,5 +177,38 @@ class ScatterVis {
             this.data = this.transformData(data)
 
         
+    }
+
+    lassoStart() {
+        this.lasso.items()
+            .attr("r",3.5) // reset size
+    }
+
+    lassoDraw() {
+        // Style the possible dots
+        this.lasso.possibleItems()
+            .classed("not_possible",false)
+            .classed("possible",true)
+
+        // Style the not possible dot
+        this.lasso.notPossibleItems()
+            .classed("not_possible",true)
+            .classed("possible",false)
+    }
+
+    lassoEnd() {
+        // Reset the color of all dots
+        this.lasso.items()
+            .classed("not_possible",false)
+            .classed("possible",false);
+
+        // Style the selected dots
+        this.lasso.selectedItems()
+            .attr("selected",true)
+            .attr("r",7);
+
+        // Reset the style of the not selected dots
+        this.lasso.notSelectedItems()
+            .attr("r",3.5);
     }
 }

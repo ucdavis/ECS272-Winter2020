@@ -1,0 +1,32 @@
+.lasso path {
+    stroke: rgb(80,80,80);
+    stroke-width:1px;
+}
+
+.lasso .drawn {
+    fill-opacity:.05 ;
+}
+
+.lasso .loop_close {
+    fill:none;
+    stroke-dasharray: 4,4;
+}
+
+.lasso .origin {
+    fill:#333;
+    fill-opacity:.2;
+}
+
+.not_possible {
+    fill-opacity: 0.35;
+}
+
+.possible {
+    fill-opacity: 1;
+}
+
+.selected {
+    stroke: #000;
+    stroke-width: 10px;
+
+}
