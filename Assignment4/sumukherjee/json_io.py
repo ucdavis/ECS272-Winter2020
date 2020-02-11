@@ -23,21 +23,23 @@ def output1():
     #print(centroids)
     #print(type(X2[:,0]))
     #print(len(kmeans.labels_))
-    return json.dumps(json_data)#df.to_dict(orient = "records"),cluster_otherquestion.to_dict(orient='records')])
-#@app.route('/loadVisual2Data')
-#def output2():
+    return json.dumps(json_data)#json.dumps(df.to_dict(orient = "records"))
+
 
 @app.route("/cluster", methods=["POST"])
 def changeCluster():
-    #print(json.loads(request.data)["dat"][0])
-    df = pd.DataFrame.from_records(json.loads(request.data)["dat"]["df"])
-    #print(df.iloc[0])
+    df = pd.DataFrame.from_records(json.loads(request.data)["dat"])
+
     #df = pd.read_json(json.loads(request.data)["dat"])
     df.drop(columns=['X'], inplace=True, axis = 1)
     df.drop(columns=['Y'], inplace=True, axis = 1)
     df.drop(columns=['cluster'], inplace=True, axis = 1)
+    
     df = processData(df, int(json.loads(request.data)["clusterNum"], base=10))
-    return json.dumps(df.to_dict(orient = "records"))
+
+    cluster_otherquestion = countsdf(df,['Movies','History','Psychology','Internet'],int(json.loads(request.data)["clusterNum"], base=10))
+    json_data = {'df': df.to_dict(orient="records"),'cluster_otherquestion':cluster_otherquestion.to_dict(orient="records")}
+    return json.dumps(json_data)#json.dumps(df.to_dict(orient = "records"))
 
 
 def countsdf(df,questions,n_cluster):
@@ -52,14 +54,17 @@ def countsdf(df,questions,n_cluster):
         general_count['cluster'] = 'all'
         general_count['question'] = question
         
-        return_df = return_df.append(general_count,ignore_index=True)
+        return_df = return_df.append(general_count,ignore_index=True,sort=False)
            
         
     return(return_df)
 
 
 def processData(df, clusterNum):
-    X = np.array(df.iloc[:,:19])
+    #X = np.array(df.iloc[:,:19])
+    
+    X = np.array(df[['Music','Slow songs or fast songs', 'Dance', 'Folk', 'Country', 'Classical music', 'Musical', 'Pop', 'Rock', 'Metal or Hardrock', 'Punk', 'Hiphop, Rap', 'Reggae, Ska', 'Swing, Jazz', 'Rock n roll', 'Alternative', 'Latino', 'Techno, Trance', 'Opera']])
+    print(X[0])
     #df.drop(df.columns.difference(['Music','Slow songs or fast songs', 'Dance, Disco, Funk', 'Folk music', 'Country', 'Classical', 'Musicals', 'Pop', 'Rock', 'Metal, Hard rock', 'Punk', 'Hip hop, Rap', 'Reggae, Ska', 'Swing, Jazz', 'Rock n Roll', 'Alternative music', 'Latin', 'Techno, Trance', 'Opera']), 1, inplace=True)
     #print(df.iloc[0])
     #print(df.to_dict(orient = "records")[1])
@@ -73,10 +78,9 @@ def processData(df, clusterNum):
     df['X'] = X1
     df['Y'] = X2
     df['cluster'] = labels
-
-
+    #df.to_csv("input/new_responses.csv")  #new added X,Y
 
     return df
 
 if __name__ == "__main__":
-	app.run()
+	app.run(debug=True)

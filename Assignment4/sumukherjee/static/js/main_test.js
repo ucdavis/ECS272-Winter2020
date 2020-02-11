@@ -19,7 +19,15 @@ window.onload = function() { // calls this on loading index.html
   function renderBar(data,selected_cluster_num) {
 
       //var selected_cluster = d.cluster;
+      // if ('1.0' in Object.keys(data[0])) {
+      //   var scoregroup = ['1.0','2.0','3.0','4.0','5.0'];
+      // }
+      // else if ('1' in Object.keys(data[0])) {
+      //   var scoregroup = ['1','2','3','4','5'];
+      // }
+
       var scoregroup = ['1.0','2.0','3.0','4.0','5.0'];
+      
       var questions = ['Movies','History','Psychology','Internet'];
       var padding=40;
 
@@ -40,7 +48,8 @@ window.onload = function() { // calls this on loading index.html
         } 
       });
 
-
+      console.log(selecteddata)
+      console.log(selecteddata[0])
 
       var margin = {top: 50, right: 160, bottom: 50, left: 30};
 
@@ -54,104 +63,59 @@ window.onload = function() { // calls this on loading index.html
                   .append("g")
                   .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-      // The scale spacing the groups:
-      var x0 = d3.scaleBand()
-                 .rangeRound([0, width])
-                 .domain(questions)
-                 .paddingInner(0.5);
-
-
-      // The scale for spacing each group's bar:
-      var x1 = d3.scaleBand()
-                 .domain(scoregroup)
-                 .padding(0.05);
-
+                  // List of groups = species here = value of the first column called group -> I show them on the X axis
+                
+                  // Add X axis
+      var x = d3.scaleBand()
+                      .domain(questions)
+                      .range([10, width])
+                      .padding([0.2])
+                  svg.append("g")
+                    .attr("transform", "translate(0," + height + ")")
+                    .call(d3.axisBottom(x).tickSize(0));
+                
+                  // Add Y axis
       var y = d3.scaleLinear()
-                 .domain([0,700])
-                 .rangeRound([height, 0]);
-
-      var z = d3.scaleOrdinal()
-                 .domain(scoregroup)
-                 .range([ "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]); //"#98abc5", "#8a89a6",
-
-      var yAxis = d3.axisLeft()
-                 .scale(y)
-                 .ticks(6);
-      
-      // var groupData = d3.nest()
-      //            .key(function(d) { return d.question + d.group; })
-      //            .rollup(function(v){
-      //             function(v) { return d3.sum(v, function(d){return d.count}); }
-      //            })
-      //            .entries(data)
-      //            .map(function(group){ 
-
-      //             let d2 = {
-      //               'question': d[0].question,
-      //               'group': d[0].group,
-      //           }
-      //             d2
-                   
-      //             return d.value; });
-               
-      //console.log("groupData", groupData)
-      
-
-
-      console.log(selecteddata)
-
-                 
-      var stackData = d3.stack()
-                 .keys(scoregroup)
-                 (selecteddata)
-                 //.offset(d3.stackOffsetExpand)
-      console.log(stackData)
-
-      x0.domain(clusterData.map(function(d) { return d.question; }));
-      x1.domain(clusterData.map(function(d) { return d.group; }))
-                   .rangeRound([0, x0.bandwidth()])
-                   .padding(0.2);
-
-      var serie = svg.selectAll(".serie")
-                   .data(stackData)
-                   .enter().append("g")
-                     .attr("class", "serie")
-                     .attr("fill", function(d) { return z(d.key); });
-                 
-      serie.selectAll("rect")
-                   .data(function(d) { return d; })
-                   .enter().append("rect")
-                     .attr("class", "serie-rect")
-                     .attr("transform", function(d) { return "translate(" + x0(d.data.question) + ",0)"; })
-                     .attr("x", function(d) { return x1(d.data.group); })
-                     .attr("y", function(d) { return y(d[1]); })
-                     .attr("height", function(d) { return y(d[0]) - y(d[1]); })
-                     .attr("width", x1.bandwidth())
-                     .on("click", function(d, i){ console.log("serie-rect click d", i, d); });
-                 
-        svg.append("g")
-                     .attr("class", "axis")
-                     .attr("transform", "translate(0," + height + ")")
-                     .call(d3.axisBottom(x0));
-               
-        svg.append("g")
-                     .attr("class", "axis")
-                     .call(d3.axisLeft(y).ticks(null, "s"))
-                   .append("text")
-                     .attr("x", 2)
-                     .attr("y", y(y.ticks().pop()) + 0.5)
-                     .attr("dy", "0.32em")
-                     .attr("fill", "#000")
-                     .attr("font-weight", "bold")
-                     .attr("text-anchor", "start")
-                     .text("Counts");
+                    .domain([0, 700])
+                    .range([ height, 0 ]);
+                  svg.append("g")
+                    .call(d3.axisLeft(y));
+                
+                  // Another scale for subgroup position?
+        var xSubgroup = d3.scaleBand()
+                    .domain(scoregroup)
+                    .range([0, x.bandwidth()])
+                    .padding([0.05])
+                
+                  // color palette = one color per subgroup
+        var color = d3.scaleOrdinal()
+                    .domain(scoregroup)
+                    .range([ "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"])
+                
+                  // Show the bars
+                  svg.append("g")
+                    .selectAll("g")
+                    // Enter in data = loop group per group
+                    .data(selecteddata)
+                    .enter()
+                    .append("g")
+                      .attr("transform", function(d) { return "translate(" + x(d.question) + ",0)"; })
+                    .selectAll("rect")
+                    .data(function(d) {
+                      return scoregroup.map(function(key) { 
+                        if (key.length == 1){
+                          key = key + '.0'
+                        }
+                        return {key: key, value: d[key]}; }); })
+                    .enter().append("rect")
+                      .attr("x", function(d) { return xSubgroup(d.key); })
+                      .attr("y", function(d) { return y(d.value); })
+                      .attr("width", xSubgroup.bandwidth())
+                      .attr("height", function(d) { return height - y(d.value); })
+                      .attr("fill", function(d) { return color(d.key); });
+                
 
         //legends
-
-        // svg.append('g')
-        //         .attr('class', 'y axis')
-        //         .attr('transform', 'translate(' + padding + ', 0)')
-        //         .call(yAxis);
 
         var legend = svg.append('g')
                 .attr('class', 'legend')
@@ -171,7 +135,7 @@ window.onload = function() { // calls this on loading index.html
                 .attr('width', 12)
                 .attr('height', 12)
                 .attr('fill', function(d, i){
-                    return z(i);
+                    return color(i);
                 });
             
         legend.selectAll('text')
@@ -188,43 +152,7 @@ window.onload = function() { // calls this on loading index.html
                 .attr('text-anchor', 'start')
                 .attr('alignment-baseline', 'hanging');
     
-    // function update(data,selected_cluster_num) {
-    //     var selecteddata  = [];
-        
-    //     data.forEach(function(d){
-    //       if (selected_cluster_num==false) {
-    //         if (d.cluster=='all'){
-    //           selecteddata.push(d)
-    //         } 
-    //       }
-    //       else{
-    //         if (d.cluster == selected_cluster_num) {
-    //           selecteddata.push(d)
-    //         }
-    //       } 
-    //     });
-
-    //     var stackData = d3.stack()
-    //         .keys(scoregroup)
-    //         (selecteddata)
-        
-        
-
-    //     console.log(data)
-    //     console.log(selected_cluster_num)
-    //     console.log(selecteddata)
-    //     console.log(stackData)
-
-    //     serie.selectAll("rect")
-    //       .data(stackData)
-    //         .transition()
-    //         .duration(1000)
-    //         .attr("x", function(d) { return x1(d.data.group); })
-    //         .attr("y", function(d) { return y(d[1]); })
-    //         .attr("height", function(d) { return y(d[0]) - y(d[1]); })
-    //         .attr("width", x1.bandwidth())
-        
-    //   }
+    
 
     
 
@@ -289,6 +217,9 @@ window.onload = function() { // calls this on loading index.html
         svg.append("g")
             .call(d3.axisLeft(y));
 
+        console.log("scttarplot")
+        console.log(data[0])
+
           // Add dots
         svg.append('g')
         .selectAll("dot")
@@ -326,6 +257,7 @@ window.onload = function() { // calls this on loading index.html
                 select = false;
                 selected_cluster_num = -1;
                 doNotHighlight(d);
+                d3.select("#bar").selectAll("*").remove();
                 renderBar(clusterData,selected_cluster_num);
               }
               
@@ -359,7 +291,7 @@ window.onload = function() { // calls this on loading index.html
                 .attr("r", 5 )
             }
 
-            renderBar(clusterData,selected_cluster_num);
+            //renderBar(clusterData,selected_cluster_num);
             
 }
 
@@ -369,10 +301,16 @@ function changeCluster() {
     method: "POST",
     contentType: "application/json"
  }).done(function(data) {
-   console.log(data);
-   origData = JSON.parse(data);
+    
+   groupedData = JSON.parse(data);
+
+   origData=groupedData.df;
+   
+   clusterData = groupedData.cluster_otherquestion;
+   console.log(clusterData)
    d3.select("#scatter").selectAll("*").remove();
    d3.select("#bar").selectAll("*").remove();
    renderScatter(origData);
+   renderBar(clusterData,-1);
  });
 }
