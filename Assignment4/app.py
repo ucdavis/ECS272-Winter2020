@@ -8,15 +8,14 @@ from dash.dependencies import Input, Output
 import plotly.graph_objects as go
 from sklearn.cluster import KMeans
 from sklearn.decomposition import PCA
-
+import time
 df = pd.read_csv("./pokemon_alopez247.csv")
 types = sorted(list(set(df['Type_1'])))
-
 current_type = None
 prev_clicked_basic_type = None
 prev_clicked_advanced_type = None
 prev_clicked_cluster_type = None
-
+import simplejson as json
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
@@ -41,7 +40,7 @@ app.layout = html.Div(children=[
 
     dcc.Graph(
         id='basic_graph',
-        clickData=None
+        # clickData=None
     ),
 
     dcc.Graph(
@@ -50,22 +49,48 @@ app.layout = html.Div(children=[
 
     dcc.Graph(
         id='clustering_graph'
-    )
+    ),
+    html.Div(id='intermediate-value', style={'display': 'none'})
 ])
-
 @app.callback(
-    Output('basic_graph', 'figure'),
+    Output('intermediate-value', 'children'), 
     [Input('basic_graph', 'clickData')])
-def update_basic_figure(clickData):
+def updateSelection(clickData):
+    print("intermediate")
     global prev_clicked_basic_type
-    local_colors = ['blue']*len(types)
-    if clickData:
+    current_clickData = None
+    if(clickData):
         clicked_type = clickData['points'][0]['label']
         if prev_clicked_basic_type != clicked_type:
             prev_clicked_basic_type = clicked_type
-            local_colors[types.index(clicked_type)] = 'green'
+            current_clickData = clickData
+            print("assign")
         else:
             prev_clicked_basic_type = None
+            print("clear")
+    inter_data = '{"selectedData": "None"}'
+    inter_obj = json.loads(inter_data)
+    inter_obj['selectedData'] = json.dumps(current_clickData)
+    res = json.dumps(inter_obj)
+    # print(inter_obj)
+    return res
+    
+        
+    
+@app.callback(
+    Output('basic_graph', 'figure'),
+    [Input('intermediate-value', 'children')])
+def update_basic_figure(selectedData):
+    print("a")
+    local_colors = ['blue']*len(types)
+    selectedData = json.loads(selectedData)
+    clickpoint = selectedData['selectedData']
+    # print(clickpoint)
+    if clickpoint != 'null':
+        clickpoint = json.loads(clickpoint)
+        # print(clickpoint)
+        clicked_type = clickpoint['points'][0]['label']
+        local_colors[types.index(clicked_type)] = 'green'
 
     counts = [len(df[df.Type_1 == type]) for type in types]
     fig = go.Figure(data=[go.Bar(
@@ -80,12 +105,17 @@ def update_basic_figure(clickData):
     Output('adv_graph', 'figure'),
     [Input('basic_graph', 'clickData')])
 def update_advanced_figure(clickData):
+    print("b")
     global prev_clicked_advanced_type
     if clickData:
+        #select type logic implementation
         clicked_type = clickData['points'][0]['label']
+
+
         if prev_clicked_advanced_type != clicked_type:
             prev_clicked_advanced_type = clicked_type
-            fig = px.treemap(df[df.Type_1 == clicked_type], path=['Type_1', 'Name'], values='Total',
+            fig = px.treemap(df[df.Type_1 == clicked_type], 
+                            path=['Type_1', 'Name'], values='Total',
                               hover_data=['Name'],
                               color_continuous_scale='RdBu')
         else:
@@ -107,56 +137,61 @@ def cluster(n_clusters, x):
 
 @app.callback(
     Output('clustering_graph', 'figure'),
-    [Input('basic_graph', 'clickData'), Input('kmeans_dropdown', 'value')])
-def update_clustering_figure(clickData, value):
+    [Input('intermediate-value', 'children'), Input('kmeans_dropdown', 'value')])
+def update_clustering_figure(selectedData, value):
+    print("c")
+    selectedData = json.loads(selectedData)
     kmeans_val = value
-    global prev_clicked_cluster_type
+    clickpoint = selectedData['selectedData']
+    print(clickpoint)
+    if clickpoint != 'null':
+        clickpoint = json.loads(clickpoint)
+        print("in here")
+        clicked_type = clickpoint['points'][0]['label']
+        # if prev_clicked_cluster_type != clicked_type:
+        #     prev_clicked_cluster_type = clicked_type
+        local_df = df[df.Type_1 == clicked_type]
+        stats = local_df.iloc[:, 5:11]
+        normalized_stats = stats
+        for i in stats.columns:
+            mini, maxi = stats[i].min(), stats[i].max()
+            normalized_stats[i] = (stats[i] - mini) / (maxi - mini)
+        pca = PCA(n_components=2).fit(normalized_stats)
+        stats2d = pca.transform(normalized_stats)
+        df_stats2d = pd.DataFrame(stats2d, index=local_df.index)
 
-    if clickData:
-        clicked_type = clickData['points'][0]['label']
-        if prev_clicked_cluster_type != clicked_type:
-            prev_clicked_cluster_type = clicked_type
-            local_df = df[df.Type_1 == clicked_type]
-            stats = local_df.iloc[:, 5:11]
-            normalized_stats = stats
-            for i in stats.columns:
-                mini, maxi = stats[i].min(), stats[i].max()
-                normalized_stats[i] = (stats[i] - mini) / (maxi - mini)
-            pca = PCA(n_components=2).fit(normalized_stats)
-            stats2d = pca.transform(normalized_stats)
-            df_stats2d = pd.DataFrame(stats2d, index=local_df.index)
-
-            model, z = cluster(kmeans_val, normalized_stats.iloc[:,0:5])
-            trace = go.Scatter(x=df_stats2d.iloc[:, 0],
-                             y=df_stats2d.iloc[:, 1],
-                             text=local_df['Name'],
-                             name='',
-                             mode='markers',
-                             marker=go.Marker(opacity=0.5,
-                                               color=z),
-                             showlegend=False
-         )
-        else:
-            prev_clicked_cluster_type = clicked_type
-            stats = df.iloc[:, 5:11]
-            normalized_stats = stats
-            for i in stats.columns:
-                mini, maxi = stats[i].min(), stats[i].max()
-                normalized_stats[i] = (stats[i] - mini) / (maxi - mini)
-            pca = PCA(n_components=2).fit(normalized_stats)
-            stats2d = pca.transform(normalized_stats)
-            model, z = cluster(kmeans_val, normalized_stats.iloc[:,0:5])
-            prev_clicked_cluster_type = None
-            trace = go.Scatter(x=stats2d[:, 0],
-                             y=stats2d[:, 1],
-                             text=df['Name'],
-                             name='',
-                             mode='markers',
-                             marker=go.Marker(opacity=0.5,
-                                               color=z),
-                             showlegend=False
-    )
+        model, z = cluster(kmeans_val, normalized_stats.iloc[:,0:5])
+        trace = go.Scatter(x=df_stats2d.iloc[:, 0],
+                            y=df_stats2d.iloc[:, 1],
+                            text=local_df['Name'],
+                            name='',
+                            mode='markers',
+                            marker=go.Marker(opacity=0.5,
+                                            color=z),
+                            showlegend=False
+        )
+    #     else:
+    #         prev_clicked_cluster_type = clicked_type
+    #         stats = df.iloc[:, 5:11]
+    #         normalized_stats = stats
+    #         for i in stats.columns:
+    #             mini, maxi = stats[i].min(), stats[i].max()
+    #             normalized_stats[i] = (stats[i] - mini) / (maxi - mini)
+    #         pca = PCA(n_components=2).fit(normalized_stats)
+    #         stats2d = pca.transform(normalized_stats)
+    #         model, z = cluster(kmeans_val, normalized_stats.iloc[:,0:5])
+    #         prev_clicked_cluster_type = None
+    #         trace = go.Scatter(x=stats2d[:, 0],
+    #                          y=stats2d[:, 1],
+    #                          text=df['Name'],
+    #                          name='',
+    #                          mode='markers',
+    #                          marker=go.Marker(opacity=0.5,
+    #                                            color=z),
+    #                          showlegend=False
+    # )
     else:
+        print("error")
         stats = df.iloc[:, 5:11]
         normalized_stats = stats
         for i in stats.columns:
