@@ -15,7 +15,7 @@ class ScatterVis {
         this.yAxis = null
         this.plot_function = null
 
-        this.color_by = "Dalc"
+        this.color_by = "sex"
 
         this.init()
     }
@@ -160,9 +160,11 @@ class ScatterVis {
     
     }
 
-    updateChart(data) {
+    update(data) {
         
-        // Update logic here
+        if (data != null)
+            this.data = this.transformData(data)
 
+        
     }
 }
