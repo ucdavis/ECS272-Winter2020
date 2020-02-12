@@ -1,5 +1,6 @@
 var data = null
 var example_vis = null
+var alluvial_vis = null
 
 // This is the entry point of the app
 d3.csv('../dataset/student-mat.csv')
