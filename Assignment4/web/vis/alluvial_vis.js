@@ -104,7 +104,10 @@ class AlluvialVis {
             .data(this.graph.links)
             .enter().append('path')
             .attr('class', 'link')
-            .attr('d', )
+            .attr('d', d3.sankeyLinkHorizontal())
+            .attr('stroke-width', 10)
+            //.attr("stroke-width", function(d) { return Math.max(1, d.dy); })
+            .attr('stroke', "#010000")
 
         // add in the links
         // var link = svg.append("g").selectAll(".link")
