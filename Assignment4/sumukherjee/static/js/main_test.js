@@ -26,7 +26,20 @@ window.onload = function() { // calls this on loading index.html
       //   var scoregroup = ['1','2','3','4','5'];
       // }
 
-      var scoregroup = ['1.0','2.0','3.0','4.0','5.0'];
+      var scoregroup0 = ['1.0','2.0','3.0','4.0','5.0'];
+      var scoregroup1 = d3.keys(data[0]);
+      
+      var toberemoved = ["cluster","question"];
+
+
+      function removeFromArray(original, remove) {
+          return original.filter(value => !remove.includes(value));
+      }
+
+      var scoregroup = removeFromArray(scoregroup1, toberemoved);
+
+    
+      console.log(scoregroup)
       
       var questions = ['Movies','History','Psychology','Internet'];
       var padding=40;
@@ -93,7 +106,7 @@ window.onload = function() { // calls this on loading index.html
                     .range([ "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"])
                 
                   // Show the bars
-                  svg.append("g")
+        svg.append("g")
                     .selectAll("g")
                     // Enter in data = loop group per group
                     .data(selecteddata)
@@ -102,10 +115,7 @@ window.onload = function() { // calls this on loading index.html
                       .attr("transform", function(d) { return "translate(" + x(d.question) + ",0)"; })
                     .selectAll("rect")
                     .data(function(d) {
-                      return scoregroup.map(function(key) { 
-                        if (key.length == 1){
-                          key = key + '.0'
-                        }
+                      return scoregroup.map(function(key) {
                         return {key: key, value: d[key]}; }); })
                     .enter().append("rect")
                       .attr("x", function(d) { return xSubgroup(d.key); })
