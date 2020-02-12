@@ -3,9 +3,13 @@ import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output
 import plotly.graph_objects as go
+import plotly.express as px
 from sklearn.cluster import KMeans
+from sklearn.decomposition import PCA
+import numpy as np
 import pandas
 import os
+import random
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
@@ -26,15 +30,35 @@ def get_stat_vector(df):
     stat_vectors = df_copy[['HP', 'Attack', 'Defense', 'Sp_Atk', 'Sp_Def', 'Speed']].copy()
     return stat_vectors.values
 
-def get_clusters(stat_vectors, k=5):
+def get_clusters(stat_vectors, k):
     dbscan = KMeans(n_clusters=k)
     clustering = dbscan.fit(stat_vectors)
     return clustering.labels_.tolist()
 
 def apply_labels(labels, df):
     df['Cluster'] = df.apply(lambda row: labels[row['Number'] - 1], axis=1)
-    print (df)
     return df
+
+# To reduce redunant computation, dataframe and PCA'd data is returned
+def label_clusters(df, k):
+    stat_vectors = get_stat_vector(df)
+    # PCA into 2-space
+    pca = PCA(n_components=2)
+    pc = pca.fit_transform(stat_vectors)
+    pc = np.concatenate((np.asarray(df), pc), 1)
+    labels = ['Number', 'Name', 'Type_1', 'Type_2', 'Total', 'HP', 'Attack', 'Defense', 'Sp_Atk',
+    'Sp_Def', 'Speed', 'Generation', 'isLegendary', 'Color', 'hasGender', 'Pr_Male', 'Egg_Group_1',
+    'Egg_Group_2', 'hasMegaEvolution', 'Height_m', 'Weight_kg', 'Catch_Rate', 'Body_Style', 'x', 'y']
+    new_df = pandas.DataFrame(data=pc, index=pc[0:,0], columns=labels)
+    clusters = get_clusters(stat_vectors, k)
+    return apply_labels(clusters, new_df)
+
+def create_cluster_scatterplot(df, k=5):
+    random.seed(21)
+    labelled_df = label_clusters(df, k)
+    fig = px.scatter(labelled_df, x='x', y='y', color='Cluster', hover_data=['Name'])
+    fig.update_layout(showlegend=False)
+    return fig
 
 def create_basic_bar_chart():
     subset = dataset.loc[dataset['Type_1'] == 'Grass']
@@ -102,7 +126,6 @@ def create_advanced_star_plot():
 
     return star_fig
 
-
 app.layout = html.Div(style={'padding': '1em', 'border-style': 'solid'}, children=[
     html.H2(
         'ECS 272 InfoVis Assignment 4',
@@ -117,7 +140,8 @@ app.layout = html.Div(style={'padding': '1em', 'border-style': 'solid'}, childre
     html.Div([
         # basic bar graph goes here; will show the stats of one pokemon
         dcc.Graph(id='basic-bar-chart', figure=create_basic_bar_chart()),
-        dcc.Graph(id='advanced-star-plot', figure=create_advanced_star_plot())
+        dcc.Graph(id='advanced-star-plot', figure=create_advanced_star_plot()),
+        dcc.Graph(id='cluster_scatterplot', figure=create_cluster_scatterplot(dataset, 4))
     ], style={'display': 'inline-block', 'width': '49%'})
 
 ])
@@ -137,7 +161,4 @@ app.layout = html.Div(style={'padding': '1em', 'border-style': 'solid'}, childre
 #    return create_time_series(dff, axis_type, title)
 
 if __name__ == '__main__':
-    sv = get_stat_vector(dataset)
-    cl = get_clusters(sv)
-    apply_labels(cl, dataset)
     app.run_server(debug=True)
