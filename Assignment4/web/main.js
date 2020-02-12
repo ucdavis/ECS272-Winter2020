@@ -1,3 +1,5 @@
+var eventbus = new EventBus()
+
 var data = null
 var example_vis = null
 
