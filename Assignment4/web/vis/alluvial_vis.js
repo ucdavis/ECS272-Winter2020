@@ -20,7 +20,7 @@ class AlluvialVis {
         var graph = { 'nodes': [], 'links': [] }
 
         var n_rows = data.length
-        var columns = ['sex', 'age', 'guardian', 'failures']
+        this.columns = ['sex', 'age', 'guardian', 'failures']
 
         var nodes = []
         var links = []
@@ -29,7 +29,7 @@ class AlluvialVis {
 
         var node_count = 0
 
-        for (const element of columns) {
+        for (const element of this.columns) {
             col_nodes[element] = []
             var unique_values = d3.set(data, d => d[element]).values()
 
@@ -47,17 +47,17 @@ class AlluvialVis {
         graph.nodes = nodes
 
 
-        for (var i = 0; i < columns.length - 1; i++) {
+        for (var i = 0; i < this.columns.length - 1; i++) {
 
             var items = []
-            for (const val1 of col_nodes[columns[i]]) {
+            for (const val1 of col_nodes[this.columns[i]]) {
                 items = data.filter(d => {
-                    return d[columns[i]] == val1.name
+                    return d[this.columns[i]] == val1.name
                 })
 
-                for (const val2 of col_nodes[columns[i+1]]) {
+                for (const val2 of col_nodes[this.columns[i+1]]) {
                     var val = items.filter(d => {
-                        return d[columns[i+1]] == val2.name
+                        return d[this.columns[i+1]] == val2.name
                     }).length
 
                     links.push({
@@ -74,20 +74,29 @@ class AlluvialVis {
     }
 
     init() {
-        // Clear the tag
+        // clear the tag
         d3.select(this.html_root + " > *").remove()
 
+        // create svg
         var svg = d3.select(this.html_root)
             .append('svg')
             .attr('width', this.width + this.margin.left + this.margin.right)
-            .attr('height', this.height + this.margin.top + this.margin.bottom)
+            .attr('height',  this.height + this.margin.top + this.margin.bottom)
+            .attr('margin-top', '250px')
 
-        var view = svg.append('g')
+        var g = svg.append('g')
             .attr('transform', 'translate(' + this.margin.left + ',' + this.margin.top + ')')
 
-        var sankey = d3.sankey().nodeWidth(15).nodePadding(10).extent([[1, 1], [959, 494]])
+        // create sankey skeleton
+        var sankey = d3.sankey()
+            .nodeWidth(15)
+            .nodePadding(10)
+            .extent([[1, 1], [this.width, this.height]])
+        
+        // create sankey layout
         sankey(this.graph)
 
+        // create rectangles for the nodes
         svg.selectAll('.node')
             .data(this.graph.nodes)
             .enter().append('rect')
@@ -98,25 +107,33 @@ class AlluvialVis {
             .attr("width", d => { return d.x1 - d.x0})
             .attr("height", d => { return d.y1 - d.y0 })
 
+        for(var i = 0; i < this.columns.length; i++)
+        {
+            var x_offset = i * (this.width / (this.columns.length - 1))
 
-        // Create a curved area for links
+            svg.append('text')
+            .text(this.columns[i])
+            .attr('transform', 'translate(' + x_offset + ',' + 20 + ')')
+            .attr('text-anchor', 'middle')
+        }
+
+        // create a curved area for links
         svg.selectAll('.link')
             .data(this.graph.links)
             .enter().append('path')
             .attr('class', 'link')
             .attr('d', d3.sankeyLinkHorizontal())
-            .attr('stroke-width', 10)
-            //.attr("stroke-width", function(d) { return Math.max(1, d.dy); })
+            .attr("stroke-width", function(d) { return Math.max(1, d.width); })
             .attr('stroke', "#010000")
-
-        // add in the links
-        // var link = svg.append("g").selectAll(".link")
+        // // create a curved area for links
+        // var link = g.append('g')
         //     .data(this.graph.links)
-        //     .enter().append("path")
-        //     .attr("class", "link")
-        //     .attr("d", path)
-        //     .style("stroke-width", function (d) { return Math.max(1, d.dy); })
-        //     .sort(function (a, b) { return b.dy - a.dy; });
+        //     .enter().append('path')
+        //     .attr('class', 'link')
+        //     .attr('d', d3.sankeyLinkHorizontal())
+        //     .attr("stroke-width", function(d) { return Math.max(1, d.width); })
+        //     .attr('stroke', "#010000")
+
 
         // // add the link titles
         // link.append("title")
