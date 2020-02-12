@@ -27,76 +27,48 @@ class AlluvialVis {
 
         var col_nodes = {}
 
-        // for (const element of columns) {
-        //     col_nodes[element] = d3.set(data, d => d[element]).values()
-        //     var unique_values = d3.set(data, d => d[element]).values()
+        var node_count = 0
 
-        //     nodes.push({
-        //         node: unique_values
-        //     })
-        // }
-        // graph.nodes = nodes
+        for (const element of columns) {
+            col_nodes[element] = []
+            var unique_values = d3.set(data, d => d[element]).values()
 
-
-        // for (var i = 0; i < columns.length - 1; i++) {
-
-        //     var items = []
-        //     for (const val1 of col_nodes[columns[i]]) {
-        //         items = data.filter(d => {
-        //             return d[columns[i]] == val1
-        //         })
-
-        //         for (const val2 of col_nodes[columns[i+1]]) {
-        //             var val = items.filter(d => {
-        //                 return d[columns[i+1]] == val2
-        //             }).length
-
-        //             links.push({
-        //                 source: val1,
-        //                 target: val2,
-        //                 value: val / n_rows
-        //             })
-        //         }
-        //     }
-        // }
-        // graph.links = links
-
-        data = {
-            "nodes": [
-                {
-                    "node": 0,
-                    "name": "Africa"
-                },
-                {
-                    "node": 1,
-                    "name": "America"
-                },
-                {
-                    "node": 2,
-                    "name": "Europe"
-                }
-            ],
-            "links": [
-                {
-                    "source": 0,
-                    "target": 2,
-                    "value": 1
-                },
-                {
-                    "source": 1,
-                    "target": 2,
-                    "value": 2
-                },
-                {
-                    "source": 0,
-                    "target": 1,
-                    "value": 1
-                }
-            ]
+            for(const val of unique_values) {
+                nodes.push({
+                    node: node_count,
+                    name: val
+                })
+                col_nodes[element].push({
+                    node: node_count++,
+                    name: val
+                })
+            }
         }
+        graph.nodes = nodes
 
-        graph.links = data.links
-        graph.nodes = data.nodes
+
+        for (var i = 0; i < columns.length - 1; i++) {
+
+            var items = []
+            for (const val1 of col_nodes[columns[i]]) {
+                items = data.filter(d => {
+                    return d[columns[i]] == val1.name
+                })
+
+                for (const val2 of col_nodes[columns[i+1]]) {
+                    var val = items.filter(d => {
+                        return d[columns[i+1]] == val2.name
+                    }).length
+
+                    links.push({
+                        source: val1.node,
+                        target: val2.node,
+                        value: val / n_rows
+                    })
+                }
+            }
+        }
+        graph.links = links
 
         return graph
     }
@@ -113,26 +85,35 @@ class AlluvialVis {
         var view = svg.append('g')
             .attr('transform', 'translate(' + this.margin.left + ',' + this.margin.top + ')')
 
-        var sankey = d3.sankey()
-            .nodeWidth(36)
-            .nodePadding(10)
-            .size([this.width, this.height])
+        var sankey = d3.sankey().nodeWidth(15).nodePadding(10).extent([[1, 1], [959, 494]])
+        sankey(this.graph)
 
-        var path = sankey.link()
+        svg.selectAll('.node')
+            .data(this.graph.nodes)
+            .enter().append('rect')
+            .attr('class', 'node')
+            .attr("fill", 'gray')
+            .attr("x", d => d.x0)
+            .attr("y", d => d.y0)
+            .attr("width", d => { return d.x1 - d.x0})
+            .attr("height", d => { return d.y1 - d.y0 })
 
-        sankey
-            .nodes(this.graph.nodes)
-            .links(this.graph.links)
-            .layout(32)
+
+        // Create a curved area for links
+        svg.selectAll('.link')
+            .data(this.graph.links)
+            .enter().append('path')
+            .attr('class', 'link')
+            .attr('d', )
 
         // add in the links
-        var link = svg.append("g").selectAll(".link")
-            .data(this.graph.links)
-            .enter().append("path")
-            .attr("class", "link")
-            .attr("d", path)
-            .style("stroke-width", function (d) { return Math.max(1, d.dy); })
-            .sort(function (a, b) { return b.dy - a.dy; });
+        // var link = svg.append("g").selectAll(".link")
+        //     .data(this.graph.links)
+        //     .enter().append("path")
+        //     .attr("class", "link")
+        //     .attr("d", path)
+        //     .style("stroke-width", function (d) { return Math.max(1, d.dy); })
+        //     .sort(function (a, b) { return b.dy - a.dy; });
 
         // // add the link titles
         // link.append("title")
@@ -142,13 +123,13 @@ class AlluvialVis {
         //     });
 
         // add in the nodes
-        var node = svg.append("g").selectAll(".node")
-            .data(this.graph.nodes)
-            .enter().append("g")
-            .attr("class", "node")
-            .attr("transform", function (d) {
-                return "translate(" + d.x + "," + d.y + ")";
-            })
+        // var node = svg.append("g").selectAll(".node")
+        //     .data(this.graph.nodes)
+        //     .enter().append("g")
+        //     .attr("class", "node")
+        //     .attr("transform", function (d) {
+        //         return "translate(" + d.x + "," + d.y + ")";
+        //    })
             // .call(d3.behavior.drag()
             //     .origin(function (d) { return d; })
             //     .on("dragstart", function () {
@@ -157,19 +138,20 @@ class AlluvialVis {
             //     .on("drag", dragmove));
 
         // add the rectangles for the nodes
-        node.append("rect")
-            .attr("height", function (d) { return d.dy; })
-            .attr("width", sankey.nodeWidth())
-            .style("fill", function (d) {
-                return d.color = color(d.name.replace(/ .*/, ""));
-            })
-            .style("stroke", function (d) {
-                return d3.rgb(d.color).darker(2);
-            })
-            .append("title")
-            .text(function (d) {
-                return d.name + "\n" + format(d.value);
-            });
+        // node.append("rect")
+        //     .attr("height", function (d) { return d.dy; })
+        //     .attr("width", sankey.nodeWidth())
+        //     .style("fill", function (d) {
+        //         return d3.rgb(d.color)
+        //         //return d.color = color(d.name.replace(/ .*/, ""));
+        //     })
+        //     .style("stroke", function (d) {
+        //         return d3.rgb(d.color).darker(2);
+        //     })
+        //     .append("title")
+            // .text(function (d) {
+            //     return d.name + "\n" + format(d.value);
+            // });
 
     }
 }
