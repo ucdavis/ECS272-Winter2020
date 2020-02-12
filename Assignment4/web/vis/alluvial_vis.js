@@ -82,9 +82,8 @@ class AlluvialVis {
             .append('svg')
             .attr('width', this.width + this.margin.left + this.margin.right)
             .attr('height',  this.height + this.margin.top + this.margin.bottom)
-            .attr('margin-top', '250px')
 
-        var g = svg.append('g')
+        var view = svg.append('g')
             .attr('transform', 'translate(' + this.margin.left + ',' + this.margin.top + ')')
 
         // create sankey skeleton
@@ -97,7 +96,7 @@ class AlluvialVis {
         sankey(this.graph)
 
         // create rectangles for the nodes
-        svg.selectAll('.node')
+        view.selectAll('.node')
             .data(this.graph.nodes)
             .enter().append('rect')
             .attr('class', 'node')
@@ -107,21 +106,31 @@ class AlluvialVis {
             .attr("width", d => { return d.x1 - d.x0})
             .attr("height", d => { return d.y1 - d.y0 })
 
+        view.selectAll('.node-label')
+            .data(this.graph.nodes)
+            .enter().append('text')
+            .attr('class', 'node-label')
+            .attr('text-anchor', 'end')
+            .attr("x", d => d.x0 - 15)
+            .attr("y", d => d.y0 + (d.y1 - d.y0) / 2)
+            .text(d => this.toUpperCase(d.name))
+
         for(var i = 0; i < this.columns.length; i++)
         {
-            var x_offset = i * (this.width / (this.columns.length - 1))
+            var x_offset = i * (this.width / (this.columns.length - 1)) + this.margin.left
+            var y_offset = this.margin.top - 15
 
             svg.append('text')
-            .text(this.columns[i])
-            .attr('transform', 'translate(' + x_offset + ',' + 20 + ')')
+            .text(this.toUpperCase(this.columns[i]))
+            .attr('transform', 'translate(' + x_offset + ',' + y_offset + ')')
             .attr('text-anchor', 'middle')
         }
 
         // create a curved area for links
-        svg.selectAll('.link')
+        view.selectAll('.link')
             .data(this.graph.links)
             .enter().append('path')
-            .attr('class', 'link')
+            .attr('class', 'link' + ' ')
             .attr('d', d3.sankeyLinkHorizontal())
             .attr("stroke-width", function(d) { return Math.max(1, d.width); })
             .attr('stroke', "#010000")
@@ -169,9 +178,13 @@ class AlluvialVis {
         //         return d3.rgb(d.color).darker(2);
         //     })
         //     .append("title")
-            // .text(function (d) {
-            //     return d.name + "\n" + format(d.value);
-            // });
+        //     .text(function (d) {
+        //         return d.name + "\n" + format(d.value);
+        //     });
 
+    }
+
+    toUpperCase(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1)
     }
 }

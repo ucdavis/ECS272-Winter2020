@@ -21,7 +21,7 @@ d3.csv('../dataset/student-mat.csv')
     var alluvial_vis_dimensions = {
       width: 600,
       height: 500,
-      margin: {left: 150, right: 20, top: 50, bottom: 270}
+      margin: {left: 150, right: 20, top: 70, bottom: 270}
     }
 
     //example_vis = new ExampleVis(data, '#example-vis-container', example_vis_dimensions)
