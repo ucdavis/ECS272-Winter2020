@@ -47,17 +47,19 @@ class ScatterVis {
         })
 
         const pca = new ML.PCA(pca_data, {
-            nCompNIPALS: 2
+            method: 'NIPALS',
+            nCompNIPALS: 2,
+            scale: true
         });
         const pca_predict = pca.predict(pca_data);
 
         return pca_predict.data.map((d, i) => {
             return {
                 row: data[i],
-                x: d[d.length - 2],
-                y: d[d.length - 1],
-                //x: d[0],
-                //y: d[1],
+                //x: d[d.length - 2],
+                //y: d[d.length - 1],
+                x: d[0],
+                y: d[1],
             }
         })
     }
