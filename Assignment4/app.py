@@ -23,12 +23,6 @@ app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 app.layout = html.Div(children=[
     html.H1(children='ECS 272 Assignment 4'),
 
-    html.Div(children='''
-        Choose the k value for k-means clustering.
-    '''),
-
-    
-
     dcc.Graph(
         id='basic_graph',
         # clickData=None
@@ -37,6 +31,11 @@ app.layout = html.Div(children=[
     dcc.Graph(
         id='adv_graph'
     ),
+
+    html.Div(children='''
+        Choose the k value for k-means clustering.
+    '''),
+
     dcc.Dropdown(
         id = 'kmeans_dropdown',
         options = [
@@ -47,16 +46,25 @@ app.layout = html.Div(children=[
         ],
         value = 2
     ),
+
     dcc.Graph(
         id='clustering_graph'
     ),
+
     html.Div(id='intermediate-value', style={'display': 'none'})
 ])
+
+counts = [len(df[df.Type_1 == type]) for type in types]
+type_df = {type:df[df.Type_1 == type] for type in types}
+adv_fig = fig = px.treemap(df, path=['Type_1', 'Name'], values='Total',
+                  hover_data=['Name'],
+                  color_continuous_scale='RdBu')
+
 @app.callback(
-    Output('intermediate-value', 'children'), 
+    Output('intermediate-value', 'children'),
     [Input('basic_graph', 'clickData')])
 def updateSelection(clickData):
-    print("intermediate")
+    # print("intermediate")
     global prev_clicked_basic_type
     current_clickData = None
     if(clickData):
@@ -64,35 +72,34 @@ def updateSelection(clickData):
         if prev_clicked_basic_type != clicked_type:
             prev_clicked_basic_type = clicked_type
             current_clickData = clickData
-            print("assign")
+            # print("assign")
         else:
             prev_clicked_basic_type = None
-            print("clear")
+            # print("clear")
     inter_data = '{"selectedData": "None"}'
     inter_obj = json.loads(inter_data)
     inter_obj['selectedData'] = json.dumps(current_clickData)
     res = json.dumps(inter_obj)
     # print(inter_obj)
     return res
-    
-        
-    
+
+
+
 @app.callback(
     Output('basic_graph', 'figure'),
     [Input('intermediate-value', 'children')])
 def update_basic_figure(selectedData):
-    print("a")
+    # print("a")
     local_colors = ['blue']*len(types)
     selectedData = json.loads(selectedData)
     clickpoint = selectedData['selectedData']
-    # print(clickpoint)
+
     if clickpoint != 'null':
         clickpoint = json.loads(clickpoint)
-        # print(clickpoint)
+
         clicked_type = clickpoint['points'][0]['label']
         local_colors[types.index(clicked_type)] = 'green'
 
-    counts = [len(df[df.Type_1 == type]) for type in types]
     fig = go.Figure(data=[go.Bar(
         x = types,
         y = counts,
@@ -105,28 +112,22 @@ def update_basic_figure(selectedData):
     Output('adv_graph', 'figure'),
     [Input('basic_graph', 'clickData')])
 def update_advanced_figure(clickData):
-    print("b")
+    # print("b")
     global prev_clicked_advanced_type
     if clickData:
         #select type logic implementation
         clicked_type = clickData['points'][0]['label']
-
-
         if prev_clicked_advanced_type != clicked_type:
             prev_clicked_advanced_type = clicked_type
-            fig = px.treemap(df[df.Type_1 == clicked_type], 
+            fig = px.treemap(type_df[clicked_type],
                             path=['Type_1', 'Name'], values='Total',
                               hover_data=['Name'],
                               color_continuous_scale='RdBu')
         else:
-            fig = px.treemap(df, path=['Type_1', 'Name'], values='Total',
-                              hover_data=['Name'],
-                              color_continuous_scale='RdBu')
             prev_clicked_advanced_type = None
+            return adv_fig
     else:
-        fig = px.treemap(df, path=['Type_1', 'Name'], values='Total',
-                          hover_data=['Name'],
-                          color_continuous_scale='RdBu')
+        return adv_fig
     return fig
 
 def cluster(n_clusters, x):
@@ -139,14 +140,14 @@ def cluster(n_clusters, x):
     Output('clustering_graph', 'figure'),
     [Input('intermediate-value', 'children'), Input('kmeans_dropdown', 'value')])
 def update_clustering_figure(selectedData, value):
-    print("c")
+    # print("c")
     selectedData = json.loads(selectedData)
     kmeans_val = value
     clickpoint = selectedData['selectedData']
-    print(clickpoint)
+    # print(clickpoint)
     if clickpoint != 'null':
         clickpoint = json.loads(clickpoint)
-        print("in here")
+        # print("in here")
         clicked_type = clickpoint['points'][0]['label']
         # if prev_clicked_cluster_type != clicked_type:
         #     prev_clicked_cluster_type = clicked_type
@@ -170,28 +171,8 @@ def update_clustering_figure(selectedData, value):
                                             color=z),
                             showlegend=False
         )
-    #     else:
-    #         prev_clicked_cluster_type = clicked_type
-    #         stats = df.iloc[:, 5:11]
-    #         normalized_stats = stats
-    #         for i in stats.columns:
-    #             mini, maxi = stats[i].min(), stats[i].max()
-    #             normalized_stats[i] = (stats[i] - mini) / (maxi - mini)
-    #         pca = PCA(n_components=2).fit(normalized_stats)
-    #         stats2d = pca.transform(normalized_stats)
-    #         model, z = cluster(kmeans_val, normalized_stats.iloc[:,0:5])
-    #         prev_clicked_cluster_type = None
-    #         trace = go.Scatter(x=stats2d[:, 0],
-    #                          y=stats2d[:, 1],
-    #                          text=df['Name'],
-    #                          name='',
-    #                          mode='markers',
-    #                          marker=go.Marker(opacity=0.5,
-    #                                            color=z),
-    #                          showlegend=False
-    # )
     else:
-        print("error")
+        # print("error")
         stats = df.iloc[:, 5:11]
         normalized_stats = stats
         for i in stats.columns:
