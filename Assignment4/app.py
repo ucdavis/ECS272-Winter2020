@@ -20,33 +20,6 @@ from cluster_comp import df, MAX_CLUSTERS
 #globals
 CURRENT_CLUSTER_NO = 3
 
-
-def dummy_cluster_norm(data, numCluster):
-    
-    data_num = data.select_dtypes(['number'])
-
-    # instantiate kmeans object and perform clustering
-    kmeans = KMeans(n_clusters = numCluster)
-    kmeans.fit(data_num)
-    
-    # dimensionality reduction via PCA -> 50
-    reduce_dim_data_df = pd.DataFrame(PCA(n_components=50).fit_transform(data_num))
-
-    # dimensionality reduction via TSNE -> 3
-    tsne_3d_df = pd.DataFrame(TSNE(n_components=3, perplexity = 50).fit_transform(reduce_dim_data_df))
-    
-    # append data with column of cluster labels and 3d coordinates
-    # coordinates are normalized to fall in the range [0,1]
-    data['clusterNo'] = kmeans.labels_.astype(str)
-    data['xcoord'] = tsne_3d_df[0].apply(lambda x : x / tsne_3d_df[0].max())
-    data['ycoord'] = tsne_3d_df[1].apply(lambda x : x / tsne_3d_df[1].max())
-    data['zcoord'] = tsne_3d_df[2].apply(lambda x : x / tsne_3d_df[2].max())
-    
-    global CURRENT_CLUSTER_NO
-    CURRENT_CLUSTER_NO = numCluster
-
-    return data
-
 #load the csv, if first time
 #moved to data_comp
 
