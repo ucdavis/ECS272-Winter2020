@@ -83,6 +83,7 @@ class AlluvialVis {
     }
 
     init() {
+        var self = this
         this.graph = this.transformData(this.data)
 
         // clear the tag
@@ -156,7 +157,6 @@ class AlluvialVis {
             .attr('d', d3.sankeyLinkHorizontal())
             .attr("stroke-width", d => { return Math.max(1, d.width); })
             .attr('stroke', d => {
-
                 return colors[this.index_cat_ref[d.source.node] + '_' + d.source.name] || '#000'
             })
 
@@ -172,7 +172,9 @@ class AlluvialVis {
         .attr("height", d => { return d.y1 - d.y0 })
         .on('mouseover', this.handleMouseOver)
         .on('mouseout', this.handleMouseOut)
-        .on('click', this.handleMouseClick)
+        .on('click', function(d) {
+            self.handleMouseClick.call(this, d, self)
+        })
 
         // create labels next to teh nodes
         view.selectAll('.node-label')
@@ -183,82 +185,51 @@ class AlluvialVis {
             .attr("x", d => d.x0 - 15)
             .attr("y", d => d.y0 + (d.y1 - d.y0) / 2)
             .text(d => this.toUpperCase(d.name))
-
-        // // add the link titles
-        // link.append("title")
-        //     .text(function (d) {
-        //         return d.source.name + " → " +
-        //             d.target.name + "\n" + format(d.value);
-        //     });
-
-        // add in the nodes
-        // var node = svg.append("g").selectAll(".node")
-        //     .data(this.graph.nodes)
-        //     .enter().append("g")
-        //     .attr("class", "node")
-        //     .attr("transform", function (d) {
-        //         return "translate(" + d.x + "," + d.y + ")";
-        //    })
-        // .call(d3.behavior.drag()
-        //     .origin(function (d) { return d; })
-        //     .on("dragstart", function () {
-        //         this.parentNode.appendChild(this);
-        //     })
-        //     .on("drag", dragmove));
-
-        // add the rectangles for the nodes
-        // node.append("rect")
-        //     .attr("height", function (d) { return d.dy; })
-        //     .attr("width", sankey.nodeWidth())
-        //     .style("fill", function (d) {
-        //         return d3.rgb(d.color)
-        //         //return d.color = color(d.name.replace(/ .*/, ""));
-        //     })
-        //     .style("stroke", function (d) {
-        //         return d3.rgb(d.color).darker(2);
-        //     })
-        //     .append("title")
-        //     .text(function (d) {
-        //         return d.name + "\n" + format(d.value);
-        //     });
-
     }
 
-    handleMouseOver(d, i) {
-        d3.select(this)
-            .attr('fill', '#000')
-
+    handleMouseOver(d) {
         d3.selectAll('.source-' + d.layer + '-' + d.name)
-            .style('stroke-opacity', 0.9)
+            .classed('hovered', true)
 
         d3.selectAll('.target-' + (d.layer - 1) + '-' + d.name)
-            .style('stroke-opacity', 0.9)
+            .classed('hovered', true)
     }
 
-    handleMouseOut(d, i) {
-        d3.select(this)
-            .attr('fill', 'gray')
-
+    handleMouseOut(d) {
         d3.selectAll('.source-' + d.layer + '-' + d.name)
-            .style('stroke-opacity', 0.4)
+            .classed('hovered', false)
 
         d3.selectAll('.target-' + (d.layer - 1) + '-' + d.name)
-            .style('stroke-opacity', 0.4)
+            .classed('hovered', false)
     }
 
-    handleMouseClick(d) {
+    handleMouseClick(d, self) {
         var state = !d3.select(this).classed("selected")
         d3.selectAll('.node')
             .classed("selected", false)
+        d3.selectAll('.link')
+            .classed('selected', false)
 
         d3.select(this)
             .classed("selected", state)
 
         d3.selectAll('.source-' + d.layer + '-' + d.name)
-            .style('stroke-opacity', 0.9)
+            .classed('selected', state)
 
         d3.selectAll('.target-' + (d.layer - 1) + '-' + d.name)
-            .style('stroke-opacity', 0.9)
+            .classed('selected', state)
+
+        self.sendFilteredData(d, state)
+    }
+
+    sendFilteredData(d, selected){
+        if (selected) {
+            var column = this.index_cat_ref[d.node]
+
+            const filtered_data = this.data.filter(j => {
+                return j[column] == d.name
+            })
+        }
     }
 
     toUpperCase(string) {
