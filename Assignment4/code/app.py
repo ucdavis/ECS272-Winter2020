@@ -58,6 +58,7 @@ def create_cluster_scatterplot(df, k=5):
     labelled_df = label_clusters(df, k)
     fig = px.scatter(labelled_df, x='x', y='y', color='Cluster', hover_data=['Name'])
     fig.update(layout_coloraxis_showscale=False)
+    fig.update_layout(margin=dict(l=20, r=20, t=10, b=20))
     return fig
 
 def create_basic_bar_chart(pokemon_name):
@@ -104,18 +105,15 @@ def create_basic_bar_chart(pokemon_name):
     bar_fig.update_layout(title={'text': bar_chart_title, 'y': 0.9, 'x': 0.5, 'xanchor': 'center', 'yanchor': 'top'},
                           xaxis={'showticklabels': False, 'title': x_title},
                           yaxis={'title': 'Total Stats'}, legend_itemclick=False, legend_itemdoubleclick=False,
-                          legend=dict(x=-.1, y=1.2))
+                          legend=dict(x=-.1, y=1.2), margin=dict(l=10, r=20, t=5, b=20))
     return bar_fig
 
 def create_advanced_star_plot(pokemon_name):
     data_sample = dataset.loc[dataset['Name'] == pokemon_name]
-    print(data_sample)
-    print(data_sample['HP'].values[0])
 
     stats = ['HP', 'Attack', 'Defense', 'SP Attack', 'SP Defense', 'Speed']
     stat_vals = [data_sample['HP'].values[0], data_sample['Attack'].values[0], data_sample['Sp_Atk'].values[0],
                  data_sample['Sp_Def'].values[0], data_sample['Speed'].values[0]]
-    print(stat_vals)
 
     star_fig = go.Figure(data=go.Scatterpolar(r=stat_vals, theta=stats, fill='toself', name='Pokemon Stats'))
 
@@ -128,7 +126,8 @@ def create_advanced_star_plot(pokemon_name):
             ),
         ),
         showlegend=False,
-        title={'text': star_plot_title, 'y': 0.9, 'x': 0.5, 'xanchor': 'center', 'yanchor': 'top'}
+        title={'text': star_plot_title, 'y': 0.95, 'x': 0.5, 'xanchor': 'center', 'yanchor': 'top'},
+        margin=dict(l=55, r=55, t=55, b=55)
     )
 
     return star_fig
@@ -143,12 +142,24 @@ app.layout = html.Div(style={'padding': '1em', 'border-style': 'solid'}, childre
 
     html.Div([
         html.Div([
-            # PCA graph goes here
+            html.H4(
+                'Overview',
+                style={
+                    'textAlign': 'center',
+                }
+            ),
             dcc.Graph(style={'height': '110vh'}, id='cluster_scatterplot',
                       figure=create_cluster_scatterplot(dataset, 4),
                       hoverData={'points': [{'customdata': ['Bulbasaur']}]})
         ], style={'width': '50%', 'float': 'left'}),
+
         html.Div([
+            html.H4(
+                'Detailed View',
+                style={
+                    'textAlign': 'center',
+                }
+            ),
             # basic bar graph goes here; will show the stats of one pokemon
             dcc.Graph(style={'height': '55vh'}, id='basic-bar-chart'),
             dcc.Graph(style={'height': '55vh'}, id='advanced-star-plot'),
