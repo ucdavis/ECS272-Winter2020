@@ -123,7 +123,8 @@ def create_advanced_star_plot(pokemon_name):
     star_fig.update_layout(
         polar=dict(
             radialaxis=dict(
-                visible=True
+                visible=True,
+                range=[0, 255]
             ),
         ),
         showlegend=False,
