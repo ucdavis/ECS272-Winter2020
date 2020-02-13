@@ -14,6 +14,11 @@ import plotly.graph_objects as go
 
 import pickle
 
+#globals
+CURRENT_CLUSTER_NO = 3
+MAX_CLUSTERS = 7
+
+
 def dummy_cluster_norm(data, numCluster):
     
     data_num = data.select_dtypes(['number'])
@@ -26,7 +31,7 @@ def dummy_cluster_norm(data, numCluster):
     reduce_dim_data_df = pd.DataFrame(PCA(n_components=50).fit_transform(data_num))
 
     # dimensionality reduction via TSNE -> 3
-    tsne_3d_df = pd.DataFrame(TSNE(n_components=3).fit_transform(reduce_dim_data_df))
+    tsne_3d_df = pd.DataFrame(TSNE(n_components=3, perplexity = 50).fit_transform(reduce_dim_data_df))
     
     # append data with column of cluster labels and 3d coordinates
     # coordinates are normalized to fall in the range [0,1]
@@ -39,8 +44,6 @@ def dummy_cluster_norm(data, numCluster):
     CURRENT_CLUSTER_NO = numCluster
 
     return data
-
-CURRENT_CLUSTER_NO = 3
 
 try:
     with open("__temp", 'rb') as f:
@@ -71,6 +74,13 @@ question_categories = {
     "Demographics" : list(df.columns[140:150])
 }
 
+#construct cluster options
+option_list = []
+for val in range(1,MAX_CLUSTERS):
+    val += 1
+    option_list.append({'label' : str(val)+ ' Clusters', 'value' : val})
+
+#begin visualization
 def render_visualization():
     external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
     app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
@@ -86,13 +96,7 @@ def render_visualization():
 
             dcc.Dropdown(
                 id = 'cluster-dropdown',
-                options=[
-                    {'label' : '2 Clusters', 'value' : 2},
-                    {'label' : '3 Clusters', 'value' : 3},
-                    {'label' : '4 Clusters', 'value' : 4},
-                    {'label' : '5 Clusters', 'value' : 5},
-                    {'label' : '6 Clusters', 'value' : 6},
-                    {'label' : '7 Clusters', 'value' : 7}],
+                options=option_list,
                 value=3,
                 style={'width': '53%'}
             )
@@ -130,9 +134,11 @@ def render_visualization():
     def update_figure(clusterNo):
         global df
 
+        # if different cluster chosen, make new clusters
         if clusterNo != CURRENT_CLUSTER_NO:
             df = dummy_cluster_norm(df, clusterNo)
 
+        # 3d scatter plot of new data after df
         return px.scatter_3d(df, x='xcoord', y='ycoord', z='zcoord', color='clusterNo')
 
     @app.callback(
