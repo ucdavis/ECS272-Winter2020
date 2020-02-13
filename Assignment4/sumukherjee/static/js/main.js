@@ -314,7 +314,7 @@ window.onload = function() { // calls this on loading index.html
               }
             })
             .on("click", function(d) {
-              
+              console.log("yay");
               if (select == false) {
                 selected_cluster_num = d.cluster;
                 console.log(selected_cluster_num);

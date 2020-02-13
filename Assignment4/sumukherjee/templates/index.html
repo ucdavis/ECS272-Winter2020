@@ -18,13 +18,37 @@
     <script src="https://unpkg.com/d3-3d/build/d3-3d.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-sankey/0.4.2/d3-sankey.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+    <style>
+                /* sankey */
+                .node rect {
+            fill-opacity: .9;
+            shape-rendering: crispEdges;
+        }
+
+        .node text {
+            font: 10px sans-serif;
+            pointer-events: none;
+            text-shadow: 0 1px 0 #fff;
+        }
+
+        .link {
+            fill: none;
+            stroke: rgb(212, 144, 41);
+            stroke-opacity: .4;
+        }
+
+        .link:hover {
+            stroke-opacity: .5;
+        }
+    </style>
 </head>
 
 <body>
     <div class="container-fluid">
         <div class="jumbotron">Assignment 4</div>
         <div class="row">
-            <div class="col-md-2" style="margin-top: 1%; padding-left:5%">Choose Number of Clusters
+            <div class="col-md-2" style="margin-top: 1%; padding-left:4%">Choose Number of Clusters
                 <select onchange="changeCluster()" class="custom-select custom-select-lg" o id="widget"
                     style="margin-top: 2%;">
                     <option value="2">2</option>
@@ -35,6 +59,11 @@
             </div>
             <div class="col-md-6" id="scatter"></div>
             <div class="col-md-3" id="bar"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-12" >
+                <svg id="sanky"></svg>
+            </div>
         </div>
     </div>
 </body>

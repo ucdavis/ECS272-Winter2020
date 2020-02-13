@@ -12,6 +12,7 @@ window.onload = function() { // calls this on loading index.html
       console.log(clusterData);
       renderScatter(origData);
       renderBar(clusterData,selected_cluster_num);
+      renderSanky(origData, -1);
       
     });
   }
@@ -66,8 +67,8 @@ window.onload = function() { // calls this on loading index.html
 
       var margin = {top: 50, right: 160, bottom: 50, left: 30};
 
-      var width = 1000 - margin.left - margin.right,
-         height = 500 - margin.top - margin.bottom;
+      var width = 600 - margin.left - margin.right,
+         height = 600 - margin.top - margin.bottom;
 
       var svg = d3.select("#bar")
                   .append("svg")
@@ -81,15 +82,15 @@ window.onload = function() { // calls this on loading index.html
                   // Add X axis
       var x = d3.scaleBand()
                       .domain(questions)
-                      .range([10, width])
-                      .padding([0.2])
+                      .range([0, width])
+                      .padding([0.1])
                   svg.append("g")
                     .attr("transform", "translate(0," + height + ")")
                     .call(d3.axisBottom(x).tickSize(0));
                 
                   // Add Y axis
       var y = d3.scaleLinear()
-                    .domain([0, 700])
+                    .domain([0, 550])
                     .range([ height, 0 ]);
                   svg.append("g")
                     .call(d3.axisLeft(y));
@@ -255,7 +256,7 @@ window.onload = function() { // calls this on loading index.html
               }
             })
             .on("click", function(d) {
-              
+              console.log("yay");
               if (select == false) {
                 selected_cluster_num = d.cluster;
                 console.log(selected_cluster_num);
@@ -270,7 +271,8 @@ window.onload = function() { // calls this on loading index.html
                 d3.select("#bar").selectAll("*").remove();
                 renderBar(clusterData,selected_cluster_num);
               }
-              
+              d3.select("#sanky").selectAll("*").remove();
+              renderSanky(origData, selected_cluster_num);
 
               //TODO: add barplot interaction code
               //here you have selected cluster so add update function from here
@@ -323,4 +325,200 @@ function changeCluster() {
    renderScatter(origData);
    renderBar(clusterData,-1);
  });
+}
+
+function renderSanky(origData, selectedCluster) {
+  getSankyDat(origData, selectedCluster).then(graph => {
+    var units = "Widgets";
+    //console.log(graph);
+
+    var smargin = { top: 10, right: 10, bottom: 10, left: 10 },
+      swidth = 700 - smargin.left - smargin.right,
+      sheight = 1000 - smargin.top - smargin.bottom;
+    // if (selectedField == "Time") {
+    //   sheight = 1000 - smargin.top - smargin.bottom;
+    // } else {
+    //   sheight = 480 - smargin.top - smargin.bottom;
+    // }
+
+    var formatNumber = d3.format(",.0f"),    // zero decimal places
+    format = function (d) { return formatNumber(d) + " " + units; },
+    color = d3.schemeCategory20;
+
+    var color = d3.scaleLinear().domain([1, 50])
+      .interpolate(d3.interpolateHcl)
+      .range([d3.rgb("#007AFF"), d3.rgb('#FFF500')]);
+    var svg = d3.select("#sanky")
+      .attr("width", swidth + smargin.left + smargin.right)
+      .attr("height", sheight + smargin.top + smargin.bottom)
+      .append("g")
+      .attr("transform",
+        "translate(" + smargin.left + "," + smargin.top + ")");
+    
+    var sankey = d3.sankey()
+      .nodeWidth(36)
+      .nodePadding(40)
+      .size([swidth, sheight]);
+
+      var path = sankey.link();
+    sankey
+      .nodes(graph.nodes)
+      .links(graph.links)
+      .layout(32);
+
+    var link = svg.append("g").selectAll(".link")
+      .data(graph.links)
+      .enter().append("path")
+      .attr("class", "link")
+      .attr("d", path)
+      .style("stroke-width", function (d) { return Math.max(1, d.dy); })
+      .sort(function (a, b) { return b.dy - a.dy; });
+
+      link.append("title")
+      .text(function (d) {
+        return d.source.name + " → " +
+          d.target.name + "\n" + format(d.value);
+      });
+
+      
+    var node = svg.append("g").selectAll(".node")
+      .data(graph.nodes)
+      .enter().append("g")
+      .attr("class", "node")
+      .attr("transform", function (d) {
+        return "translate(" + d.x + "," + d.y + ")";
+      })
+      // .call(d3.behavior.drag()
+      //   .origin(function (d) { return d; })
+      //   .on("dragstart", function () {
+      //     this.parentNode.appendChild(this);
+      //   })
+      //   .on("drag", dragmove));
+
+    node.append("rect")
+      .attr("height", function (d) { return d.dy; })
+      .attr("width", sankey.nodeWidth())
+      .style("fill", function (d) {
+        return d.color = color(d.name);
+      })
+      .style("stroke", function (d) {
+        return d3.rgb(d.color).darker(2);
+      })
+      .append("title")
+      .text(function (d) {
+        return d.name + "\n" + format(d.value);
+      });
+
+    node.append("text")
+      .attr("x", -6)
+      .attr("y", function (d) { return d.dy / 2; })
+      .attr("dy", ".35em")
+      .attr("text-anchor", "end")
+      .attr("transform", null)
+      .text(function (d) {
+        if (Number.isInteger(d.name)) {
+          return d.name + ":00";
+        }
+        return d.name;
+      })
+      .filter(function (d) { return d.x < swidth / 2; })
+      .attr("x", 6 + sankey.nodeWidth())
+      .attr("text-anchor", "start");
+
+    function dragmove(d) {
+      d3.select(this).attr("transform",
+        "translate(" + (
+          d.x = Math.max(0, Math.min(width - d.dx, d3.event.x))
+        )
+        + "," + (
+          d.y = Math.max(0, Math.min(height - d.dy, d3.event.y))
+        ) + ")");
+      sankey.relayout();
+      link.attr("d", path);
+    }
+
+  });
+}
+
+async function getSankyDat(origData, selectedCluster) {
+  sankyFilterDat = origData;
+  if (selected_cluster_num >= 0) {
+    sankyFilterDat = sankyFilter(origData, selectedCluster);
+  }
+  console.log("dat");
+  console.log(sankyFilterDat);
+  var graph = { "nodes": [], "links": [] };
+  let nodeVal = 0;
+  let genderGraph = {};
+  let firstNode = { "node": nodeVal++, "name": selectedCluster > 0 ? selectedCluster : "All Cluster" };
+  graph.nodes.push(firstNode);
+  for (let loopVar = 0; loopVar < sankyFilterDat.length; loopVar++) {
+    if (genderGraph[sankyFilterDat[loopVar].Gender] == undefined) {
+      genderGraph[sankyFilterDat[loopVar].Gender] = {};
+      genderGraph[sankyFilterDat[loopVar].Gender].count = 1;
+      genderGraph[sankyFilterDat[loopVar].Gender].ages = [];
+      let ageKey = sankyFilterDat[loopVar].Age;
+      genderGraph[sankyFilterDat[loopVar].Gender].ages.push({key: ageKey, count: 1});
+    } else {
+      genderGraph[sankyFilterDat[loopVar].Gender].count = genderGraph[sankyFilterDat[loopVar].Gender].count + 1;
+      let ageKey = sankyFilterDat[loopVar].Age;
+      let agerec = null;
+      for (let inloop = 0; inloop < genderGraph[sankyFilterDat[loopVar].Gender].ages.length; inloop++) {
+        if (genderGraph[sankyFilterDat[loopVar].Gender].ages[inloop].key == ageKey) {
+          agerec = genderGraph[sankyFilterDat[loopVar].Gender].ages[inloop];
+          break;
+        }
+      }
+      if (agerec == undefined) {
+        genderGraph[sankyFilterDat[loopVar].Gender].ages.push({key: ageKey, count: 1});
+      } else {
+        agerec.count = agerec.count + 1;
+      }
+    }
+  }
+
+  console.log(genderGraph);
+  let ageNodes = {};
+  for (let genKey in genderGraph) {
+    let genNode = {"node": nodeVal++, "name": genKey};
+    let genNodeVal = nodeVal - 1;
+    graph.nodes.push(genNode);
+    let newlink = {};
+    newlink.source = firstNode.node;
+    newlink.target = genNodeVal;
+    newlink.value = genderGraph[genKey].count;
+    graph.links.push(newlink);
+    for (let inloop = 0; inloop < genderGraph[genKey].ages.length; inloop++) {
+      let ageNodeVal = -1;
+      if (ageNodes[genderGraph[genKey].ages[inloop].key] == undefined) {
+        let ageNode = {"node": nodeVal++, "name": genderGraph[genKey].ages[inloop].key};
+        ageNodeVal = nodeVal - 1;
+        ageNodes[genderGraph[genKey].ages[inloop].key] = ageNode;
+        graph.nodes.push(ageNode);
+        let ageLink = {};
+        ageLink.source = genNodeVal;
+        ageLink.target = ageNodeVal;
+        ageLink.value = genderGraph[genKey].ages[inloop].count;
+        graph.links.push(ageLink);
+      } else {
+        let ageLink = {};
+        ageLink.source = genNodeVal;
+        ageLink.target = ageNodes[genderGraph[genKey].ages[inloop].key].node;
+        ageLink.value = genderGraph[genKey].ages[inloop].count;
+        graph.links.push(ageLink);
+      }
+    }
+  }
+  console.log(graph);
+  return graph;
+}
+
+function sankyFilter(origData, selectedCluster) {
+  newSankyFilterDat = [];
+  for (let loopVar = 0; loopVar < origData.length; loopVar++) {
+    if (origData[loopVar].cluster == selectedCluster) {
+      newSankyFilterDat.push(origData[loopVar]);
+    }
+  }
+  return newSankyFilterDat;
 }
