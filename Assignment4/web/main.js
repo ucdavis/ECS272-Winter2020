@@ -30,7 +30,6 @@ d3.csv('../dataset/student-mat.csv')
   })
 
 function ThirdDropdownChange(value){
-  var history = setting.key
   setting.key = value
   setting.x_axis = value.charAt(0).toUpperCase() + value.slice(1)
   //If we are gonna update a histogram
@@ -45,12 +44,12 @@ function ThirdDropdownChange(value){
       setting.x_domain.max = 80
     }
 
-    hist_vis.update(data, highlight_data, setting, true)
+    hist_vis.update(data, null, setting, true)
 
   } else {
   //else, we are gonna update a barchart
 
-    hist_vis.update(data, highlight_data, setting, false)
+    hist_vis.update(data, null, setting, false)
 
   }
 

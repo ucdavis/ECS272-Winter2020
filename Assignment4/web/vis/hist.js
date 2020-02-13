@@ -1,5 +1,6 @@
 class Histogram {
     constructor(data, h_data, html_root, dimensions, setting){
+
         eventbus.on('scatter_vis_changed', (filtered_data, ...args) => {
           this.updateLasso(args[0], filtered_data)
       })
@@ -183,8 +184,7 @@ class Histogram {
     }
 
     updateLasso(data, h_data){
-      //this.data = this.transformData_Hist(data, this.setting.key)
-      //this.h_data = this.transformData_Hist(h_data, this.setting.key)
+
       console.log(this.data)
       console.log(this.h_data)
       this.update(data, h_data, this.setting, this.isHist)
@@ -216,7 +216,8 @@ class Histogram {
 
       // update the rectangles
       var base_bars = d3.select(this.html_root).select("g").selectAll(".base").data(this.data)
-      var highlight_bars = d3.select(this.html_root).select("g").selectAll(".highlight").data(this.h_data)
+      var highlight_bars = null
+      if(this.h_data) highlight_bars = d3.select(this.html_root).select("g").selectAll(".highlight").data(this.h_data)
 
       var tooltip = d3.select(".vis-container")
           .append("div")
@@ -231,10 +232,10 @@ class Histogram {
 
       if(isHist){
         this.updateBars_Hist(base_bars, "lightgray", "base")
-        this.updateBars_Hist(highlight_bars, "#69b3a2", "highlight")
+        if (highlight_bars) this.updateBars_Hist(highlight_bars, "#69b3a2", "highlight")
       } else {
         this.updateBars_Bar(base_bars, "lightgray", "base")
-        this.updateBars_Bar(highlight_bars, "#69b3a2", "highlight")
+        if (highlight_bars) this.updateBars_Bar(highlight_bars, "#69b3a2", "highlight")
       }
 
       d3.selectAll(".base, .highlight")
