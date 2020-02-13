@@ -3,6 +3,8 @@ class ScatterVis {
     constructor(data, html_root, dimensions) {
         eventbus.on('alluvial_vis_changed', (data, ...args) => { 
             this.update(data, args[0]) 
+
+            eventbus.emit('scatter_vis_changed', [], data)
         })
 
         this.columns = ['sex', 'age', 'goout', 'Dalc', 'Walc', 'health', 'G3']
