@@ -1,3 +1,5 @@
+var eventbus = new EventBus()
+
 var data = null
 var hist_choices = ["G1", "G2", "G3", "age", "absences"]
 var key = hist_choices[0]
@@ -7,6 +9,10 @@ var setting = {
   x_ticks: 80,
   x_axis: key.charAt(0).toUpperCase() + key.slice(1)
 }
+
+var example_vis = null
+var scatter_vis = null
+var alluvial_vis = null
 
 // This is the entry point of the app
 d3.csv('../dataset/student-mat.csv')
@@ -27,6 +33,8 @@ d3.csv('../dataset/student-mat.csv')
 
     //change to the input as hist_vis
     hist_vis = new Histogram(data, highlight_data,'#hist-vis', hist_vis_dimensions, setting);
+    alluvial_vis = new AlluvialVis(data, '#alluvial-vis-container', alluvial_vis_dimensions)
+    scatter_vis = new ScatterVis(data, '#scatter-vis-container', scatter_vis_dimensions)
   })
 
 function ThirdDropdownChange(value){

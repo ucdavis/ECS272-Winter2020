@@ -16,5 +16,35 @@ h3 {
 }
 
 .vis-container {
-    padding: 2em;
+    padding: 30px;
+    border: 1px solid #ccc;
+}
+
+.node rect {
+    cursor: move;
+    fill-opacity: .9;
+    shape-rendering: crispEdges;
+}
+
+.node text {
+    pointer-events: none;
+    text-shadow: 0 1px 0 #fff;
+}
+
+.node.selected {
+    fill: white;
+    stroke: rgb(84, 150, 201);
+    stroke-width: 5px;
+}
+
+.link {
+    fill: none;
+    stroke-opacity: .2;
+}
+
+.link.hovered {
+    stroke-opacity: .9;
+}
+.link.selected {
+    stroke-opacity: .9;
 }
