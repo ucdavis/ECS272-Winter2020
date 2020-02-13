@@ -6,19 +6,19 @@ var example_vis_dimensions = {
 }
 
 var scatter_vis_dimensions = {
-    width: 450,
+    width: 600,
     height: 300,
     margin: { left: 40, right: 20, top: 20, bottom: 75 }
 }
 
 var alluvial_vis_dimensions = {
-    width: 1000,
+    width: 850,
     height: 400,
     margin: { left: 40, right: 150, top: 20, bottom: 40 }
 }
 
 var hist_vis_dimensions = {
-    width: 550,
+    width: 485,
     height: 300,
     margin: { left: 40, right: 20, top: 20, bottom: 75 }
 }
