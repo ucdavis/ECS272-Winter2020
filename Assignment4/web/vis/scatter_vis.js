@@ -219,15 +219,22 @@ class ScatterVis {
         // Reset the color of all dots
         this.lasso.items()
             .classed("not_possible",false)
-            .classed("possible",false);
+            .classed("possible",false)
 
         // Style the selected dots
         this.lasso.selectedItems()
             .classed("selected",true)
-            .attr("r",7);
+            .attr("r",7)
 
         // Reset the style of the not selected dots
         this.lasso.notSelectedItems()
-            .attr("r",3.5);
+            .attr("r",3.5)
+
+        
+        var filtered_data = this.lasso.selectedItems().data().map(d => {
+            return d.row
+        })
+
+        eventbus.emit('scatter_vis_changed', filtered_data)
     }
 }
