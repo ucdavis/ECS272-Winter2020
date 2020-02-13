@@ -35,6 +35,7 @@ def dummy_cluster_norm(data, numCluster):
     data['ycoord'] = tsne_3d_df[1].apply(lambda x : x / tsne_3d_df[1].max())
     data['zcoord'] = tsne_3d_df[2].apply(lambda x : x / tsne_3d_df[2].max())
     
+    global CURRENT_CLUSTER_NO
     CURRENT_CLUSTER_NO = numCluster
 
     return data
