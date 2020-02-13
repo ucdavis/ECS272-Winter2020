@@ -157,7 +157,7 @@ app.layout = html.Div(style={'padding': '1em', 'border-style': 'solid'}, childre
 
 ])
 
-# from tutorial, can be modified to fit bar chart
+# callback that updates the basic bar chart when a hover event occurs with the scatter plot
 @app.callback(
     dash.dependencies.Output('basic-bar-chart', 'figure'),
     [dash.dependencies.Input('cluster_scatterplot', 'hoverData')])
@@ -165,6 +165,7 @@ def update_bar_chart(hover_data):
     pokemon_name = hover_data['points'][0]['customdata'][0]
     return create_basic_bar_chart(pokemon_name)
 
+# callback that updates the advanced star plot when a hover event occurs with the scatter plot
 @app.callback(
     dash.dependencies.Output('advanced-star-plot', 'figure'),
     [dash.dependencies.Input('cluster_scatterplot', 'hoverData')])
