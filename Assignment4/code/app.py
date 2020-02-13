@@ -170,7 +170,6 @@ def update_bar_chart(hover_data):
     [dash.dependencies.Input('cluster_scatterplot', 'hoverData')])
 def update_bar_chart(hover_data):
     pokemon_name = hover_data['points'][0]['customdata'][0]
-    print(pokemon_name)
     return create_advanced_star_plot(pokemon_name)
 
 if __name__ == '__main__':
