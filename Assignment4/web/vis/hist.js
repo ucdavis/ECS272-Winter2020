@@ -1,9 +1,14 @@
 class Histogram {
     constructor(data, h_data, html_root, dimensions, setting){
+        eventbus.on('scatter_vis_changed', (filtered_data, ...args) => {
+          this.updateLasso(args[0], filtered_data)
+      })
+
         this.setting = setting
         this.data = this.transformData_Hist(data, setting.key)
         this.h_data = this.transformData_Hist(h_data, setting.key)
         this.html_root = html_root
+        this.isHist = true
 
         this.width = dimensions.width
         this.height = dimensions.height
@@ -24,6 +29,10 @@ class Histogram {
     }
 
     transformData_Hist(data, key) {
+      if(data == null){
+        return
+      }
+
       var hist = d3.histogram()
         .domain([this.setting.x_domain.min, this.setting.x_domain.max])
         .thresholds([...Array(this.setting.x_ticks+1).keys()]);
@@ -40,6 +49,10 @@ class Histogram {
     }
 
     transformData_Bar(data, key){
+      if(data == null){
+        return
+      }
+
       var nested = d3.nest()
       .key(d => d[key])
       .rollup(v => v.length)
@@ -121,36 +134,8 @@ class Histogram {
         this.yAxis = d3.axisLeft(this.y)
 
         //create the bar rectangles for histogram
-        view.selectAll(".base")
-          .data(this.data)
-          .enter()
-          .append("rect")
-            .attr("class", "base")
-            .attr("fill", "lightgray")
-            .style("fill-opacity", 0.6)
-            .attr("x", d => { return this.x(d.x0) })
-            .attr("y", d => { return this.y(d.value) })
-            .attr("width", d => { return this.x(d.x1) - this.x(d.x0) })
-            .attr("height", d => { return this.height - this.y(d.value) })
-          .on("mouseover", this.mouseover)
-          .on("mousemove", this.mousemove)
-          .on("mouseleave", this.mouseleave)
-
-
-        view.selectAll(".highlight")
-          .data(this.h_data)
-          .enter()
-          .append("rect")
-            .attr("class", "highlight")
-            .attr("fill", "#69b3a2")
-            .style("fill-opacity", 0.6)
-            .attr("x", d => { return this.x(d.x0) })
-            .attr("y", d => { return this.y(d.value) })
-            .attr("width", d => { return this.x(d.x1) - this.x(d.x0) })
-            .attr("height", d => { return this.height - this.y(d.value) })
-          .on("mouseover", this.mouseover)
-          .on("mousemove", this.mousemove)
-          .on("mouseleave", this.mouseleave)
+        this.drawBars(view, this.data, "base", "lightgray")
+        //this.drawBars(view, this.h_data, "highlight", "#69b3a2")
 
         //x axis
         view.append("g")
@@ -180,9 +165,36 @@ class Histogram {
 
     }
 
+    drawBars(view, data, bar_class, color){
+      view.selectAll("." + bar_class)
+        .data(data)
+        .enter()
+        .append("rect")
+          .attr("class", bar_class)
+          .attr("fill", color)
+          .style("fill-opacity", 0.6)
+          .attr("x", d => { return this.x(d.x0) })
+          .attr("y", d => { return this.y(d.value) })
+          .attr("width", d => { return this.x(d.x1) - this.x(d.x0) })
+          .attr("height", d => { return this.height - this.y(d.value) })
+        .on("mouseover", this.mouseover)
+        .on("mousemove", this.mousemove)
+        .on("mouseleave", this.mouseleave)
+    }
+
+    updateLasso(data, h_data){
+      //this.data = this.transformData_Hist(data, this.setting.key)
+      //this.h_data = this.transformData_Hist(h_data, this.setting.key)
+      console.log(this.data)
+      console.log(this.h_data)
+      this.update(data, h_data, this.setting, this.isHist)
+      //this.init()
+    }
+
     update(data, h_data, setting, isHist){
       console.log("start update: ", setting.x_axis)
       this.setting = setting
+      this.isHist = isHist
 
       //re-transform the data
       if (isHist) this.retransform_Hist(data, h_data)

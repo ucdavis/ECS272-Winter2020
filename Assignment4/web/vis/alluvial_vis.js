@@ -223,13 +223,21 @@ class AlluvialVis {
     }
 
     sendFilteredData(d, selected){
-        if (selected) {
-            var column = this.index_cat_ref[d.node]
+        var filtered_data
+        var column
 
-            const filtered_data = this.data.filter(j => {
+        
+        if (selected) {
+            column = this.index_cat_ref[d.node]
+            filtered_data = this.data.filter(j => {
                 return j[column] == d.name
             })
+        } else {
+            column = null
+            filtered_data = this.data
         }
+
+        eventbus.emit('alluvial_vis_changed', filtered_data, column)
     }
 
     toUpperCase(string) {
