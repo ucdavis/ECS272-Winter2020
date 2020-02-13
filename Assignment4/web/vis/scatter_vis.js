@@ -1,7 +1,12 @@
 class ScatterVis {
 
     constructor(data, html_root, dimensions) {
-        this.data = this.transformData(data)
+        eventbus.on('alluvial_vis_changed', (data, ...args) => { 
+            this.update(data, args[0]) 
+        })
+
+        this.columns = ['sex', 'age', 'goout', 'Dalc', 'Walc', 'health', 'G3']
+        this.data = this.transformData(data, this.columns)
         this.html_root = html_root
 
         this.width = dimensions.width
@@ -21,12 +26,15 @@ class ScatterVis {
         this.init()
     }
 
-    transformData(data) {
+    transformData(data, columns) {
         
         const pca_data = data.map(d => {
-            return [
-                d.sex == "F" ? 1 : 0,
-                parseInt(d.age), 
+
+            var result = []
+
+            var values = {
+                'sex': d.sex == "F" ? 1 : 0,
+                'age': parseInt(d.age), 
                 //d.address == "U" ? 1 : 0,
                 //d.famsize == "GT3" ? 1 : 0,
                 //parseInt(d.Medu), 
@@ -35,15 +43,21 @@ class ScatterVis {
                 //parseInt(d.failures), 
                 //d.romantic == "yes" ? 1 : 0,
                 //parseInt(d.freetime), 
-                parseInt(d.goout),
-                parseInt(d.Dalc), 
-                parseInt(d.Walc), 
-                parseInt(d.health), 
+                'goout': parseInt(d.goout),
+                'Dalc': parseInt(d.Dalc), 
+                'Walc': parseInt(d.Walc), 
+                'health': parseInt(d.health), 
                 //parseInt(d.absences), 
                 //parseInt(d.G1), 
                 //parseInt(d.G2), 
-                parseInt(d.G3), 
-            ];
+                'G3': parseInt(d.G3), 
+            }
+
+            for (const column of columns) {
+                result.push(values[column])
+            }
+            
+            return result;
         })
 
         const pca = new ML.PCA(pca_data, {
@@ -56,8 +70,6 @@ class ScatterVis {
         return pca_predict.data.map((d, i) => {
             return {
                 row: data[i],
-                //x: d[d.length - 2],
-                //y: d[d.length - 1],
                 x: d[0],
                 y: d[1],
             }
@@ -65,6 +77,7 @@ class ScatterVis {
     }
 
     init() {
+
         // Clear the tag
         d3.select(this.html_root + " > *").remove()
 
@@ -173,12 +186,16 @@ class ScatterVis {
         svg.call(this.lasso)
     }
 
-    update(data) {
+    update(data, column_filter) {
         
-        if (data != null)
-            this.data = this.transformData(data)
+        var columns = this.columns.filter(c => {
+            return c != column_filter
+        })
 
-        
+        if (data != null)
+            this.data = this.transformData(data, columns)
+
+        this.init()
     }
 
     lassoStart() {

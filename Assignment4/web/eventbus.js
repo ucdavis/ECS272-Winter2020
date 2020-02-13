@@ -3,13 +3,13 @@ class EventBus {
         this.subscriptions = {}
     }
 
-    emit(id, data) {
+    emit(id, data, ...args) {
         if (typeof this.subscriptions[id] == 'undefined') {
             return
         }
 
         for (const callback of this.subscriptions[id]) {
-            callback(data)
+            callback(data, ...args)
         }
     }
 
