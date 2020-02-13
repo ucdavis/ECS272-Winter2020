@@ -21,15 +21,9 @@ d3.csv('../dataset/student-mat.csv')
     console.log(csv)
 
     // Set data items
-    data = csv //maybe we could use the data selected in alluvial chart?
-    highlight_data = csv.slice(0,100); //here should be fed with selected data from scatter plot.
-
-    // Create appropriate dimensions and init the charts
-    var hist_vis_dimensions = {
-      width: 600,
-      height: 400,
-      margin: {left: 100, right: 20, top: 20, bottom: 150}
-    }
+    data = csv 
+    highlight_data = csv.slice(0,100); 
+    //highlight_data = null;
 
     //change to the input as hist_vis
     hist_vis = new Histogram(data, highlight_data,'#hist-vis', hist_vis_dimensions, setting);

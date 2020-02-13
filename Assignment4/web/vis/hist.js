@@ -1,9 +1,14 @@
 class Histogram {
     constructor(data, h_data, html_root, dimensions, setting){
+        eventbus.on('scatter_vis_changed', (filtered_data, ...args) => { 
+          this.updateLasso(args[0], filtered_data) 
+      })
+
         this.setting = setting
         this.data = this.transformData_Hist(data, setting.key)
         this.h_data = this.transformData_Hist(h_data, setting.key)
         this.html_root = html_root
+        this.isHist = true
 
         this.width = dimensions.width
         this.height = dimensions.height
@@ -24,6 +29,10 @@ class Histogram {
     }
 
     transformData_Hist(data, key) {
+      if(data == null){
+        return
+      }
+
       var hist = d3.histogram()
         .domain([this.setting.x_domain.min, this.setting.x_domain.max])
         .thresholds([...Array(this.setting.x_ticks+1).keys()]);
@@ -40,6 +49,10 @@ class Histogram {
     }
 
     transformData_Bar(data, key){
+      if(data == null){
+        return
+      }
+
       var nested = d3.nest()
       .key(d => d[key])
       .rollup(v => v.length)
@@ -180,9 +193,19 @@ class Histogram {
 
     }
 
+    updateLasso(data, h_data){
+      //this.data = this.transformData_Hist(data, this.setting.key)
+      //this.h_data = this.transformData_Hist(h_data, this.setting.key)
+      console.log(this.data)
+      console.log(this.h_data)
+      this.update(data, h_data, this.setting, this.isHist)
+      //this.init()
+    }
+
     update(data, h_data, setting, isHist){
       console.log("start update: ", setting.x_axis)
       this.setting = setting
+      this.isHist = isHist
 
       //re-transform the data
       if (isHist) this.retransform_Hist(data, h_data)

@@ -235,6 +235,10 @@ class ScatterVis {
             return d.row
         })
 
-        eventbus.emit('scatter_vis_changed', filtered_data)
+        var data = this.data.map(d => {
+            return d.row
+        })
+
+        eventbus.emit('scatter_vis_changed', filtered_data, data)
     }
 }
