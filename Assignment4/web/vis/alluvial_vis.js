@@ -16,8 +16,6 @@ class AlluvialVis {
         this.yAxis = null
         this.plot_function = null
 
-        this.selected = false
-
         this.index_cat_ref = []
 
         this.init()
@@ -136,19 +134,7 @@ class AlluvialVis {
         // create sankey layout
         sankey(this.graph)
 
-        // create rectangles for the nodes
-        view.selectAll('.node')
-            .data(this.graph.nodes)
-            .enter().append('rect')
-            .attr('class', 'node')
-            .attr("fill", 'gray')
-            .attr("x", d => d.x0)
-            .attr("y", d => d.y0)
-            .attr("width", d => { return d.x1 - d.x0 })
-            .attr("height", d => { return d.y1 - d.y0 })
-            .on('mouseover', this.handleMouseOver)
-            .on('mouseout', this.handleMouseOut)
-            .on('click', this.handleMouseClick)
+ 
 
 
         // create category labels
@@ -173,6 +159,20 @@ class AlluvialVis {
 
                 return colors[this.index_cat_ref[d.source.node] + '_' + d.source.name] || '#000'
             })
+
+                   // create rectangles for the nodes
+        view.selectAll('.node')
+        .data(this.graph.nodes)
+        .enter().append('rect')
+        .attr('class', 'node')
+        .attr("fill", 'gray')
+        .attr("x", d => d.x0)
+        .attr("y", d => d.y0)
+        .attr("width", d => { return d.x1 - d.x0 })
+        .attr("height", d => { return d.y1 - d.y0 })
+        .on('mouseover', this.handleMouseOver)
+        .on('mouseout', this.handleMouseOut)
+        .on('click', this.handleMouseClick)
 
         // create labels next to teh nodes
         view.selectAll('.node-label')
@@ -247,10 +247,12 @@ class AlluvialVis {
     }
 
     handleMouseClick(d) {
-        
+        var state = !d3.select(this).classed("selected")
+        d3.selectAll('.node')
+            .classed("selected", false)
 
         d3.select(this)
-            .attr('fill', '#000')
+            .classed("selected", state)
 
         d3.selectAll('.source-' + d.layer + '-' + d.name)
             .style('stroke-opacity', 0.9)

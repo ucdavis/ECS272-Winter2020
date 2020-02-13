@@ -30,6 +30,12 @@ h3 {
     text-shadow: 0 1px 0 #fff;
   }
   
+.node.selected {
+  fill: white;
+  stroke: rgb(84, 150, 201);
+  stroke-width: 5px;
+}
+
   .link {
     fill: none;
     stroke-opacity: .4;
