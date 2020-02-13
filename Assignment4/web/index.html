@@ -4,16 +4,19 @@
   <meta charset="utf-8">
   <title>ECS 272 InfoVis Assignment 4</title>
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="css/scatter_vis.css">
 
   <script src="https://d3js.org/d3.v5.min.js"></script>
+  <script src="lib/d3-lasso.min.js"></script>
   <script src="https://www.lactame.com/lib/ml/4.0.0/ml.min.js"></script>
-  <!-- <script src="https://unpkg.com/d3-sankey@0.4.2"></script>-->
   <script src="https://unpkg.com/d3-sankey@0.12.3"></script>
 
   <!-- <script src="./sankey.js"></script> -->
 
   <script src="./vis/example_vis.js"></script>
   <script src="./vis/alluvial_vis.js"></script>
+  <script src="./vis/scatter_vis.js"></script>
+  <script src="./dimensions.js"></script>
   <script src="./event.js"></script>
   <script src="./main.js"></script>
 </head>
@@ -21,9 +24,23 @@
 <body>
   <h2>ECS 272 Assignment 4</h2>
 
-  <div class="vis-container" style="float:left">
-    <div id="example-vis-container"></div>
-  </div>
+    <!--    <div class="vis-container" style="float:left">
+      <div id="example-vis-container"></div>
+    </div>
+  -->
+    <div class="vis-container" style="float:left">
+      <div style="margin-bottom: 30px">
+        <span>Color By</span>
+        <select onchange="OnScatterVisSelectionChanged(value)">
+          <option value="sex">Sex</option>
+          <option value="age">Age</option>
+          <option value="Walc">Weekend Alc</option>
+          <option value="Dalc">Weekday Alc</option>
+          <option value="health">Health</option>
+        </select>
+      </div>
+      <div id="scatter-vis-container"></div>
+    </div>
 
   <div class="vis-container" style="float:left">
     <div id="alluvial-vis-container" style="float: left"></div>
@@ -123,5 +140,4 @@
   </div>
 
 </body>
-
 </html>

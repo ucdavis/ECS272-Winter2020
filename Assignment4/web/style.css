@@ -16,7 +16,8 @@ h3 {
 }
 
 .vis-container {
-    padding: 2em;
+    padding: 30px;
+    border: 1px solid #ccc;
 }
 
 .node rect {
