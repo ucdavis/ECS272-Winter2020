@@ -153,6 +153,14 @@ app.layout = html.Div(style={'padding': '1em', 'border-style': 'solid'}, childre
                       hoverData={'points': [{'customdata': ['Bulbasaur']}]})
         ], style={'width': '50%', 'float': 'left'}),
 
+        html.Label('Number of clusters'),
+        dcc.Slider(
+            id='clusters',
+            min=2,
+            max=9,
+            step=1,
+            value=4),
+
         html.Div([
             html.H4(
                 'Detailed View',
@@ -183,6 +191,12 @@ def update_bar_chart(hover_data):
 def update_bar_chart(hover_data):
     pokemon_name = hover_data['points'][0]['customdata'][0]
     return create_advanced_star_plot(pokemon_name)
+
+@app.callback(
+    dash.dependencies.Output('cluster_scatterplot', 'figure'),
+    [dash.dependencies.Input('clusters', 'value')])
+def update_clusters(value):
+    return create_cluster_scatterplot(dataset, value)
 
 if __name__ == '__main__':
     app.run_server(debug=True)
