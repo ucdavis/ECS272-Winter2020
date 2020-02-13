@@ -21,12 +21,10 @@ d3.csv('../dataset/student-mat.csv')
     console.log(csv)
 
     // Set data items
-    data = csv 
-    highlight_data = csv.slice(0,100); 
-    //highlight_data = null;
+    data = csv
 
     //change to the input as hist_vis
-    hist_vis = new Histogram(data, highlight_data,'#hist-vis', hist_vis_dimensions, setting);
+    hist_vis = new Histogram(data, null,'#hist-vis', hist_vis_dimensions, setting);
     alluvial_vis = new AlluvialVis(data, '#alluvial-vis-container', alluvial_vis_dimensions)
     scatter_vis = new ScatterVis(data, '#scatter-vis-container', scatter_vis_dimensions)
   })

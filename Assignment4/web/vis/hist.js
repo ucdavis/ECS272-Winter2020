@@ -1,7 +1,7 @@
 class Histogram {
     constructor(data, h_data, html_root, dimensions, setting){
-        eventbus.on('scatter_vis_changed', (filtered_data, ...args) => { 
-          this.updateLasso(args[0], filtered_data) 
+        eventbus.on('scatter_vis_changed', (filtered_data, ...args) => {
+          this.updateLasso(args[0], filtered_data)
       })
 
         this.setting = setting
@@ -134,36 +134,8 @@ class Histogram {
         this.yAxis = d3.axisLeft(this.y)
 
         //create the bar rectangles for histogram
-        view.selectAll(".base")
-          .data(this.data)
-          .enter()
-          .append("rect")
-            .attr("class", "base")
-            .attr("fill", "lightgray")
-            .style("fill-opacity", 0.6)
-            .attr("x", d => { return this.x(d.x0) })
-            .attr("y", d => { return this.y(d.value) })
-            .attr("width", d => { return this.x(d.x1) - this.x(d.x0) })
-            .attr("height", d => { return this.height - this.y(d.value) })
-          .on("mouseover", this.mouseover)
-          .on("mousemove", this.mousemove)
-          .on("mouseleave", this.mouseleave)
-
-
-        view.selectAll(".highlight")
-          .data(this.h_data)
-          .enter()
-          .append("rect")
-            .attr("class", "highlight")
-            .attr("fill", "#69b3a2")
-            .style("fill-opacity", 0.6)
-            .attr("x", d => { return this.x(d.x0) })
-            .attr("y", d => { return this.y(d.value) })
-            .attr("width", d => { return this.x(d.x1) - this.x(d.x0) })
-            .attr("height", d => { return this.height - this.y(d.value) })
-          .on("mouseover", this.mouseover)
-          .on("mousemove", this.mousemove)
-          .on("mouseleave", this.mouseleave)
+        this.drawBars(view, this.data, "base", "lightgray")
+        //this.drawBars(view, this.h_data, "highlight", "#69b3a2")
 
         //x axis
         view.append("g")
@@ -191,6 +163,23 @@ class Histogram {
             .text("# of Students")
 
 
+    }
+
+    drawBars(view, data, bar_class, color){
+      view.selectAll("." + bar_class)
+        .data(data)
+        .enter()
+        .append("rect")
+          .attr("class", bar_class)
+          .attr("fill", color)
+          .style("fill-opacity", 0.6)
+          .attr("x", d => { return this.x(d.x0) })
+          .attr("y", d => { return this.y(d.value) })
+          .attr("width", d => { return this.x(d.x1) - this.x(d.x0) })
+          .attr("height", d => { return this.height - this.y(d.value) })
+        .on("mouseover", this.mouseover)
+        .on("mousemove", this.mousemove)
+        .on("mouseleave", this.mouseleave)
     }
 
     updateLasso(data, h_data){
