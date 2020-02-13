@@ -57,17 +57,19 @@ def create_cluster_scatterplot(df, k=5):
     random.seed(21)
     labelled_df = label_clusters(df, k)
     fig = px.scatter(labelled_df, x='x', y='y', color='Cluster', hover_data=['Name'])
-    fig.update_layout(showlegend=False)
+    fig.update(layout_coloraxis_showscale=False)
     return fig
 
-def create_basic_bar_chart():
-    subset = dataset.loc[dataset['Type_1'] == 'Grass']
+def create_basic_bar_chart(pokemon_name):
+    pokemon_type1 = dataset.loc[dataset['Name'] == pokemon_name, 'Type_1'].values[0]
+
+    subset = dataset.loc[dataset['Type_1'] == pokemon_type1]
 
     sorted_subset = subset.sort_values(by='Total', ascending=False)
     sorted_subset_names = sorted_subset['Name'].values.tolist()
     sorted_subset_vals = sorted_subset['Total'].values.tolist()
 
-    target_index = sorted_subset_names.index('Bulbasaur')
+    target_index = sorted_subset_names.index(pokemon_name)
 
     for index in range(len(sorted_subset_names)):
         ranking = index + 1
@@ -97,23 +99,27 @@ def create_basic_bar_chart():
     bar_fig.add_trace(go.Bar(x=sorted_subset_names3, y=sorted_subset_vals3, marker_color=bar_colors3,
                              name='Other Pokemon', showlegend=False))
 
-    bar_chart_title = 'Grass Type Total Stats Rankings Bar Chart'
+    bar_chart_title = str(pokemon_type1) + ' Main Type Total Stats Rankings Bar Chart'
+    x_title = 'Pokemon Whose Main Type is ' + str(pokemon_type1) + ' by Descending Ranking'
     bar_fig.update_layout(title={'text': bar_chart_title, 'y': 0.9, 'x': 0.5, 'xanchor': 'center', 'yanchor': 'top'},
-                          xaxis={'showticklabels': False, 'title': 'Grass Type Pokemon by Descending Ranking'},
-                          yaxis={'title': 'Total Stats'}, legend_itemclick=False, legend_itemdoubleclick=False)
+                          xaxis={'showticklabels': False, 'title': x_title},
+                          yaxis={'title': 'Total Stats'}, legend_itemclick=False, legend_itemdoubleclick=False,
+                          legend=dict(x=-.1, y=1.2))
     return bar_fig
 
-
-def create_advanced_star_plot():
-    data_sample = dataset.loc[dataset['Name'] == 'Bulbasaur']
+def create_advanced_star_plot(pokemon_name):
+    data_sample = dataset.loc[dataset['Name'] == pokemon_name]
+    print(data_sample)
+    print(data_sample['HP'].values[0])
 
     stats = ['HP', 'Attack', 'Defense', 'SP Attack', 'SP Defense', 'Speed']
-    stat_vals = [data_sample.at[0, 'HP'], data_sample.at[0, 'Attack'], data_sample.at[0, 'Sp_Atk'],
-                 data_sample.at[0, 'Sp_Def'], data_sample.at[0, 'Speed']]
+    stat_vals = [data_sample['HP'].values[0], data_sample['Attack'].values[0], data_sample['Sp_Atk'].values[0],
+                 data_sample['Sp_Def'].values[0], data_sample['Speed'].values[0]]
+    print(stat_vals)
 
     star_fig = go.Figure(data=go.Scatterpolar(r=stat_vals, theta=stats, fill='toself'))
 
-    star_plot_title = 'Bulbasaur\'s Stats Star Plot'
+    star_plot_title = str(pokemon_name) + '\'s Stats Star Plot'
     star_fig.update_layout(
         polar=dict(
             radialaxis=dict(
@@ -135,30 +141,36 @@ app.layout = html.Div(style={'padding': '1em', 'border-style': 'solid'}, childre
     ),
 
     html.Div([
-        # PCA graph goes here
-    ], style={'width': '49%', 'display': 'inline-block', 'padding': '0 20'}),
-    html.Div([
-        # basic bar graph goes here; will show the stats of one pokemon
-        dcc.Graph(id='basic-bar-chart', figure=create_basic_bar_chart()),
-        dcc.Graph(id='advanced-star-plot', figure=create_advanced_star_plot()),
-        dcc.Graph(id='cluster_scatterplot', figure=create_cluster_scatterplot(dataset, 4))
-    ], style={'display': 'inline-block', 'width': '49%'})
+        html.Div([
+            # PCA graph goes here
+            dcc.Graph(style={'height': '110vh'}, id='cluster_scatterplot',
+                      figure=create_cluster_scatterplot(dataset, 4),
+                      hoverData={'points': [{'customdata': ['Bulbasaur']}]})
+        ], style={'width': '50%', 'float': 'left'}),
+        html.Div([
+            # basic bar graph goes here; will show the stats of one pokemon
+            dcc.Graph(style={'height': '55vh'}, id='basic-bar-chart'),
+            dcc.Graph(style={'height': '55vh'}, id='advanced-star-plot'),
+        ], style={'width': '50%', 'float': 'left'})
+    ], style={'display': 'flex'})
 
 ])
 
-
 # from tutorial, can be modified to fit bar chart
-#@app.callback(
-#    dash.dependencies.Output('x-time-series', 'figure'),
-#    [dash.dependencies.Input('crossfilter-indicator-scatter', 'hoverData'),
-#     dash.dependencies.Input('crossfilter-xaxis-column', 'value'),
-#     dash.dependencies.Input('crossfilter-xaxis-type', 'value')])
-#def update_y_timeseries(hoverData, xaxis_column_name, axis_type):
-#    country_name = hoverData['points'][0]['customdata']
-#    dff = df[df['Country Name'] == country_name]
-#    dff = dff[dff['Indicator Name'] == xaxis_column_name]
-#    title = '<b>{}</b><br>{}'.format(country_name, xaxis_column_name)
-#    return create_time_series(dff, axis_type, title)
+@app.callback(
+    dash.dependencies.Output('basic-bar-chart', 'figure'),
+    [dash.dependencies.Input('cluster_scatterplot', 'hoverData')])
+def update_bar_chart(hover_data):
+    pokemon_name = hover_data['points'][0]['customdata'][0]
+    return create_basic_bar_chart(pokemon_name)
+
+@app.callback(
+    dash.dependencies.Output('advanced-star-plot', 'figure'),
+    [dash.dependencies.Input('cluster_scatterplot', 'hoverData')])
+def update_bar_chart(hover_data):
+    pokemon_name = hover_data['points'][0]['customdata'][0]
+    print(pokemon_name)
+    return create_advanced_star_plot(pokemon_name)
 
 if __name__ == '__main__':
     app.run_server(debug=True)
