@@ -14,9 +14,11 @@ import plotly.graph_objects as go
 
 import pickle
 
+#import data frame
+from cluster_comp import df, MAX_CLUSTERS
+
 #globals
 CURRENT_CLUSTER_NO = 3
-MAX_CLUSTERS = 7
 
 
 def dummy_cluster_norm(data, numCluster):
@@ -45,17 +47,8 @@ def dummy_cluster_norm(data, numCluster):
 
     return data
 
-try:
-    with open("__temp", 'rb') as f:
-        df = pickle.load(f)
-except:
-    # load responses as a DataFrame
-    with open("responses.csv") as f:
-        df = pd.read_csv(f)
-    df.fillna(df.mean(), inplace=True)
-    df = dummy_cluster_norm(df, 3)
-    with open("__temp", "wb") as f:
-        pickle.dump(df, f)
+#load the csv, if first time
+#moved to data_comp
 
 # load a dict to translate short column headers to full survey questions    
 with open("columns.csv") as f:
@@ -133,13 +126,17 @@ def render_visualization():
     )
     def update_figure(clusterNo):
         global df
+        global CURRENT_CLUSTER_NO
+        
+        #reset the current clusterNo
+        CURRENT_CLUSTER_NO = clusterNo
 
-        # if different cluster chosen, make new clusters
-        if clusterNo != CURRENT_CLUSTER_NO:
-            df = dummy_cluster_norm(df, clusterNo)
+        ## if different cluster chosen, make new clusters
+        #if clusterNo != CURRENT_CLUSTER_NO:
+        #    df = dummy_cluster_norm(df, clusterNo)
 
         # 3d scatter plot of new data after df
-        return px.scatter_3d(df, x='xcoord', y='ycoord', z='zcoord', color='clusterNo')
+        return px.scatter_3d(df, x='xcoord', y='ycoord', z='zcoord', color='clusterGrouping' + str(CURRENT_CLUSTER_NO))
 
     @app.callback(
         Output('corr-heatmap', 'figure'),
@@ -152,7 +149,7 @@ def render_visualization():
         else:
             chosen_cluster = "0"
         
-        df_selected = df[df['clusterNo'] == chosen_cluster]
+        df_selected = df[df['clusterGrouping' + str(CURRENT_CLUSTER_NO)] == chosen_cluster]
 
         chosen_columns = []
         for choice in category_choices:
@@ -176,7 +173,7 @@ def render_visualization():
 
         for column in chosen_columns:
             for clusterNo in range(3):
-                fig.add_trace(go.Violin(y=df[column][df['clusterNo'] == str(clusterNo)],
+                fig.add_trace(go.Violin(y=df[column][df['clusterGrouping' + str(CURRENT_CLUSTER_NO)] == str(clusterNo)],
                                         name=headerDict[column],
                                         scalegroup=headerDict[column],
                                         legendgroup=clusterNo,
