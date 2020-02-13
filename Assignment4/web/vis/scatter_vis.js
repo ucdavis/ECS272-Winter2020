@@ -206,7 +206,7 @@ class ScatterVis {
 
         // Style the selected dots
         this.lasso.selectedItems()
-            .attr("selected",true)
+            .classed("selected",true)
             .attr("r",7);
 
         // Reset the style of the not selected dots

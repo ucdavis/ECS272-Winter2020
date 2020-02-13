@@ -24,9 +24,3 @@
 .possible {
     fill-opacity: 1;
 }
-
-.selected {
-    stroke: #000;
-    stroke-width: 10px;
-
-}

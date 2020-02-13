@@ -18,6 +18,7 @@
   <script src="./vis/scatter_vis.js"></script>
   <script src="./dimensions.js"></script>
   <script src="./event.js"></script>
+  <script src="./eventbus.js"></script>
   <script src="./main.js"></script>
 </head>
 
@@ -28,19 +29,6 @@
       <div id="example-vis-container"></div>
     </div>
   -->
-    <div class="vis-container" style="float:left">
-      <div style="margin-bottom: 30px">
-        <span>Color By</span>
-        <select onchange="OnScatterVisSelectionChanged(value)">
-          <option value="sex">Sex</option>
-          <option value="age">Age</option>
-          <option value="Walc">Weekend Alc</option>
-          <option value="Dalc">Weekday Alc</option>
-          <option value="health">Health</option>
-        </select>
-      </div>
-      <div id="scatter-vis-container"></div>
-    </div>
 
   <div class="vis-container" style="float:left">
     <div id="alluvial-vis-container" style="float: left"></div>
@@ -138,6 +126,22 @@
       </div>
     </div>
   </div>
+
+
+  <div class="vis-container" style="float:left">
+    <div style="margin-bottom: 30px">
+      <span>Color By</span>
+      <select onchange="OnScatterVisSelectionChanged(value)">
+        <option value="sex">Sex</option>
+        <option value="age">Age</option>
+        <option value="Walc">Weekend Alc</option>
+        <option value="Dalc">Weekday Alc</option>
+        <option value="health">Health</option>
+      </select>
+    </div>
+    <div id="scatter-vis-container"></div>
+  </div>
+  
 
 </body>
 </html>
