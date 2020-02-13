@@ -117,7 +117,7 @@ def create_advanced_star_plot(pokemon_name):
                  data_sample['Sp_Def'].values[0], data_sample['Speed'].values[0]]
     print(stat_vals)
 
-    star_fig = go.Figure(data=go.Scatterpolar(r=stat_vals, theta=stats, fill='toself'))
+    star_fig = go.Figure(data=go.Scatterpolar(r=stat_vals, theta=stats, fill='toself', name='Pokemon Stats'))
 
     star_plot_title = str(pokemon_name) + '\'s Stats Star Plot'
     star_fig.update_layout(
