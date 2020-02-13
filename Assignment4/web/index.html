@@ -9,14 +9,39 @@
     <script src="https://www.lactame.com/lib/ml/4.0.0/ml.min.js"></script>
 
     <script src="./vis/example_vis.js"></script>
+    <script src="./vis/hist.js"></script>
     <script src="./main.js"></script>
   </head>
   <body>
     <h2>ECS 272 Assignment 4</h2>
 
     <div class="vis-container" style="float:left">
-      <div id="example-vis-container"></div>
+
+      <div style="padding-left: 500px;">
+      <span>Select </span>
+      <select onchange="ThirdDropdownChange(this.value)">
+        <option selected="selected" value="G1">G1: First Period Grade</option>
+        <option value="G2">G2: Second Period Grade</option>
+        <option value="G3">G3: Final Grade</option>
+        <option value="age">Age</option>
+        <option value="absences">School Absences (days)</option>
+        <option value="health">Health</option>
+        <option value="Mjob">Mother's Occupation</option>
+        <option value="Medu">Mother's Education</option>
+        <option value="Fjob">Father's Occupation</option>
+        <option value="Fedu">Father's Education</option>
+        <option value="traveltime">Travel Time</option>
+        <option value="studytime">Study Time</option>
+        <option value="famrel">Family Relationship</option>
+        <option value="freetime">Free Time</option>
+        <option value="goout">Go Out</option>
+        <option value="Dalc">Daily Alcohol Comsumption</option>
+        <option value="Walc">Weekly Alcohol Comsumption</option>
+      </select>
+      </div>
+
+      <div id="hist-vis"></div>
     </div>
-    
+
   </body>
 </html>
