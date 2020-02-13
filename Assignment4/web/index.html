@@ -1,31 +1,129 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <title>ECS 272 InfoVis Assignment 4</title>
-    <link rel="stylesheet" href="style.css">
 
-    <script src="https://d3js.org/d3.v5.min.js"></script>
-    <script src="https://www.lactame.com/lib/ml/4.0.0/ml.min.js"></script>
-    <!-- <script src="https://unpkg.com/d3-sankey@0.4.2"></script>-->
-    <script src="https://unpkg.com/d3-sankey@0.12.3"></script>
+<head>
+  <meta charset="utf-8">
+  <title>ECS 272 InfoVis Assignment 4</title>
+  <link rel="stylesheet" href="style.css">
 
-    <!-- <script src="./sankey.js"></script> -->
+  <script src="https://d3js.org/d3.v5.min.js"></script>
+  <script src="https://www.lactame.com/lib/ml/4.0.0/ml.min.js"></script>
+  <!-- <script src="https://unpkg.com/d3-sankey@0.4.2"></script>-->
+  <script src="https://unpkg.com/d3-sankey@0.12.3"></script>
 
-    <script src="./vis/example_vis.js"></script>
-    <script src="./vis/alluvial_vis.js"></script>
-    <script src="./main.js"></script>
-  </head>
-  <body>
-    <h2>ECS 272 Assignment 4</h2>
+  <!-- <script src="./sankey.js"></script> -->
 
-    <div class="vis-container" style="float:left">
-      <div id="example-vis-container"></div>
+  <script src="./vis/example_vis.js"></script>
+  <script src="./vis/alluvial_vis.js"></script>
+  <script src="./vis/parallel_vis.js"></script>
+  <script src="./event.js"></script>
+  <script src="./main.js"></script>
+</head>
+
+<body>
+  <h2>ECS 272 Assignment 4</h2>
+
+  <div class="vis-container" style="float:left">
+    <div id="example-vis-container"></div>
+  </div>
+
+  <div class="vis-container" style="float:left">
+    <div id="alluvial-vis-container" style="float: left"></div>
+    <div style="float: left">
+      <div style="margin-bottom: 30px">
+        <span>Category 1</span>
+        <select class="sankey-select" onchange="OnSanKeyVisSelectionChanged(value, 1)">
+          <option selected value="sex">Sex</option>
+          <option value="age">Age</option>
+          <option value="romantic">Romantic Relation</option>
+          <option value="Walc">Weekend Alc</option>
+          <option value="Dalc">Weekday Alc</option>
+          <option value="health">Health</option>
+          <option value="failures">Failures</option>
+          <option value="none">None</option>
+        </select>
+      </div>
+      <div style="margin-bottom: 30px">
+        <span>Category 2</span>
+        <select class="sankey-select" onchange="OnSanKeyVisSelectionChanged(value, 2)">
+          <option value="sex">Sex</option>
+          <option selected value="age">Age</option>
+          <option value="romantic">Romantic Relation</option>
+          <option value="Walc">Weekend Alc</option>
+          <option value="Dalc">Weekday Alc</option>
+          <option value="health">Health</option>
+          <option value="failures">Failures</option>
+          <option value="none">None</option>
+        </select>
+      </div>
+      <div style="margin-bottom: 30px">
+        <span>Category 3</span>
+        <select class="sankey-select" onchange="OnSanKeyVisSelectionChanged(value, 3)">
+          <option value="sex">Sex</option>
+          <option value="age">Age</option>
+          <option selected value="romantic">Romantic Relation</option>
+          <option value="Walc">Weekend Alc</option>
+          <option value="Dalc">Weekday Alc</option>
+          <option value="health">Health</option>
+          <option value="failures">Failures</option>
+          <option value="none">None</option>
+        </select>
+      </div>
+      <div style="margin-bottom: 30px">
+        <span>Category 4</span>
+        <select class="sankey-select" onchange="OnSanKeyVisSelectionChanged(value, 4)">
+          <option value="sex">Sex</option>
+          <option value="age">Age</option>
+          <option value="romantic">Romantic Relation</option>
+          <option selected value="Walc">Weekend Alc</option>
+          <option value="Dalc">Weekday Alc</option>
+          <option value="health">Health</option>
+          <option value="failures">Failures</option>
+          <option value="none">None</option>
+        </select>
+      </div>
+      <div style="margin-bottom: 30px">
+        <span>Category 5</span>
+        <select class="sankey-select" onchange="OnSanKeyVisSelectionChanged(value, 5)">
+          <option value="sex">Sex</option>
+          <option value="age">Age</option>
+          <option value="romantic">Romantic Relation</option>
+          <option value="Walc">Weekend Alc</option>
+          <option selected value="Dalc">Weekday Alc</option>
+          <option value="health">Health</option>
+          <option value="failures">Failures</option>
+          <option value="none">None</option>
+        </select>
+      </div>
+      <div style="margin-bottom: 30px">
+        <span>Category 6</span>
+        <select class="sankey-select" onchange="OnSanKeyVisSelectionChanged(value, 6)">
+          <option value="sex">Sex</option>
+          <option value="age">Age</option>
+          <option value="romantic">Romantic Relation</option>
+          <option value="Walc">Weekend Alc</option>
+          <option value="Dalc">Weekday Alc</option>
+          <option selected value="health">Health</option>
+          <option value="failures">Failures</option>
+          <option value="none">None</option>
+        </select>
+      </div>
+      <div style="margin-bottom: 30px">
+        <span>Category 7</span>
+        <select class="sankey-select" onchange="OnSanKeyVisSelectionChanged(value, 7)">
+          <option value="sex">Sex</option>
+          <option value="age">Age</option>
+          <option value="romantic">Romantic Relation</option>
+          <option value="Walc">Weekend Alc</option>
+          <option value="Dalc">Weekday Alc</option>
+          <option value="health">Health</option>
+          <option selected value="failures">Failures</option>
+          <option value="none">None</option>
+        </select>
+      </div>
     </div>
+  </div>
 
-    <div class="vis-container" style="float:left">
-      <div id="alluvial-vis-container"></div>
-    </div>
-    
-  </body>
+</body>
+
 </html>

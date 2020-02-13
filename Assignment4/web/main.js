@@ -19,11 +19,12 @@ d3.csv('../dataset/student-mat.csv')
     }
 
     var alluvial_vis_dimensions = {
-      width: 600,
+      width: 1500,
       height: 500,
       margin: {left: 150, right: 20, top: 70, bottom: 270}
     }
 
     //example_vis = new ExampleVis(data, '#example-vis-container', example_vis_dimensions)
     alluvial_vis = new AlluvialVis(data, '#alluvial-vis-container', alluvial_vis_dimensions)
+    //parallel_vis = new ParallelVis(data, '#alluvial-vis-container', alluvial_vis_dimensions)
   })

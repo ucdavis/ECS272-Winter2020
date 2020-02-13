@@ -1,6 +1,9 @@
 class AlluvialVis {
     constructor(data, html_root, dimensions) {
-        this.graph = this.transformData(data)
+        this.columns = ['sex', 'age', 'romantic', 'Walc', 'Dalc', 'health', 'failures']
+
+        this.data = data
+        this.graph = null
         this.html_root = html_root
 
         this.width = dimensions.width
@@ -13,6 +16,8 @@ class AlluvialVis {
         this.yAxis = null
         this.plot_function = null
 
+        this.index_cat_ref = []
+
         this.init()
     }
 
@@ -20,7 +25,8 @@ class AlluvialVis {
         var graph = { 'nodes': [], 'links': [] }
 
         var n_rows = data.length
-        this.columns = ['sex', 'age', 'guardian', 'failures']
+        //this.columns = ['Walc', 'sex', 'health']
+        //this.columns = ['sex', 'failures', 'health']
 
         var nodes = []
         var links = []
@@ -31,13 +37,16 @@ class AlluvialVis {
 
         for (const element of this.columns) {
             col_nodes[element] = []
-            var unique_values = d3.set(data, d => d[element]).values()
+            var unique_values = d3.set(data, d => d[element]).values().sort((a,b) => {
+                return parseInt(a) > parseInt(b)
+            })
 
             for(const val of unique_values) {
                 nodes.push({
                     node: node_count,
                     name: val
                 })
+                this.index_cat_ref[node_count] = element
                 col_nodes[element].push({
                     node: node_count++,
                     name: val
@@ -63,7 +72,7 @@ class AlluvialVis {
                     links.push({
                         source: val1.node,
                         target: val2.node,
-                        value: val / n_rows
+                        value: val / n_rows,
                     })
                 }
             }
@@ -74,8 +83,37 @@ class AlluvialVis {
     }
 
     init() {
+        this.graph = this.transformData(this.data)
+
         // clear the tag
         d3.select(this.html_root + " > *").remove()
+
+        var colors = {
+            'sex_M' : '#0087DC',
+            'sex_F' : '#FFC0CB',
+            '0' : '#46CB18',
+            'romantic_yes': '#BA0000',
+            'romantic_no': '#C2C5CC',
+            'Walc_1': '#B3E6FC',
+            'Walc_2': '#4FC3F7',
+            'Walc_3': '#03A9F4',
+            'Walc_4': '#0288D1',
+            'Walc_5': '#01579B',
+            'Dalc_1': '#B3E6FC',
+            'Dalc_2': '#4FC3F7',
+            'Dalc_3': '#03A9F4',
+            'Dalc_4': '#0288D1',
+            'Dalc_5': '#01579B',
+            'health_1': '#800000',
+            'health_2': '#FF8C00',
+            'health_3': '#FFDB58',
+            'health_4': '#00FF00',
+            'health_5': '#043927',
+            'failures_1': '',
+            'failures_2': '',
+            'failures_3': '',
+            'failures_4': '',
+        }
 
         // create svg
         var svg = d3.select(this.html_root)
@@ -105,16 +143,11 @@ class AlluvialVis {
             .attr("y", d => d.y0)
             .attr("width", d => { return d.x1 - d.x0})
             .attr("height", d => { return d.y1 - d.y0 })
+            .on('mouseover', this.handleMouseOver)
+            .on('mouseout', this.handleMouseOut)
 
-        view.selectAll('.node-label')
-            .data(this.graph.nodes)
-            .enter().append('text')
-            .attr('class', 'node-label')
-            .attr('text-anchor', 'end')
-            .attr("x", d => d.x0 - 15)
-            .attr("y", d => d.y0 + (d.y1 - d.y0) / 2)
-            .text(d => this.toUpperCase(d.name))
 
+        // create category labels
         for(var i = 0; i < this.columns.length; i++)
         {
             var x_offset = i * (this.width / (this.columns.length - 1)) + this.margin.left
@@ -130,19 +163,24 @@ class AlluvialVis {
         view.selectAll('.link')
             .data(this.graph.links)
             .enter().append('path')
-            .attr('class', 'link' + ' ')
+            .attr('class', d => { return 'link source-' + d.source.layer + '-' + d.source.name + ' target-' + d.source.layer + '-' + d.target.name })
             .attr('d', d3.sankeyLinkHorizontal())
-            .attr("stroke-width", function(d) { return Math.max(1, d.width); })
-            .attr('stroke', "#010000")
-        // // create a curved area for links
-        // var link = g.append('g')
-        //     .data(this.graph.links)
-        //     .enter().append('path')
-        //     .attr('class', 'link')
-        //     .attr('d', d3.sankeyLinkHorizontal())
-        //     .attr("stroke-width", function(d) { return Math.max(1, d.width); })
-        //     .attr('stroke', "#010000")
+            .attr("stroke-width", d => { return Math.max(1, d.width); })
+            .attr('stroke', d => {
 
+                return colors[this.index_cat_ref[d.source.node] + '_' + d.source.name] || '#000' 
+            })
+
+
+                // create labels next to teh nodes
+                view.selectAll('.node-label')
+                .data(this.graph.nodes)
+                .enter().append('text')
+                .attr('class', 'node-label')
+                .attr('text-anchor', 'end')
+                .attr("x", d => d.x0 - 15)
+                .attr("y", d => d.y0 + (d.y1 - d.y0) / 2)
+                .text(d => this.toUpperCase(d.name))
 
         // // add the link titles
         // link.append("title")
@@ -182,6 +220,28 @@ class AlluvialVis {
         //         return d.name + "\n" + format(d.value);
         //     });
 
+    }
+
+    handleMouseOver(d, i){
+        d3.select(this)
+            .attr('fill', '#000')
+
+        d3.selectAll('.source-' + d.layer + '-' + d.name)
+            .style('stroke-opacity', 0.7)
+
+        d3.selectAll('.target-' + (d.layer-1) + '-' + d.name)
+        .style('stroke-opacity', 0.7)
+    }
+
+    handleMouseOut(d, i){
+        d3.select(this)
+            .attr('fill', 'gray')
+
+            d3.selectAll('.source-' + d.layer + '-' + d.name)
+            .style('stroke-opacity', .4)
+            
+        d3.selectAll('.target-' + (d.layer-1) + '-' + d.name)
+        .style('stroke-opacity', 0.4)
     }
 
     toUpperCase(string) {
