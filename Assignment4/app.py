@@ -109,18 +109,18 @@ def render_visualization():
             html.Div(
                     dcc.Graph(
                             id='3d-plot',
-                            style={'height' : '900px'}
+                            style={'height' : '48em'}
                         ),
                     className='six columns',
-                    style={'width': '48%', 'height': '1000px'}
+                    style={'width': '48em', 'height': '48em'}
                 ),
             html.Div(
                     dcc.Graph(
                         id='corr-heatmap',
-                        style={'height' : '900px'}
+                        style={'height' : '48em'}
                     ),
                     className='six columns',
-                    style={'width': '48%', 'height' : '1000px'}),
+                    style={'width': '48em', 'height' : '48em'}),
         ], className="row", style={}),
         
         html.Div(dcc.Graph(id='violins',style={'width':'100%'}),
