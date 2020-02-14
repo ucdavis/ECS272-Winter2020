@@ -70,7 +70,7 @@ def render_visualization():
 
         html.Div([
 
-            html.Div(html.H4("Choose a cluster"), style={'width' : '30%'}, className='three columns'),
+            html.Div(html.H4("Choose a cluster by clicking a member"), style={'width' : '30%'}, className='three columns'),
 
             html.Div([
 
@@ -149,7 +149,18 @@ def render_visualization():
                                     )
             )
 
-        fig.update_layout(showlegend=True, legend={'x' : 0.8, 'y' : 0.9, 'bordercolor': "Black", 'borderwidth': 1})
+        fig.update_layout(showlegend=True, legend={'x' : 0.8, 'y' : 0.9, 'bordercolor': "Black", 'borderwidth': 1},
+                            title={'text':"Plot by top 3 principal components, color by K-means cluster",
+                                    'y' : 0.9,
+                                    'yanchor' : 'middle',
+                            },
+                            titlefont={'size':25},
+                            scene={
+                                'xaxis_title':'PC1',
+                                'yaxis_title':'PC2',
+                                'zaxis_title':'PC3',
+                            }
+        )
 
         return  fig#px.scatter_3d(df, x='xcoord', y='ycoord', z='zcoord', color='clusterNo')
 
