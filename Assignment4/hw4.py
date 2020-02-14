@@ -148,8 +148,8 @@ def updatetreemap(clickData):
     index=indexs[currenttype]
     start=index[0]
     end=index[1]
-    print(currenttype)
-    print(index)
+    #print(currenttype)
+    #print(index)
     
     
     data1 = data.iloc[:, start:end].dropna()
@@ -236,7 +236,7 @@ def update_fa_figure(clickData, number0):
         for col in columns:
             dimensions.append("Column"+str(col))
         df_type.columns=dimensions
-        fig= px.parallel_coordinates(df_type, dimensions=dimensions, color_continuous_scale=px.colors.diverging.Tealrose,
+        fig= px.parallel_coordinates(df_type,color="Column0", dimensions=dimensions, color_continuous_scale=px.colors.diverging.Tealrose,
                               color_continuous_midpoint=2)
             
     return fig    
@@ -258,10 +258,9 @@ def update_heatmap(clickData, number0):
         fig=go.Figure(data=go.Heatmap(
                 z=df_cm,
                 y=data0['short'].iloc[indexs[currenttype][0]:indexs[currenttype][1]]
-            ))
+            ,colorscale = 'YlGn'))
     return fig
 
 
 if __name__ == '__main__':
     app.run_server(debug=True)
-
