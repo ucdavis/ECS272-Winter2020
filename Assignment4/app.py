@@ -15,53 +15,11 @@ import plotly.graph_objects as go
 
 import pickle
 
-def dummy_cluster_norm(data, numCluster):
-    
-    data_num = data.select_dtypes(['number'])
+#import data frame
+from cluster_comp import df, MAX_CLUSTERS
 
-    # instantiate kmeans object and perform clustering
-    kmeans = KMeans(n_clusters = numCluster)
-    kmeans.fit(data_num)
-    
-    # dimensionality reduction via PCA -> 50
-    reduce_dim_data_df = pd.DataFrame(PCA(n_components=50).fit_transform(data_num))
-
-    # dimensionality reduction via TSNE -> 3
-    tsne_3d_df = pd.DataFrame(TSNE(n_components=3).fit_transform(reduce_dim_data_df))
-    
-    # append data with column of cluster labels and 3d coordinates
-    # coordinates are normalized to fall in the range [0,1]
-    data['clusterNo'] = kmeans.labels_.astype(str)
-    data['xcoord'] = tsne_3d_df[0].apply(lambda x : x / tsne_3d_df[0].max())
-    data['ycoord'] = tsne_3d_df[1].apply(lambda x : x / tsne_3d_df[1].max())
-    data['zcoord'] = tsne_3d_df[2].apply(lambda x : x / tsne_3d_df[2].max())
-    
-    CURRENT_CLUSTER_NO = numCluster
-
-    return data
-
+#globals
 CURRENT_CLUSTER_NO = 3
-
-try:
-
-    # load dataFrame of preprocessed data
-    with open("__temp", 'rb') as f:
-        df = pickle.load(f)
-
-except:
-
-    # load responses as a DataFrame from raw CSV
-    with open("responses.csv") as f:
-        df = pd.read_csv(f)
-    
-    # fill in missing values with the average of each column and
-    # perform initial clustering
-    df.fillna(df.mean(), inplace=True)
-    df = dummy_cluster_norm(df, 3)
-    
-    # save preprocessed data
-    with open("__temp", "wb") as f:
-        pickle.dump(df, f)
 
 # load a dict to translate short column headers to full survey questions    
 with open("columns.csv") as f:
@@ -93,6 +51,13 @@ default_colors = [
     '#2ca02c',  # cooked asparagus green
 ]
 
+#construct cluster options
+option_list = []
+for val in range(1,MAX_CLUSTERS):
+    val += 1
+    option_list.append({'label' : str(val)+ ' Clusters', 'value' : val})
+
+#begin visualization
 def render_visualization():
     external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
     app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
@@ -173,16 +138,16 @@ def render_visualization():
 
         global df
         global CURRENT_CLUSTER_NO
-
-        if clusterNo != CURRENT_CLUSTER_NO:
-            df = dummy_cluster_norm(df, clusterNo)
+        
+        #reset the current clusterNo
+        CURRENT_CLUSTER_NO = clusterNo
 
         fig = go.Figure()
 
         for x in range(clusterNo):
-            fig.add_trace(go.Scatter3d(x=df[df.clusterNo == str(x)]['xcoord'].tolist(),
-                                        y=df[df.clusterNo == str(x)]['ycoord'].tolist(),
-                                        z=df[df.clusterNo == str(x)]['zcoord'].tolist(),
+            fig.add_trace(go.Scatter3d(x=df[df["clusterGrouping{}".format(clusterNo)] == str(x)]['xcoord'].tolist(),
+                                        y=df[df["clusterGrouping{}".format(clusterNo)] == str(x)]['ycoord'].tolist(),
+                                        z=df[df["clusterGrouping{}".format(clusterNo)] == str(x)]['zcoord'].tolist(),
                                         mode='markers',
                                         marker={'color' : default_colors[x]},
                                         name="Cluster {}".format(x)
@@ -206,7 +171,7 @@ def render_visualization():
         else:
             chosen_cluster = "0"
         
-        df_selected = df[df['clusterNo'] == chosen_cluster]
+        df_selected = df[df['clusterGrouping' + str(CURRENT_CLUSTER_NO)] == chosen_cluster]
 
         chosen_columns = []
         for choice in category_choices:
@@ -265,15 +230,19 @@ def render_visualization():
         #                                 line_color=default_colors[clusterNo],
         #                                 opacity=0.4)
         #                     )
-        for clusterNo in range(number_of_clusters):
-            fig.add_trace(go.Violin(y=df[chosen_columns][df['clusterNo'] == str(clusterNo)],
-                                    x=chosen_columns,
-                                    legendgroup="Cluster {}".format(clusterNo),
-                                    box_visible=True,
-                                    meanline_visible=True,
-                                    line_color=default_colors[clusterNo],
-                                    opacity=0.4)
-                        )
+
+        #for clusterNo in range(number_of_clusters):
+        clusterNo = 1
+
+        fig.add_trace(go.Violin(y=df[chosen_columns][df["clusterGrouping{}".format(number_of_clusters)] == str(clusterNo)],
+                                x=chosen_columns,
+                                legendgroup="Cluster {}".format(clusterNo),
+                                box_visible=True,
+                                meanline_visible=True,
+                                line_color=default_colors[clusterNo],
+                                opacity=0.4,
+                                points='all')
+                    )
 
         #fig.update_traces(side='positive', points=False, width = 1.5)
         fig.update_layout(xaxis_showgrid=False, xaxis_zeroline=False, width=len(chosen_columns) * 100, autosize=False)
