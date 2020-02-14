@@ -56,9 +56,15 @@ def label_clusters(df, k):
 def create_cluster_scatterplot(df, k=5):
     random.seed(21)
     labelled_df = label_clusters(df, k)
-    fig = px.scatter(labelled_df, x='x', y='y', color='Cluster', hover_data=['Name'])
+    labelled_df['Cluster'] = labelled_df['Cluster'].astype(str)
+    fig = px.scatter(labelled_df, x='x', y='y', color='Cluster', hover_data=['Name'],
+                     category_orders={'Cluster': [str(index) for index in range(10)]})
     fig.update(layout_coloraxis_showscale=False)
-    fig.update_layout(margin=dict(l=20, r=20, t=10, b=20))
+    fig.update_layout(
+        margin=dict(l=20, r=20, t=10, b=20),
+        title={'text': 'K-Means Scatter Plot On PCA\'d Data', 'y': 0.97, 'x': 0.5,
+               'xanchor': 'center', 'yanchor': 'top'}
+    )
     return fig
 
 # creates the basic bar chart
@@ -154,17 +160,18 @@ app.layout = html.Div(style={'padding': '1em', 'border-style': 'solid'}, childre
     html.Div([
         # left side container
         html.Div([
-            # left side's header and slider
-            html.Div([
-                # left side's header
-                html.H4(
-                    'Overview',
-                    style={
-                        'textAlign': 'center'
-                    }
-                ),
 
-                # slider and its header
+            # left side's header
+            html.H4(
+                'Overview',
+                style={
+                    'textAlign': 'center'
+                }
+            ),
+
+# container for slider and its header
+            html.Div([
+                # slider's header
                 html.Label(
                     'Number of clusters',
                     style={
@@ -172,22 +179,28 @@ app.layout = html.Div(style={'padding': '1em', 'border-style': 'solid'}, childre
                         'height': '5vh'
                     }
                 ),
-                dcc.Slider(
-                    id='clusters',
-                    min=2,
-                    max=9,
-                    step=1,
-                    marks={
-                        index: str(index) for index in range(2, 10)
-                    },
-                    value=4
-                )
-            ], style={'margin-left': '4vw'}),
+
+                # slider that controls how many clusters are used in the scatter plot
+                html.Div([
+                    dcc.Slider(
+                        id='clusters',
+                        min=2,
+                        max=9,
+                        step=1,
+                        marks={
+                            index: str(index) for index in range(2, 10)
+                        },
+                        value=4
+                    )
+                ], style={'margin-left': '4vw', 'margin-right': '4vw'})
+            ], style={'height': '12vh'}),
 
             # overview graph; cluster scatter plot that uses PCA and k-means
-            dcc.Graph(style={'height': '105vh'}, id='cluster_scatterplot',
+            dcc.Graph(style={'height': '95vh'}, id='cluster_scatterplot',
                       figure=create_cluster_scatterplot(dataset, 4),
                       hoverData={'points': [{'customdata': ['Bulbasaur']}]}),
+
+
 
         ], style={'width': '50%', 'float': 'left'}),
 
