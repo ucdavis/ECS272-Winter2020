@@ -220,31 +220,31 @@ def render_visualization():
 
         fig = go.Figure()
 
-        # for column in chosen_columns:
-        #     for clusterNo in range(number_of_clusters):
-        #         fig.add_trace(go.Violin(y=df[column][df['clusterNo'] == str(clusterNo)],
-        #                                 x=headerDict[column],
-        #                                 legendgroup="Cluster {}".format(clusterNo),
-        #                                 #box_visible=True,
-        #                                 meanline_visible=True,
-        #                                 line_color=default_colors[clusterNo],
-        #                                 opacity=0.4)
-        #                     )
+        for column in chosen_columns:
+            for clusterNo in range(number_of_clusters):
+                fig.add_trace(go.Violin(y=df[column][df["clusterGrouping{}".format(number_of_clusters)] == str(clusterNo)],
+                                        name=column,
+                                        legendgroup="Cluster {}".format(clusterNo),
+                                        #box_visible=True,
+                                        meanline_visible=True,
+                                        line_color=default_colors[clusterNo],
+                                        opacity=0.4)
+                            )
 
         #for clusterNo in range(number_of_clusters):
-        clusterNo = 1
+        # clusterNo = 1
 
-        fig.add_trace(go.Violin(y=df[chosen_columns][df["clusterGrouping{}".format(number_of_clusters)] == str(clusterNo)],
-                                x=chosen_columns,
-                                legendgroup="Cluster {}".format(clusterNo),
-                                box_visible=True,
-                                meanline_visible=True,
-                                line_color=default_colors[clusterNo],
-                                opacity=0.4,
-                                points='all')
-                    )
+        # fig.add_trace(go.Violin(y=df[df["clusterGrouping{}".format(number_of_clusters)] == str(clusterNo)],
+        #                         x=chosen_columns,
+        #                         legendgroup="Cluster {}".format(clusterNo),
+        #                         box_visible=True,
+        #                         meanline_visible=True,
+        #                         line_color=default_colors[clusterNo],
+        #                         opacity=0.4,
+        #                         points='all')
+        #             )
 
-        #fig.update_traces(side='positive', points=False, width = 1.5)
+        fig.update_traces(side='positive', points=False, width = 1.5)
         fig.update_layout(xaxis_showgrid=False, xaxis_zeroline=False, width=len(chosen_columns) * 100, autosize=False)
 
         return fig
