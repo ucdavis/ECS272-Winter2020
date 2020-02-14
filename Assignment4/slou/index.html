@@ -1,0 +1,112 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>ECS 272 InfoVis Assignment 4</title>
+	<script src="https://d3js.org/d3.v5.min.js"></script>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+		integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</head>
+<style>
+	.slice text {
+		font-size: 12pt;
+		font-family: Arial;
+	}
+
+
+	.tooltip {
+		position: absolute;
+		z-index: 10;
+		box-shadow: 0 0 10px #999999;
+		visibility: hidden;
+		background-color: white;
+		text-align: center;
+		padding: 4px;
+		border-radius: 4px;
+		font-size: 14px;
+		/*font-weight: bold;*/
+		color: black;
+	}
+
+	/* tip */
+	.tip {
+		width: 3rem;
+		background-color: #eee;
+		text-align: center;
+		box-shadow: 0px 2px 10px -2px #aaa;
+		border: 2px solid #444;
+		transition: all 160ms cubic-bezier(0.455, 0.03, 0.515, 0.955);
+	}
+
+	.tip::after {
+		content: " ";
+		position: absolute;
+		bottom: -.5rem;
+		left: 50%;
+		margin-left: -.5rem;
+		border-style: solid;
+		border-width: .5rem .5rem 0 .5rem;
+		border-color: #444 transparent transparent transparent;
+	}
+</style>
+
+<body style="padding: 20px">
+	<h2>ECS 272 InfoVis Assignment 4 (by Minqiang Hu & Fred Lou)</h2>
+	<p class="text-muted">
+		Check out our GitHub repository <a href='https://github.com/snsnlou/ECS-272-Assignment-4'>here</a>!
+	</p>
+	<div class="container">
+		<h5>Visualization 1: a Stream graph showing customer rating on movies</h5>
+		<!-- 	<div class= "container-lg"> -->
+		<div id='stream-graph'>
+			Rate by:
+			<select onchange="onChangeStreamGraph()" id='dropDown'>
+				<option selected='true' disabled='disabled'>Please Select...</option>
+				<option value='vote-average'>Customer Ratings</option>
+				<option value='popularity'>Popularity</option>
+			</select>
+
+			<br />
+			<p id='tooltip-stream-graph' class="text-info" style="text-align: center">Select a stream to continue!</p>
+			<!-- <p>
+				<input type = 'button' value = '+' onclick = 'zoomIn()' id = 'zoomInButton'/>
+				<input type = 'button' value = '-' onclick = 'zoomOut()' id = 'zoomOutButton'/>
+			</p> -->
+			<svg style="margin-left: 140px" id='stream-graph-SVG' />
+		</div>
+		<h5>Visualization 2&3: The NLP of the words from movie "overview" in the above selected rated segment</h5>
+		<p>(Please allow up to 35 seconds to load the bar chart)</p>
+		<p id = "tooltip-bar-chart" class="text-info">Touch a bar to see the quantity!</p>
+		<!-- <div id = 'pie-chart'>
+			<svg id = 'pie-chart-SVG'/>
+		</div> -->
+		<span id='bar-chart'>
+			<svg id='bar-chart-SVG' />
+		</span>
+		<span id='word-cloud'>
+			<svg id='word-cloud-SVG' />
+		</span>
+		<!-- 	</div> -->
+
+		<script src="./scripts/d3.min.js"> </script>
+		<script src="./scripts/compromise.min.js"> </script>
+		<script src="./scripts/d3.layout.cloud.js"> </script>
+		<script src="bar.js"></script>
+		<script src="stream.js"></script>
+
+		<!-- 	bootstrap -->
+		<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+			integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+			crossorigin="anonymous"></script>
+		<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+			integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+			crossorigin="anonymous"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+			integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+			crossorigin="anonymous"></script>
+
+	</div>
+</body>
+
+</html>
