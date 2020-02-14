@@ -27,7 +27,6 @@ window.onload = function() { // calls this on loading index.html
       //   var scoregroup = ['1','2','3','4','5'];
       // }
 
-      var scoregroup0 = ['1.0','2.0','3.0','4.0','5.0'];
       var scoregroup1 = d3.keys(data[0]);
       
       var toberemoved = ["cluster","question"];
@@ -42,7 +41,7 @@ window.onload = function() { // calls this on loading index.html
     
       console.log(scoregroup)
       
-      var questions = ['Movies','History','Psychology','Internet'];
+      var questions = ['Movies','Comedy','Romantic','Fantasy/Fairy tales'];
       var padding=40;
 
 
