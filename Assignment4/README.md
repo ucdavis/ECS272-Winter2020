@@ -6,5 +6,5 @@ The project is based on Django(version 3.0.3). Haitong Li implemented the fronte
 
 Detailed commit history can be found at: https://github.com/J0ey1iu/ECS272-Assignment4/commits/master
 
-We uploaded the project to an AWS machine and it can be accessed by visiting http://3.132.216.86:8000/
+We uploaded the project to an AWS machine and it can be accessed by visiting http://ec2-18-217-77-127.us-east-2.compute.amazonaws.com
 
