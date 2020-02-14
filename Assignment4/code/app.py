@@ -15,7 +15,7 @@ external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
-# gets the ballot measures dataset; csv file should be in the datasets folder
+# gets the pokemon dataset; csv file should be in the dataset folder
 relative_path = os.path.join('..', 'dataset', 'pokemon_alopez247.csv')
 dataset = pandas.read_csv(relative_path)
 
@@ -31,7 +31,7 @@ def get_stat_vector(df):
     return stat_vectors.values
 
 def get_clusters(stat_vectors, k):
-    dbscan = KMeans(n_clusters=k)
+    dbscan = KMeans(n_clusters=k, random_state=0)
     clustering = dbscan.fit(stat_vectors)
     return clustering.labels_.tolist()
 
@@ -136,30 +136,45 @@ app.layout = html.Div(style={'padding': '1em', 'border-style': 'solid'}, childre
     html.H2(
         'ECS 272 InfoVis Assignment 4',
         style={
-            'textAlign': 'center',
+            'textAlign': 'center'
         }
     ),
 
     html.Div([
         html.Div([
-            html.H4(
-                'Overview',
-                style={
-                    'textAlign': 'center',
-                }
-            ),
-            dcc.Graph(style={'height': '110vh'}, id='cluster_scatterplot',
-                      figure=create_cluster_scatterplot(dataset, 4),
-                      hoverData={'points': [{'customdata': ['Bulbasaur']}]})
-        ], style={'width': '50%', 'float': 'left'}),
 
-        html.Label('Number of clusters'),
-        dcc.Slider(
-            id='clusters',
-            min=2,
-            max=9,
-            step=1,
-            value=4),
+            html.Div([
+                html.H4(
+                    'Overview',
+                    style={
+                        'textAlign': 'center'
+                    }
+                ),
+
+                html.Label(
+                    'Number of clusters',
+                    style={
+                        'textAlign': 'center',
+                        'height': '5vh'
+                    }
+                ),
+                dcc.Slider(
+                    id='clusters',
+                    min=2,
+                    max=9,
+                    step=1,
+                    marks={
+                        index: str(index) for index in range(2, 10)
+                    },
+                    value=4
+                )
+            ], style={'margin-left': '4vw'}),
+
+            dcc.Graph(style={'height': '105vh'}, id='cluster_scatterplot',
+                      figure=create_cluster_scatterplot(dataset, 4),
+                      hoverData={'points': [{'customdata': ['Bulbasaur']}]}),
+
+        ], style={'width': '50%', 'float': 'left'}),
 
         html.Div([
             html.H4(
