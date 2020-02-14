@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="9114079e-be9b-457a-801b-2ff439fad588" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ProjectId" id="1XNPqcfMAzi4LbzuGoYFNmUapnN" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Test" />
+  </component>
+  <component name="RunManager">
+    <configuration name="HW4" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="HW4" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/HW4.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.HW4" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="9114079e-be9b-457a-801b-2ff439fad588" name="Default Changelist" comment="" />
+      <created>1581132378191</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1581132378191</updated>
+      <workItem from="1581132387121" duration="2516000" />
+      <workItem from="1581212478902" duration="5671000" />
+      <workItem from="1581228479700" duration="11170000" />
+      <workItem from="1581280032097" duration="25477000" />
+      <workItem from="1581362917691" duration="16757000" />
+      <workItem from="1581454363989" duration="2717000" />
+      <workItem from="1581480241018" duration="8616000" />
+      <workItem from="1581538914525" duration="30000" />
+      <workItem from="1581628967141" duration="3997000" />
+      <workItem from="1581633049337" duration="51000" />
+      <workItem from="1581633198603" duration="2219000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="550" y="173" key="FileChooserDialogImpl" timestamp="1581485565290">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="550" y="173" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1581485565290" />
+    <state width="1493" height="208" key="GridCell.Tab.0.bottom" timestamp="1581635780784">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="208" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1581635780784" />
+    <state width="1493" height="208" key="GridCell.Tab.0.center" timestamp="1581635780784">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="208" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1581635780784" />
+    <state width="1493" height="208" key="GridCell.Tab.0.left" timestamp="1581635780784">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="208" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1581635780784" />
+    <state width="1493" height="208" key="GridCell.Tab.0.right" timestamp="1581635780784">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="208" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1581635780784" />
+    <state width="1493" height="258" key="GridCell.Tab.1.bottom" timestamp="1581632996862">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="258" key="GridCell.Tab.1.bottom/0.0.1536.824@0.0.1536.824" timestamp="1581632996862" />
+    <state width="1493" height="258" key="GridCell.Tab.1.center" timestamp="1581632996862">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="258" key="GridCell.Tab.1.center/0.0.1536.824@0.0.1536.824" timestamp="1581632996862" />
+    <state width="1493" height="258" key="GridCell.Tab.1.left" timestamp="1581632996862">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="258" key="GridCell.Tab.1.left/0.0.1536.824@0.0.1536.824" timestamp="1581632996862" />
+    <state width="1493" height="258" key="GridCell.Tab.1.right" timestamp="1581632996862">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="258" key="GridCell.Tab.1.right/0.0.1536.824@0.0.1536.824" timestamp="1581632996862" />
+    <state x="461" y="241" key="com.intellij.ide.util.TipDialog" timestamp="1581633197842">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="461" y="241" key="com.intellij.ide.util.TipDialog/0.0.1536.824@0.0.1536.824" timestamp="1581633197842" />
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1581488366734">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1581488366734" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <default-breakpoints>
+        <breakpoint type="python-exception">
+          <properties notifyOnTerminate="true" exception="BaseException">
+            <option name="notifyOnTerminate" value="true" />
+          </properties>
+        </breakpoint>
+      </default-breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/HW4$HW4.coverage" NAME="HW4 Coverage Results" MODIFIED="1581635227792" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+  </component>
+</project>

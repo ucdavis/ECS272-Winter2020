@@ -1,0 +1,10 @@
+Metadata-Version: 1.0
+Name: alt
+Version: 0.0.4
+Summary: Web API level tests and test runner
+Home-page: https://github.com/kevwo/alt
+Author: Kevin Woodmansee
+Author-email: kevinwoodmansee@gmail.com
+License: MIT
+Description: Please see documentation here: https://github.com/kevwo/alt
+Platform: UNKNOWN
