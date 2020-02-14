@@ -15,22 +15,17 @@ def output():
 @app.route("/loadData")
 def output1():
     df = pd.read_csv('input/responses.csv')
-    #df = df.head(10)
     df.dropna(inplace=True)
     df = processData(df, 3)
-    cluster_otherquestion = countsdf(df,["Movies","Horror","Thriller","Comedy",	"Romantic","Sci-fi","War","Fantasy/Fairy tales"	,"Animated","Documentary","Western","Action"],3)
+    cluster_otherquestion = countsdf(df,["Horror","Thriller","Comedy",	"Romantic","Sci-fi","War","Fantasy/Fairy tales"	,"Animated","Documentary","Western","Action"],3)
     json_data = {'df': df.to_dict(orient="records"),'cluster_otherquestion':cluster_otherquestion.to_dict(orient="records")}
-    #print(centroids)
-    #print(type(X2[:,0]))
-    #print(len(kmeans.labels_))
-    return json.dumps(json_data)#json.dumps(df.to_dict(orient = "records"))
+    return json.dumps(json_data)
 
 
 @app.route("/cluster", methods=["POST"])
 def changeCluster():
     df = pd.DataFrame.from_records(json.loads(request.data)["dat"])
 
-    #df = pd.read_json(json.loads(request.data)["dat"])
     df.drop(columns=['X'], inplace=True, axis = 1)
     df.drop(columns=['Y'], inplace=True, axis = 1)
     df.drop(columns=['cluster'], inplace=True, axis = 1)
@@ -39,7 +34,7 @@ def changeCluster():
 
     cluster_otherquestion = countsdf(df,["Movies","Horror","Thriller","Comedy",	"Romantic","Sci-fi","War","Fantasy/Fairy tales"	,"Animated","Documentary","Western","Action"],int(json.loads(request.data)["clusterNum"], base=10))
     json_data = {'df': df.to_dict(orient="records"),'cluster_otherquestion':cluster_otherquestion.to_dict(orient="records")}
-    return json.dumps(json_data)#json.dumps(df.to_dict(orient = "records"))
+    return json.dumps(json_data)
 
 
 def countsdf(df,questions,n_cluster):
@@ -61,13 +56,10 @@ def countsdf(df,questions,n_cluster):
 
 
 def processData(df, clusterNum):
-    #X = np.array(df.iloc[:,:19])
     
     X = np.array(df[['Music','Slow songs or fast songs', 'Dance', 'Folk', 'Country', 'Classical music', 'Musical', 'Pop', 'Rock', 'Metal or Hardrock', 'Punk', 'Hiphop, Rap', 'Reggae, Ska', 'Swing, Jazz', 'Rock n roll', 'Alternative', 'Latino', 'Techno, Trance', 'Opera']])
     print(X[0])
-    #df.drop(df.columns.difference(['Music','Slow songs or fast songs', 'Dance, Disco, Funk', 'Folk music', 'Country', 'Classical', 'Musicals', 'Pop', 'Rock', 'Metal, Hard rock', 'Punk', 'Hip hop, Rap', 'Reggae, Ska', 'Swing, Jazz', 'Rock n Roll', 'Alternative music', 'Latin', 'Techno, Trance', 'Opera']), 1, inplace=True)
-    #print(df.iloc[0])
-    #print(df.to_dict(orient = "records")[1])
+
     kmeans = KMeans(n_clusters=clusterNum).fit(X)  #parameters to change
     pca = PCA(n_components=2) #TODO remove PCA data to diff function 
     pca.fit(X)
@@ -78,7 +70,6 @@ def processData(df, clusterNum):
     df['X'] = X1
     df['Y'] = X2
     df['cluster'] = labels
-    #df.to_csv("input/new_responses.csv")  #new added X,Y
 
     return df
 

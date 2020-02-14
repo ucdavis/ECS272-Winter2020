@@ -41,18 +41,34 @@
         .link:hover {
             stroke-opacity: .5;
         }
+
+        div.tooltip {
+            position: absolute;
+            text-align: center;
+            width: 60px;
+            height: 28px;
+            padding: 2px;
+            font: 12px sans-serif;
+            background: lightsteelblue;
+            border: 0px;
+            border-radius: 8px;
+            pointer-events: none;
+        }
     </style>
 </head>
 
 <body>
     <div class="container-fluid">
-        <div class="jumbotron" style="background-color: #ee5d286b; padding-left: 6%;">
+        <div class="jumbotron" style="background-color: #ee5d282d; padding-left: 4%;">
             <h1>Young People Survey Dashboard</h1>
             <h2>ECS 272 - Assignment 4</h2>
             <h3>Jingxian Liao & Suchita Mukherjee</h3>
         </div>
         <div class="row">
-            <div class="col-md-2" style="margin-top: 1%; padding-left:4%">Choose Number of Clusters
+            <span style="margin-top: 1%; padding-left:4%; margin-right: -2%;"><h4>Music Preference Clusters by Genre</h4></span>
+        </div>
+        <div class="row" >
+            <div class="col-md-4" style="margin-top: 1%; padding-left:4%">Choose Number of Clusters
                 <select onchange="changeCluster()" class="custom-select custom-select-lg" o id="widget"
                     style="margin-top: 2%;">
                     <option value="2">2</option>
@@ -61,13 +77,24 @@
                     <option value="5">5</option>
                 </select>
             </div>
-            <div class="col-md-6" id="scatter"></div>
+            <div class="col-md-6" id="scatter" style="padding-left: 10%;"></div>
+        </div>
+        <hr>
+        <div class="row">
+            <span style="margin-top: 1%; padding-left:4%"><h4>Movie Ratings Grouped by Genre</h4></span>
+        </div>
+
+        <div class="row">
+            <div class="col-md-10" id="bar" style="padding-left: 10%;"></div>
+        </div>
+        <hr>
+        <div class="row">
+            <p style="margin-top: 1%; padding-left:4%"><h4>Demographics</h4></p><br>
+            
         </div>
         <div class="row">
-            <div class="col-md-4" id="bar"></div>
-        </div>
-        <div class="row">
-            <div class="col-md-12" style="margin-left: 25%; margin-top: 5%;" >
+            <p style="margin-top: 1%; padding-left:4%"> <i>Drag nodes to adjust</i></p>
+            <div class="col-md-10" style="padding-left: 25%; margin-top: 5%; margin-bottom: 3%;" >
                 <svg id="sanky"></svg>
             </div>
         </div>
