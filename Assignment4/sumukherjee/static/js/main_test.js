@@ -417,7 +417,7 @@ function renderSanky(origData, selectedCluster) {
       .attr("transform", null)
       .text(function (d) {
         if (Number.isInteger(d.name)) {
-          return d.name + ":00";
+          return d.name;
         }
         return d.name;
       })
