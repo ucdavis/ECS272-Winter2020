@@ -18,10 +18,10 @@ const useStyles = makeStyles({
     backgroundColor: '#FBF6E5'
   },
   scatter: {
-    height: 'calc(75vh - 3rem)'
+    height: 'calc(68vh - 2.72rem)'
   },
   details: {
-    height: 'calc(25vh - 1rem)'
+    height: 'calc(32vh - 1.28rem)'
   },
   parallel: {
     height: 'calc(100vh - 4rem)'
@@ -30,9 +30,6 @@ const useStyles = makeStyles({
     boxShadow: 'inset 0 0 8px -3px #002855',
     '& .component': {
       padding: '16px'
-    },
-    '& .rv-xy-plot': {
-      backgroundColor: '#FFFFFF'
     }
   }
 });

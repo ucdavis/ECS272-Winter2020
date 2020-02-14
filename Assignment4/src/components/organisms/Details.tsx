@@ -1,50 +1,77 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { Typography, Grid, Box } from '@material-ui/core';
-import useDetailsData from '../uses/useDetailsData';
+import usePokemon from '../uses/useDetailsData';
+import { useWindowSize } from 'react-use';
+import useParallelData from '../uses/useParallelData';
+import { RadarChart, RadarChartPoint } from 'react-vis';
+import getDomains from '../uses/getDomains';
 
 export type Props = { id: number };
 
 const Details: React.FC<Props> = (props: Props) => {
-  const detailsData = useDetailsData({
+  const ref = useRef<HTMLDivElement>(null);
+  const [containerSize, setContainerSize] = useState({ width: 0, height: 0 });
+  const windowSize = useWindowSize();
+  const pokemon = usePokemon({
     id: props.id
   });
 
-  const ref = useRef<HTMLDivElement>(null);
-  const [containerSize, setContainerSize] = useState({ width: 0, height: 0 });
+  const targets = ['HP', 'Attack', 'Defense', 'Sp_Atk', 'Sp_Def', 'Speed'];
 
-  let subset;
-  let imgSrc;
+  const domains = getDomains(targets);
+  const params = targets.reduce(
+    (prev, curr) => ({
+      ...prev,
+      [curr]: pokemon ? pokemon[curr as keyof typeof pokemon] : undefined
+    }),
+    {}
+  );
 
-  if (detailsData !== undefined) {
-    subset = Object.entries(detailsData).filter(
-      item =>
-        item[0] === 'Number' ||
-        item[0] === 'Name' ||
-        item[0] === 'Type_1' ||
-        item[0] === 'HP' ||
-        item[0] === 'Attack' ||
-        item[0] === 'Defense' ||
-        item[0] === 'Sp_Atk' ||
-        item[0] === 'Sp_def' ||
-        item[0] === 'Speed' ||
-        item[0] === 'Generation' ||
-        item[0] === 'Height_m' ||
-        item[0] === 'Weight_kg'
-    );
+  console.log(
+    domains
+      ? Object.entries(domains).map(([key, value]) => ({
+          name: key,
+          domain: value
+        }))
+      : null
+  );
 
-    imgSrc =
-      'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' +
-      subset.find(item => item[0] === 'Number')![1] +
-      '.png';
-  }
+  console.log(
+    Object.entries(domains!).map(([key, value]) => ({
+      name: key,
+      domain: value
+    }))
+  );
 
   useEffect(() => {
-    console.log(ref.current);
-    setContainerSize({
-      width: ref.current!.getBoundingClientRect().width,
-      height: ref.current!.getBoundingClientRect().height
-    });
-  }, []);
+    if (pokemon !== undefined) {
+      setContainerSize({
+        width: ref.current!.getBoundingClientRect().width,
+        height: ref.current!.getBoundingClientRect().height
+      });
+    }
+  }, [pokemon, windowSize]);
+
+  const subset =
+    pokemon !== undefined
+      ? Object.entries(pokemon!).filter(item =>
+          [
+            'Number',
+            'Name',
+            'Type_1',
+            'Type_2',
+            'Generation',
+            'Height_m',
+            'Weight_kg'
+          ].includes(item[0])
+        )
+      : undefined;
+
+  const imgSrc = subset
+    ? 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' +
+      subset.find(item => item[0] === 'Number')![1] +
+      '.png'
+    : undefined;
 
   return (
     <Grid
@@ -55,12 +82,11 @@ const Details: React.FC<Props> = (props: Props) => {
       md={12}
       lg={12}
       xl={12}
-      style={{ height: 'calc(25vh - 1rem)' }}
       ref={ref}
       className={'component'}
       alignContent={'space-around'}
     >
-      {subset !== undefined ? (
+      {pokemon !== undefined ? (
         <>
           <Grid
             item
@@ -86,7 +112,7 @@ const Details: React.FC<Props> = (props: Props) => {
             justify={'center'}
             alignContent={'space-around'}
           >
-            {subset.slice(0, 2).map(([key, value]) => (
+            {subset?.slice(0, 2).map(([key, value]) => (
               <Grid
                 item
                 container
@@ -105,25 +131,70 @@ const Details: React.FC<Props> = (props: Props) => {
           <Grid
             item
             container
-            xs={6}
-            sm={6}
-            md={6}
-            lg={6}
-            xl={6}
+            xs={2}
+            sm={2}
+            md={2}
+            lg={2}
+            xl={2}
             justify={'center'}
             alignContent={'space-around'}
           >
-            {subset.slice(2).map(([key, value]) => (
-              <Grid item container xs={4} sm={4} md={4} lg={4} xl={4}>
-                <Typography variant={'body1'}>
-                  {key}: {value?.toString()}
-                </Typography>
-              </Grid>
+            {subset?.slice(2).map(([key, value]) => (
+              <>
+                <Grid
+                  item
+                  container
+                  xs={6}
+                  sm={6}
+                  md={6}
+                  lg={6}
+                  xl={6}
+                  alignContent={'center'}
+                >
+                  <Typography variant={'subtitle2'}>{key}</Typography>
+                </Grid>
+                <Grid
+                  item
+                  container
+                  xs={6}
+                  sm={6}
+                  md={6}
+                  lg={6}
+                  xl={6}
+                  alignContent={'center'}
+                >
+                  <Typography variant={'h6'}>{value?.toString()}</Typography>
+                </Grid>
+              </>
             ))}
+          </Grid>
+          <Grid
+            item
+            container
+            xs={4}
+            sm={4}
+            md={4}
+            lg={4}
+            xl={4}
+            justify={'center'}
+            alignContent={'space-around'}
+          >
+            <RadarChart
+              margin={{ top: 40, right: 30, bottom: 30, left: 40 }}
+              data={[params] as RadarChartPoint[]}
+              height={containerSize.height - 32}
+              width={containerSize.height - 32}
+              domains={
+                Object.entries(domains!).map(([key, value]) => ({
+                  name: key,
+                  domain: value
+                })) as any
+              }
+            />
           </Grid>
         </>
       ) : (
-        <Typography>
+        <Typography variant={'body1'}>
           Click any mark to show the details of a pokemon.
         </Typography>
       )}

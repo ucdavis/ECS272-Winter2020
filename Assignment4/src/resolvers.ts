@@ -13,6 +13,7 @@ export default {
       });
       const fragment = gql`
         fragment targets on Parallel {
+          title
           targets {
             position
             name
@@ -33,6 +34,7 @@ export default {
           }
         ].sort((a, b) => (a.position < b.position ? -1 : 1))
       };
+      console.log(parallel);
       cache.writeData({ id, data });
       return null;
     }

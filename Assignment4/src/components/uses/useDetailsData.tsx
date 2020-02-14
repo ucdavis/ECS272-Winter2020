@@ -4,18 +4,16 @@ import data from '../../data/data.json';
 
 type Props = { id?: number };
 
-const useDetailsData = (props: Props) => {
-  const [detailsData, setDetailsData] = useState<Pokemon | undefined>(
-    undefined
-  );
+const usePokemon = (props: Props) => {
+  const [pokemon, setPokemon] = useState<Pokemon | undefined>(undefined);
 
   useEffect(() => {
     if (props.id !== undefined) {
-      setDetailsData(data.find(item => item.Number === props.id));
+      setPokemon(data.find(item => item.Number === props.id));
     }
   }, [props.id]);
 
-  return detailsData;
+  return pokemon;
 };
 
-export default useDetailsData;
+export default usePokemon;

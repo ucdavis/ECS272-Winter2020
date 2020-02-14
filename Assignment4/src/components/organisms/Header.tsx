@@ -12,7 +12,7 @@ const Header: React.FC<Props> = (props: Props) => {
     >
       <Grid container justify={'space-between'} alignItems={'center'}>
         <Typography variant="h6" style={{ margin: '1rem 3rem' }}>
-          ECS272-2020 Assignment 3
+          ECS272-2020 Assignment 4
         </Typography>
         <Typography variant="h4" style={{ margin: '0 3rem' }}>
           Po-K-Means

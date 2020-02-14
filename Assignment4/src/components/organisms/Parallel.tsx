@@ -24,6 +24,8 @@ const Parallel: React.FC<Props> = (props: Props) => {
     targets: props.targets
   });
 
+  console.log(parallelData, domains);
+
   const ref = useRef<HTMLDivElement>(null);
   const [containerSize, setContainerSize] = useState({ width: 0, height: 0 });
 
@@ -87,7 +89,7 @@ const Parallel: React.FC<Props> = (props: Props) => {
         justify={'center'}
       >
         <XYPlot
-          width={containerSize.width * 0.8}
+          width={containerSize.width * 0.9}
           height={containerSize.height}
           xType="ordinal"
           margin={{ top: 15, left: 0, bottom: 15, right: 0 }}
