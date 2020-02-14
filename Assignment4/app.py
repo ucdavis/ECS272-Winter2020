@@ -164,34 +164,34 @@ def render_visualization():
 
     ])
 
-    # # updates the 3d scatterplot of survey response clusters
-    # @app.callback(
-    #     Output('3d-plot', 'figure'),
-    #     [Input('cluster-dropdown', 'value')]
-    # )
-    # def update_figure(clusterNo):
+    # updates the 3d scatterplot of survey response clusters
+    @app.callback(
+        Output('3d-plot', 'figure'),
+        [Input('cluster-dropdown', 'value')]
+    )
+    def update_figure(clusterNo):
 
-    #     global df
-    #     global CURRENT_CLUSTER_NO
+        global df
+        global CURRENT_CLUSTER_NO
 
-    #     if clusterNo != CURRENT_CLUSTER_NO:
-    #         df = dummy_cluster_norm(df, clusterNo)
+        if clusterNo != CURRENT_CLUSTER_NO:
+            df = dummy_cluster_norm(df, clusterNo)
 
-    #     fig = go.Figure()
+        fig = go.Figure()
 
-    #     for x in range(clusterNo):
-    #         fig.add_trace(go.Scatter3d(x=df[df.clusterNo == str(x)]['xcoord'].tolist(),
-    #                                     y=df[df.clusterNo == str(x)]['ycoord'].tolist(),
-    #                                     z=df[df.clusterNo == str(x)]['zcoord'].tolist(),
-    #                                     mode='markers',
-    #                                     marker={'color' : default_colors[x]},
-    #                                     name="Cluster {}".format(x)
-    #                                 )
-    #         )
+        for x in range(clusterNo):
+            fig.add_trace(go.Scatter3d(x=df[df.clusterNo == str(x)]['xcoord'].tolist(),
+                                        y=df[df.clusterNo == str(x)]['ycoord'].tolist(),
+                                        z=df[df.clusterNo == str(x)]['zcoord'].tolist(),
+                                        mode='markers',
+                                        marker={'color' : default_colors[x]},
+                                        name="Cluster {}".format(x)
+                                    )
+            )
 
-    #     fig.update_layout(showlegend=True, legend={'x' : 0.8, 'y' : 0.9, 'bordercolor': "Black", 'borderwidth': 1})
+        fig.update_layout(showlegend=True, legend={'x' : 0.8, 'y' : 0.9, 'bordercolor': "Black", 'borderwidth': 1})
 
-    #     return  fig#px.scatter_3d(df, x='xcoord', y='ycoord', z='zcoord', color='clusterNo')
+        return  fig#px.scatter_3d(df, x='xcoord', y='ycoord', z='zcoord', color='clusterNo')
 
 
     # updates the heatmap of correlation coefficients
@@ -243,55 +243,42 @@ def render_visualization():
 
     # updates the violin plot of survey responses
     @app.callback(
-        [Output('violins', 'figure'),
-        Output('3d-plot', 'figure')],
+        Output('violins', 'figure'),
         [Input('question-dropdown', 'value'),
         Input('cluster-dropdown', 'value')]
     )
-    def update_figures(category_choices, number_of_clusters):
-
-        global df
-        global CURRENT_CLUSTER_NO
-
-        if number_of_clusters != CURRENT_CLUSTER_NO:
-            df = dummy_cluster_norm(df, number_of_clusters)
-
-        scatter_plot = go.Figure()
-
-        for x in range(number_of_clusters):
-            scatter_plot.add_trace(go.Scatter3d(x=df[df.clusterNo == str(x)]['xcoord'].tolist(),
-                                        y=df[df.clusterNo == str(x)]['ycoord'].tolist(),
-                                        z=df[df.clusterNo == str(x)]['zcoord'].tolist(),
-                                        mode='markers',
-                                        marker={'color' : default_colors[x]},
-                                        name="Cluster {}".format(x)
-                                    )
-            )
-
-        scatter_plot.update_layout(showlegend=True, legend={'x' : 0.8, 'y' : 0.9, 'bordercolor': "Black", 'borderwidth': 1})
+    def update_violins(category_choices, number_of_clusters):
 
         chosen_columns = []
         for choice in category_choices:
             chosen_columns = chosen_columns + question_categories[choice]
 
-        violins = go.Figure()
+        fig = go.Figure()
 
-        for column in chosen_columns:
-            for clusterNo in range(number_of_clusters):
-                violins.add_trace(go.Violin(y=df[column][df['clusterNo'] == str(clusterNo)],
-                                        name=headerDict[column],
-                                        scalegroup=headerDict[column],
-                                        legendgroup=clusterNo,
-                                        #box_visible=True,
-                                        meanline_visible=True,
-                                        line_color=default_colors[clusterNo],
-                                        opacity=0.4)
-                            )
+        # for column in chosen_columns:
+        #     for clusterNo in range(number_of_clusters):
+        #         fig.add_trace(go.Violin(y=df[column][df['clusterNo'] == str(clusterNo)],
+        #                                 x=headerDict[column],
+        #                                 legendgroup="Cluster {}".format(clusterNo),
+        #                                 #box_visible=True,
+        #                                 meanline_visible=True,
+        #                                 line_color=default_colors[clusterNo],
+        #                                 opacity=0.4)
+        #                     )
+        for clusterNo in range(number_of_clusters):
+            fig.add_trace(go.Violin(y=df[chosen_columns][df['clusterNo'] == str(clusterNo)],
+                                    x=chosen_columns,
+                                    legendgroup="Cluster {}".format(clusterNo),
+                                    box_visible=True,
+                                    meanline_visible=True,
+                                    line_color=default_colors[clusterNo],
+                                    opacity=0.4)
+                        )
 
-        violins.update_traces(side='positive', points=False, width = 1.5)
-        violins.update_layout(xaxis_showgrid=False, xaxis_zeroline=False, width=len(chosen_columns) * 100, autosize=False)
+        #fig.update_traces(side='positive', points=False, width = 1.5)
+        fig.update_layout(xaxis_showgrid=False, xaxis_zeroline=False, width=len(chosen_columns) * 100, autosize=False)
 
-        return violins, scatter_plot
+        return fig
 
     app.run_server(debug=True)
 
