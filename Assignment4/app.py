@@ -65,6 +65,13 @@ def render_visualization():
     app.layout = html.Div([
 
         html.Div([
+            html.Div(html.H1("Young People Survey")),
+        ],className="row", style={'width' : '100%'}),
+
+        html.Div([
+
+            html.Div(html.H4("Choose a cluster"), style={'width' : '30%'}, className='three columns'),
+
             html.Div([
 
                 dcc.Checklist(
@@ -90,31 +97,25 @@ def render_visualization():
                     className='six columns',
                     style={'width': '45%'}
                 )
-            ], className="three columns", style={'backgroundColor' : 'rgb(220,220,220)', 'width' : '25%'}),
-            
-            html.Div([
-                html.Div(html.H1("Young People Survey")),
-            
-                html.Div(html.H4("Subtitle")),
-            ],className="three columns", style={'width' : '60%'})
+            ], className="three columns", style={'backgroundColor' : 'rgb(220,220,220)', 'width' : '25%'})
         ],className="row"),
 
         html.Div([
             html.Div(
                     dcc.Graph(
                             id='3d-plot',
-                            style={'height' : '48em'}
+                            style={'height' : '50em'}
                         ),
                     className='six columns',
-                    style={'width': '48em', 'height': '48em'}
+                    style={'width': '50em', 'height': '50em', 'backgroundColor' : 'rgb(0,0,0)'}
                 ),
             html.Div(
                     dcc.Graph(
                         id='corr-heatmap',
-                        style={'height' : '48em'}
+                        style={'height' : '50em'}
                     ),
                     className='six columns',
-                    style={'width': '48em', 'height' : '48em'}),
+                    style={'width': '50em', 'height' : '50em'}),
         ], className="row", style={}),
         
         html.Div(dcc.Graph(id='violins',style={'width':'100%'}),
@@ -191,12 +192,12 @@ def render_visualization():
                         )
 
         fig.update_layout(title={'text' : "Correlation Coefficients in Cluster {}".format(chosen_cluster),
-                                    'x' : 0.34,
-                                    'xanchor' : 'left',
-                                    'y' : 0.85,
+                                    'x' : 0.57,
+                                    'xanchor' : 'center',
+                                    'y' : 0.9,
                                     'yanchor' : 'middle'
                                 },
-                            titlefont={'size' : 30},
+                            titlefont={'size' : 25},
                             xaxis={'showgrid' : False},
                             yaxis={'showgrid' : False},
                             plot_bgcolor='rgb(255,255,255)'
@@ -244,7 +245,7 @@ def render_visualization():
         #             )
 
         fig.update_traces(side='positive', points=False, width = 1.5)
-        fig.update_layout(xaxis_showgrid=False, xaxis_zeroline=False, width=len(chosen_columns) * 100, autosize=False)
+        fig.update_layout(xaxis_showgrid=False, xaxis_zeroline=False, width=len(chosen_columns) * 100, autosize=False, height=750)
 
         return fig
 
