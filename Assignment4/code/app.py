@@ -1,7 +1,6 @@
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
-from dash.dependencies import Input, Output
 import plotly.graph_objects as go
 import plotly.express as px
 from sklearn.cluster import KMeans
@@ -53,6 +52,7 @@ def label_clusters(df, k):
     clusters = get_clusters(stat_vectors, k)
     return apply_labels(clusters, new_df)
 
+# creates the cluster scatter plot
 def create_cluster_scatterplot(df, k=5):
     random.seed(21)
     labelled_df = label_clusters(df, k)
@@ -61,17 +61,21 @@ def create_cluster_scatterplot(df, k=5):
     fig.update_layout(margin=dict(l=20, r=20, t=10, b=20))
     return fig
 
+# creates the basic bar chart
 def create_basic_bar_chart(pokemon_name):
     pokemon_type1 = dataset.loc[dataset['Name'] == pokemon_name, 'Type_1'].values[0]
 
+    # gets all pokemon with the same main type as the selected
     subset = dataset.loc[dataset['Type_1'] == pokemon_type1]
 
+    # sort the pokemon based on their total stats, descending
     sorted_subset = subset.sort_values(by='Total', ascending=False)
     sorted_subset_names = sorted_subset['Name'].values.tolist()
     sorted_subset_vals = sorted_subset['Total'].values.tolist()
 
     target_index = sorted_subset_names.index(pokemon_name)
 
+    # label each pokemon with their ranking
     for index in range(len(sorted_subset_names)):
         ranking = index + 1
         sorted_subset_names[index] = sorted_subset_names[index] + ', #' + str(ranking)
@@ -93,6 +97,7 @@ def create_basic_bar_chart(pokemon_name):
 
     bar_fig = go.Figure()
 
+    # creates traces for bars
     bar_fig.add_trace(go.Bar(x=sorted_subset_names1, y=sorted_subset_vals1, marker_color=bar_colors1,
                              name='Other Pokemon', showlegend=False))
     bar_fig.add_trace(go.Bar(x=sorted_subset_names2, y=sorted_subset_vals2, marker_color=bar_colors2,
@@ -100,6 +105,7 @@ def create_basic_bar_chart(pokemon_name):
     bar_fig.add_trace(go.Bar(x=sorted_subset_names3, y=sorted_subset_vals3, marker_color=bar_colors3,
                              name='Other Pokemon', showlegend=False))
 
+    # creates the actual bar chart
     bar_chart_title = str(pokemon_type1) + ' Main Type Total Stats Rankings Bar Chart'
     x_title = 'Pokemon Whose Main Type is ' + str(pokemon_type1) + ' by Descending Ranking'
     bar_fig.update_layout(title={'text': bar_chart_title, 'y': 0.9, 'x': 0.5, 'xanchor': 'center', 'yanchor': 'top'},
@@ -108,13 +114,16 @@ def create_basic_bar_chart(pokemon_name):
                           legend=dict(x=-.1, y=1.2), margin=dict(l=10, r=20, t=5, b=20))
     return bar_fig
 
+# creates the advanced star plot
 def create_advanced_star_plot(pokemon_name):
+    # gets the pokemon's row
     data_sample = dataset.loc[dataset['Name'] == pokemon_name]
 
     stats = ['HP', 'Attack', 'Defense', 'SP Attack', 'SP Defense', 'Speed']
     stat_vals = [data_sample['HP'].values[0], data_sample['Attack'].values[0], data_sample['Sp_Atk'].values[0],
                  data_sample['Sp_Def'].values[0], data_sample['Speed'].values[0]]
 
+    # creates the actual figure with the pokemon's stats
     star_fig = go.Figure(data=go.Scatterpolar(r=stat_vals, theta=stats, fill='toself', name='Pokemon Stats'))
 
     star_plot_title = str(pokemon_name) + '\'s Stats Star Plot'
@@ -133,6 +142,7 @@ def create_advanced_star_plot(pokemon_name):
     return star_fig
 
 app.layout = html.Div(style={'padding': '1em', 'border-style': 'solid'}, children=[
+    # main title
     html.H2(
         'ECS 272 InfoVis Assignment 4',
         style={
@@ -140,10 +150,13 @@ app.layout = html.Div(style={'padding': '1em', 'border-style': 'solid'}, childre
         }
     ),
 
+    # parent flex container
     html.Div([
+        # left side container
         html.Div([
-
+            # left side's header and slider
             html.Div([
+                # left side's header
                 html.H4(
                     'Overview',
                     style={
@@ -151,6 +164,7 @@ app.layout = html.Div(style={'padding': '1em', 'border-style': 'solid'}, childre
                     }
                 ),
 
+                # slider and its header
                 html.Label(
                     'Number of clusters',
                     style={
@@ -170,22 +184,28 @@ app.layout = html.Div(style={'padding': '1em', 'border-style': 'solid'}, childre
                 )
             ], style={'margin-left': '4vw'}),
 
+            # overview graph; cluster scatter plot that uses PCA and k-means
             dcc.Graph(style={'height': '105vh'}, id='cluster_scatterplot',
                       figure=create_cluster_scatterplot(dataset, 4),
                       hoverData={'points': [{'customdata': ['Bulbasaur']}]}),
 
         ], style={'width': '50%', 'float': 'left'}),
 
+        # right side's container
         html.Div([
+            # right side's header
             html.H4(
                 'Detailed View',
                 style={
                     'textAlign': 'center',
                 }
             ),
-            # basic bar graph goes here; will show the stats of one pokemon
+
+            # basic bar graph; shows the rankings of pokemon with the same main type as the selected
             dcc.Graph(style={'height': '55vh'}, id='basic-bar-chart'),
-            dcc.Graph(style={'height': '55vh'}, id='advanced-star-plot'),
+            # advanced star plot; shows the selected pokemon's stat breakdown
+            dcc.Graph(style={'height': '55vh'}, id='advanced-star-plot')
+
         ], style={'width': '50%', 'float': 'left'})
     ], style={'display': 'flex'})
 
@@ -207,6 +227,7 @@ def update_bar_chart(hover_data):
     pokemon_name = hover_data['points'][0]['customdata'][0]
     return create_advanced_star_plot(pokemon_name)
 
+# callback that updates the scatter plot depending on how many clusters are selected in the slider
 @app.callback(
     dash.dependencies.Output('cluster_scatterplot', 'figure'),
     [dash.dependencies.Input('clusters', 'value')])
