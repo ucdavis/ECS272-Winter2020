@@ -52,10 +52,10 @@ default_colors = [
 ]
 
 #construct cluster options
-option_list = []
+cluster_option_list = []
 for val in range(1,MAX_CLUSTERS):
     val += 1
-    option_list.append({'label' : str(val)+ ' Clusters', 'value' : val})
+    cluster_option_list.append({'label' : str(val)+ ' Clusters', 'value' : val})
 
 #begin visualization
 def render_visualization():
@@ -85,13 +85,7 @@ def render_visualization():
 
                 dcc.RadioItems(
                     id = 'cluster-dropdown',
-                    options=[
-                        {'label' : '2 Clusters', 'value' : 2},
-                        {'label' : '3 Clusters', 'value' : 3},
-                        {'label' : '4 Clusters', 'value' : 4},
-                        {'label' : '5 Clusters', 'value' : 5},
-                        {'label' : '6 Clusters', 'value' : 6},
-                        {'label' : '7 Clusters', 'value' : 7}],
+                    options=cluster_option_list,
                     value=3,
                     className='six columns',
                     style={'width': '45%'}
@@ -166,22 +160,27 @@ def render_visualization():
         Input('3d-plot', 'clickData')]
     )
     def update_heatmap(category_choices, click_data):
+        
+        #choose cluster
         if click_data:
             chosen_cluster = str(click_data["points"][0]['curveNumber'])
         else:
             chosen_cluster = "0"
         
         df_selected = df[df['clusterGrouping' + str(CURRENT_CLUSTER_NO)] == chosen_cluster]
-
+            
+        #choose columns
         chosen_columns = []
         for choice in category_choices:
             chosen_columns = chosen_columns + question_categories[choice]
 
         df_selected = df_selected[chosen_columns]
         
+        #matrix of correlated values
+        #masked with triangular matrix (so don't have repeat values)
         matrix = df_selected.corr().values.tolist()
         mask = np.tri(len(df_selected.columns), k=0)
-        matrix = np.ma.array(matrix, mask=mask)
+        matrix = np.ma.array(matrix, mask=mask)  #bug here, with categorical data
 
         fig = go.Figure(data=go.Heatmap(z=[np.flip(x) for x in matrix.filled(np.nan)],
                                         x=[x for x in np.flip(df_selected.columns)[:-1]],
