@@ -1,0 +1,151 @@
+original,short,category
+I enjoy listening to music.,Music,Music
+I prefer.,Slow songs or fast songs,Music
+"Dance, Disco, Funk",Dance,Music
+Folk music,Folk,Music
+Country,Country,Music
+Classical,Classical music,Music
+Musicals,Musical,Music
+Pop,Pop,Music
+Rock,Rock,Music
+"Metal, Hard rock",Metal or Hardrock,Music
+Punk,Punk,Music
+"Hip hop, Rap","Hiphop, Rap",Music
+"Reggae, Ska","Reggae, Ska",Music
+"Swing, Jazz","Swing, Jazz",Music
+Rock n Roll,Rock n roll,Music
+Alternative music,Alternative,Music
+Latin,Latino,Music
+"Techno, Trance","Techno, Trance",Music
+Opera,Opera,Music
+I really enjoy watching movies.,Movies,Movie
+Horror movies,Horror,Movie
+Thriller movies,Thriller,Movie
+Comedies,Comedy,Movie
+Romantic movies,Romantic,Movie
+Sci-fi movies,Sci-fi,Movie
+War movies,War,Movie
+Tales,Fantasy/Fairy tales,Movie
+Cartoons,Animated,Movie
+Documentaries,Documentary,Movie
+Western movies,Western,Movie
+Action movies,Action,Movie
+History,History,Hobbies
+Psychology,Psychology,Hobbies
+Politics,Politics,Hobbies
+Mathematics,Mathematics,Hobbies
+Physics,Physics,Hobbies
+Internet,Internet,Hobbies
+"PC Software, Hardware",PC,Hobbies
+"Economy, Management",Economy Management,Hobbies
+Biology,Biology,Hobbies
+Chemistry,Chemistry,Hobbies
+Poetry reading,Reading,Hobbies
+Geography,Geography,Hobbies
+Foreign languages,Foreign languages,Hobbies
+Medicine,Medicine,Hobbies
+Law,Law,Hobbies
+Cars,Cars,Hobbies
+Art,Art exhibitions,Hobbies
+Religion,Religion,Hobbies
+Outdoor activities,"Countryside, outdoors",Hobbies
+Dancing,Dancing,Hobbies
+Playing musical instruments,Musical instruments,Hobbies
+Poetry writing,Writing,Hobbies
+Sport and leisure activities,Passive sport,Hobbies
+Sport at competitive level,Active sport,Hobbies
+Gardening,Gardening,Hobbies
+Celebrity lifestyle,Celebrities,Hobbies
+Shopping,Shopping,Hobbies
+Science and technology,Science and technology,Hobbies
+Theatre,Theatre,Hobbies
+Socializing,Fun with friends,Hobbies
+Adrenaline sports,Adrenaline sports,Hobbies
+Pets,Pets,Hobbies
+Flying,Flying,Phobias
+"Thunder, lightning",Storm,Phobias
+Darkness,Darkness,Phobias
+Heights,Heights,Phobias
+Spiders,Spiders,Phobias
+Snakes,Snakes,Phobias
+"Rats, mice",Rats,Phobias
+Ageing,Ageing,Phobias
+Dangerous dogs,Dangerous dogs,Phobias
+Public speaking,Fear of public speaking,Phobias
+Smoking habits,Smoking,Health habits
+Drinking,Alcohol,Health habits
+I live a very healthy lifestyle.,Healthy eating,Health habits
+I take notice of what goes on around me.,Daily events,Personality views & opinions
+I try to do tasks as soon as possible and not leave them until last minute.,Prioritising workload,Personality views & opinions
+I always make a list so I don't forget anything.,Writing notes,Personality views & opinions
+I often study or work even in my spare time.,Workaholism,Personality views & opinions
+I look at things from all different angles before I go ahead.,Thinking ahead,Personality views & opinions
+I believe that bad people will suffer one day and good people will be rewarded.,Final judgement,Personality views & opinions
+I am reliable at work and always complete all tasks given to me.,Reliability,Personality views & opinions
+I always keep my promises.,Keeping promises,Personality views & opinions
+I can fall for someone very quickly and then completely lose interest.,Loss of interest,Personality views & opinions
+I would rather have lots of friends than lots of money.,Friends versus money,Personality views & opinions
+I always try to be the funniest one.,Funniness,Personality views & opinions
+I can be two faced sometimes.,Fake,Personality views & opinions
+I damaged things in the past when angry.,Criminal damage,Personality views & opinions
+I take my time to make decisions.,Decision making,Personality views & opinions
+I always try to vote in elections.,Elections,Personality views & opinions
+I often think about and regret the decisions I make.,Self-criticism,Personality views & opinions
+I can tell if people listen to me or not when I talk to them.,Judgment calls,Personality views & opinions
+I am a hypochondriac.,Hypochondria,Personality views & opinions
+I am emphatetic person.,Empathy,Personality views & opinions
+I eat because I have to. I don't enjoy food and eat as fast as I can.,Eating to survive,Personality views & opinions
+I try to give as much as I can to other people at Christmas.,Giving,Personality views & opinions
+I don't like seeing animals suffering.,Compassion to animals,Personality views & opinions
+I look after things I have borrowed from others.,Borrowed stuff,Personality views & opinions
+I feel lonely in life.,Loneliness,Personality views & opinions
+I used to cheat at school.,Cheating in school,Personality views & opinions
+I worry about my health.,Health,Personality views & opinions
+I wish I could change the past because of the things I have done.,Changing the past,Personality views & opinions
+I believe in God.,God,Personality views & opinions
+I always have good dreams.,Dreams,Personality views & opinions
+I always give to charity.,Charity,Personality views & opinions
+I have lots of friends.,Number of friends,Personality views & opinions
+Timekeeping.,Punctuality,Personality views & opinions
+Do you lie to others?,Lying,Personality views & opinions
+I am very patient.,Waiting,Personality views & opinions
+I can quickly adapt to a new environment.,New environment,Personality views & opinions
+My moods change quickly.,Mood swings,Personality views & opinions
+I am well mannered and I look after my appearance.,Appearence and gestures,Personality views & opinions
+I enjoy meeting new people.,Socializing,Personality views & opinions
+I always let other people know about my achievements.,Achievements,Personality views & opinions
+I think carefully before answering any important letters.,Responding to a serious letter,Personality views & opinions
+I enjoy childrens' company.,Children,Personality views & opinions
+I am not afraid to give my opinion if I feel strongly about something.,Assertiveness,Personality views & opinions
+I can get angry very easily.,Getting angry,Personality views & opinions
+I always make sure I connect with the right people.,Knowing the right people,Personality views & opinions
+I have to be well prepared before public speaking.,Public speaking,Personality views & opinions
+I will find a fault in myself if people don't like me.,Unpopularity,Personality views & opinions
+I cry when I feel down or things don't go the right way.,Life struggles,Personality views & opinions
+I am 100% happy with my life.,Happiness in life,Personality views & opinions
+I am always full of life and energy.,Energy levels,Personality views & opinions
+"I prefer big dangerous dogs to smaller, calmer dogs.",Small - big dogs,Personality views & opinions
+I believe all my personality traits are positive.,Personality,Personality views & opinions
+If I find something the doesn't belong to me I will hand it in.,Finding lost valuables,Personality views & opinions
+I find it very difficult to get up in the morning.,Getting up,Personality views & opinions
+I have many different hobbies and interests.,Interests or hobbies,Personality views & opinions
+I always listen to my parents' advice.,Parents' advice,Personality views & opinions
+I enjoy taking part in surveys.,Questionnaires or polls,Personality views & opinions
+How much time do you spend online?,Internet usage,Personality views & opinions
+I save all the money I can.,Finances,Spending habits
+I enjoy going to large shopping centres.,Shopping centres,Spending habits
+I prefer branded clothing to non branded.,Branded clothing,Spending habits
+I spend a lot of money on  partying and socializing.,Entertainment spending,Spending habits
+I spend a lot of money on my appearance.,Spending on looks,Spending habits
+I spend a lot of money on gadgets.,Spending on gadgets,Spending habits
+"I will hapilly pay more money for good, quality or healthy food.",Spending on healthy eating,Spending habits
+Age,Age,Demographics
+Height,Height,Demographics
+Weight,Weight,Demographics
+How many siblings do you have?,Number of siblings,Demographics
+Gender,Gender,Demographics
+I am,Left - right handed,Demographics
+Highest education achieved,Education,Demographics
+I am the only child,Only child,Demographics
+I spent most of my childhood in a,Village - town,Demographics
+I lived most of my childhood in a,House - block of flats,Demographics
