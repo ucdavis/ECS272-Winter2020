@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <title>ECS 272 InfoVis Assignment 4</title>
@@ -22,8 +23,8 @@
 </head>
 
 <body>
-  <h2>ECS 272 Assignment 4</h2>
-  <h3>Interactive Visualization System - Student Alcohol Consumption</h3>
+  <h2 style="margin-left: 40px">ECS 272 Assignment 4</h2>
+  <h3 style="margin-left: 40px">Interactive Visualization System - Student Alcohol Consumption</h3 style="margin-left: 40px">
 
   <div class="vis-container" style="float:left">
     <div id="alluvial-vis-container" style="float: left"></div>
@@ -128,9 +129,11 @@
       <select onchange="OnScatterVisSelectionChanged(value)">
         <option value="sex">Sex</option>
         <option value="age">Age</option>
+        <option value="romantic">Romantic Relation</option>
         <option value="Walc">Weekend Alc</option>
         <option value="Dalc">Weekday Alc</option>
         <option value="health">Health</option>
+        <option value="failures">Failures</option>
       </select>
     </div>
     <div id="scatter-vis-container"></div>
@@ -139,29 +142,30 @@
   <div class="vis-container" style="float:left">
 
     <div style="margin-bottom: 30px">
-    <select onchange="ThirdDropdownChange(this.value)">
-      <option selected="selected" value="G1">G1: First Period Grade</option>
-      <option value="G2">G2: Second Period Grade</option>
-      <option value="G3">G3: Final Grade</option>
-      <option value="age">Age</option>
-      <option value="absences">School Absences (days)</option>
-      <option value="health">Health</option>
-      <option value="Mjob">Mother's Occupation</option>
-      <option value="Medu">Mother's Education</option>
-      <option value="Fjob">Father's Occupation</option>
-      <option value="Fedu">Father's Education</option>
-      <option value="traveltime">Travel Time</option>
-      <option value="studytime">Study Time</option>
-      <option value="famrel">Family Relationship</option>
-      <option value="freetime">Free Time</option>
-      <option value="goout">Go Out</option>
-      <option value="Dalc">Daily Alcohol Comsumption</option>
-      <option value="Walc">Weekly Alcohol Comsumption</option>
-    </select>
+      <select onchange="ThirdDropdownChange(this.value)">
+        <option selected="selected" value="G1">G1: First Period Grade</option>
+        <option value="G2">G2: Second Period Grade</option>
+        <option value="G3">G3: Final Grade</option>
+        <option value="age">Age</option>
+        <option value="absences">School Absences (days)</option>
+        <option value="health">Health</option>
+        <option value="Mjob">Mother's Occupation</option>
+        <option value="Medu">Mother's Education</option>
+        <option value="Fjob">Father's Occupation</option>
+        <option value="Fedu">Father's Education</option>
+        <option value="traveltime">Travel Time</option>
+        <option value="studytime">Study Time</option>
+        <option value="famrel">Family Relationship</option>
+        <option value="freetime">Free Time</option>
+        <option value="goout">Go Out</option>
+        <option value="Dalc">Workday Alcohol Comsumption</option>
+        <option value="Walc">Weekend Alcohol Comsumption</option>
+      </select>
     </div>
 
     <div id="hist-vis"></div>
   </div>
-  
+
 </body>
+
 </html>

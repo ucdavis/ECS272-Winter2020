@@ -136,7 +136,7 @@ class ScatterVis {
             .append("text")
             .attr("fill", "#000")
             .attr("x", this.width / 2 )
-            .attr("y", 75)
+            .attr("y", 60)
             .attr("text-anchor", "mid")
             .text("PC1")
 
@@ -148,7 +148,7 @@ class ScatterVis {
             .attr("fill", "#000")
             .attr("transform", "rotate(-90)")
             .attr("x", -this.height / 2)
-            .attr("y", -75)
+            .attr("y", -60)
             .attr("text-anchor", "mid")
             .text("PC2")
 
@@ -167,7 +167,7 @@ class ScatterVis {
         //     })
 
         var legend = view.selectAll(".legend")
-            .data(this.data)
+            .data(this.color.domain().sort())
             .enter()
             .append("g")
             .attr("class", "legend")
@@ -180,7 +180,7 @@ class ScatterVis {
             .attr("r", 5)
             .attr("cx", 0)
             .attr("cy", 0)
-            .attr("fill", d => { return colors[this.color_by + '_' + d.row[this.color_by]] })
+            .attr("fill", d => { return colors[this.color_by + '_' + d] })
             
         legend.append("text")
             .attr("x", 5 + 10)

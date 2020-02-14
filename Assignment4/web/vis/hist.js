@@ -135,7 +135,7 @@ class Histogram {
         this.yAxis = d3.axisLeft(this.y)
 
         //create the bar rectangles for histogram
-        this.drawBars(view, data_p, "base", "lightgray")
+        this.drawBars(view, data_p, "base", "gray")
 
         //x axis
         view.append("g")
@@ -221,23 +221,23 @@ class Histogram {
       var highlight_bars = null
       if(h_data_p) highlight_bars = d3.select(this.html_root).select("g").selectAll(".highlight").data(h_data_p)
 
-      var tooltip = d3.select(".vis-container")
-          .append("div")
-            .style("opacity", 0)
-            .attr("class", "tooltip")
-            .style("background-color", "black")
-            .style("border-radius", "2px")
-            .style("padding", "5px")
-            .style("width", "100px")
-            .style("height", "15px")
-            .attr("font-anchor", "mid")
+      // var tooltip = d3.select(".vis-container")
+      //     .append("div")
+      //       .style("opacity", 0)
+      //       .attr("class", "tooltip")
+      //       .style("background-color", "black")
+      //       .style("border-radius", "2px")
+      //       .style("padding", "5px")
+      //       .style("width", "100px")
+      //       .style("height", "15px")
+      //       .attr("font-anchor", "mid")
 
       if(isHist){
-        this.updateBars_Hist(base_bars, "lightgray", "base")
-        if (highlight_bars) this.updateBars_Hist(highlight_bars, "#69b3a2", "highlight")
+        this.updateBars_Hist(base_bars, "gray", "base")
+        if (highlight_bars) this.updateBars_Hist(highlight_bars, "#000000", "highlight")
       } else {
-        this.updateBars_Bar(base_bars, "lightgray", "base")
-        if (highlight_bars) this.updateBars_Bar(highlight_bars, "#69b3a2", "highlight")
+        this.updateBars_Bar(base_bars, "gray", "base")
+        if (highlight_bars) this.updateBars_Bar(highlight_bars, "#000000", "highlight")
       }
 
       d3.selectAll(".base, .highlight")
