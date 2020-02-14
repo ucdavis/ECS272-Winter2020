@@ -18,7 +18,7 @@ def output1():
     #df = df.head(10)
     df.dropna(inplace=True)
     df = processData(df, 3)
-    cluster_otherquestion = countsdf(df,['Movies','History','Psychology','Internet'],3)
+    cluster_otherquestion = countsdf(df,['Movies','Comedy','Romantic','Fantasy/Fairy tales'],3)
     json_data = {'df': df.to_dict(orient="records"),'cluster_otherquestion':cluster_otherquestion.to_dict(orient="records")}
     #print(centroids)
     #print(type(X2[:,0]))
