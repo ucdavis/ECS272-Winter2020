@@ -25,8 +25,6 @@ class AlluvialVis {
         var graph = { 'nodes': [], 'links': [] }
 
         var n_rows = data.length
-        //this.columns = ['Walc', 'sex', 'health']
-        //this.columns = ['sex', 'failures', 'health']
 
         var nodes = []
         var links = []
@@ -89,32 +87,6 @@ class AlluvialVis {
         // clear the tag
         d3.select(this.html_root + " > *").remove()
 
-        var colors = {
-            'sex_M': '#0087DC',
-            'sex_F': '#FFC0CB',
-            '0': '#46CB18',
-            'romantic_yes': '#BA0000',
-            'romantic_no': '#C2C5CC',
-            'Walc_1': '#dbf22c',
-            'Walc_2': '#a1dab4',
-            'Walc_3': '#41b6c4',
-            'Walc_4': '#2c7fb8',
-            'Walc_5': '#253494',
-            'Dalc_1': '#dbf22c',
-            'Dalc_2': '#a1dab4',
-            'Dalc_3': '#41b6c4',
-            'Dalc_4': '#2c7fb8',
-            'Dalc_5': '#253494',
-            'health_1': '#54c9e5',
-            'health_2': '#95d3cf',
-            'health_3': '#d9cfc0',
-            'health_4': '#f27119',
-            'health_5': '#fb5108',
-            'failures_1': '#54c9e5',
-            'failures_2': '#95d3cf',
-            'failures_3': '#d9cfc0',
-            'failures_4': '#f27119',
-        }
 
         // create svg
         var svg = d3.select(this.html_root)

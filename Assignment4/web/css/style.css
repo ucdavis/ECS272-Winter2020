@@ -15,9 +15,12 @@ h3 {
     font-size: 1.5em;
 }
 
+span {
+    font-weight: 100;
+}
+
 .vis-container {
     padding: 30px;
-    border: 1px solid #ccc;
 }
 
 .node rect {
@@ -43,8 +46,8 @@ h3 {
 }
 
 .link.hovered {
-    stroke-opacity: .9;
+    stroke-opacity: .8;
 }
 .link.selected {
-    stroke-opacity: .9;
+    stroke-opacity: .8;
 }

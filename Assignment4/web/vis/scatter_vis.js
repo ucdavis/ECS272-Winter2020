@@ -119,7 +119,10 @@ class ScatterVis {
             .append("circle")
             .attr("class", "dot")
             .attr("r", 3.5)
-            .attr("fill", d => { return this.color(d.row[this.color_by]) })
+            .attr("fill", d => { 
+                return colors[this.color_by + '_' + d.row[this.color_by]] 
+            })
+            //.attr("fill", d => { return this.color(d.row[this.color_by]) })
             .attr("opacity", "0.5")
             .attr("cx", d => { return this.x(d.x) })
             .attr("cy", d => { return this.y(d.y) })
@@ -133,7 +136,7 @@ class ScatterVis {
             .append("text")
             .attr("fill", "#000")
             .attr("x", this.width / 2 )
-            .attr("y", 75)
+            .attr("y", 60)
             .attr("text-anchor", "mid")
             .text("PC1")
 
@@ -145,7 +148,7 @@ class ScatterVis {
             .attr("fill", "#000")
             .attr("transform", "rotate(-90)")
             .attr("x", -this.height / 2)
-            .attr("y", -75)
+            .attr("y", -60)
             .attr("text-anchor", "mid")
             .text("PC2")
 
@@ -153,6 +156,15 @@ class ScatterVis {
         view.append("text")
             .attr("transform", "translate(25, 5)")
             .text(this.color_by.toUpperCase())
+
+        // var legend = view.selectAll(".legend")
+        //     .data(this.color.domain().sort())
+        //     .enter()
+        //     .append("g")
+        //     .attr("class", "legend")
+        //     .attr("transform", (d, i) => {
+        //         return "translate(" + 30 + ", " + (30+(i * 25)) + ")"
+        //     })
 
         var legend = view.selectAll(".legend")
             .data(this.color.domain().sort())
@@ -168,7 +180,7 @@ class ScatterVis {
             .attr("r", 5)
             .attr("cx", 0)
             .attr("cy", 0)
-            .attr("fill", this.color)
+            .attr("fill", d => { return colors[this.color_by + '_' + d] })
             
         legend.append("text")
             .attr("x", 5 + 10)
