@@ -199,7 +199,7 @@ window.onload = function() { // calls this on loading index.html
         ymin = Math.floor(ymin) - 1;
         xmax = Math.ceil(xmax) + 1;
         ymax = Math.ceil(xmax) + 1;
-        var margin = {top: 10, right: 30, bottom: 30, left: 60},
+        var margin = {top: 10, right: 30, bottom: 50, left: 60},
             width = 800 - margin.left - margin.right,
             height = 600 - margin.top - margin.bottom;
         var color = d3.scaleOrdinal().domain(data)
@@ -219,14 +219,25 @@ window.onload = function() { // calls this on loading index.html
             .range([ 0, width ]);
         svg.append("g")
             .attr("transform", "translate(0," + height + ")")
-            .call(d3.axisBottom(x));
-        
+            .call(d3.axisBottom(x))
+            .append("text")
+            .attr("fill", "black")//set the fill here
+            .attr("transform","translate(" + width/2 + ", 40)")
+            .attr("font-size", "14px")
+            .text("Principal Component 1");
+            //var rotateTranslate = d3.svg.g.transform().rotate(-90).translate(0, 0);
           // Add Y axis
         var y = d3.scaleLinear()
             .domain([ymin, ymax])
             .range([ height, 0]);
-        svg.append("g")
+        var yax = svg.append("g")
             .call(d3.axisLeft(y));
+            var ylabl = yax.append("text")
+            .attr("fill", "black")//set the fill here
+            .attr("transform", "rotate(-90) translate(" + -height/3 + "," + -20+")")
+            .attr("font-size", "14px")
+            .text("Principal Component 2");
+            //.transform().rotate(-90).translate(0,0);
 
         console.log("scttarplot")
         console.log(data[0])
@@ -345,7 +356,7 @@ function renderSanky(origData, selectedCluster) {
     format = function (d) { return formatNumber(d) + " " + units; },
     color = d3.schemeCategory20;
 
-    var color = d3.scaleLinear().domain([1, 50])
+    var color = d3.scaleLinear().domain([1, 20])
       .interpolate(d3.interpolateHcl)
       .range([d3.rgb("#007AFF"), d3.rgb('#FFF500')]);
     var svg = d3.select("#sanky")
@@ -354,7 +365,8 @@ function renderSanky(origData, selectedCluster) {
       .append("g")
       .attr("transform",
         "translate(" + smargin.left + "," + smargin.top + ")");
-    
+        var color = d3.scaleOrdinal()
+        .range(d3.schemeCategory20)
     var sankey = d3.sankey()
       .nodeWidth(36)
       .nodePadding(40)
@@ -480,7 +492,7 @@ async function getSankyDat(origData, selectedCluster) {
   console.log(genderGraph);
   let ageNodes = {};
   for (let genKey in genderGraph) {
-    let genNode = {"node": nodeVal++, "name": genKey};
+    let genNode = {"node": nodeVal++, "name": genKey.toUpperCase()};
     let genNodeVal = nodeVal - 1;
     graph.nodes.push(genNode);
     let newlink = {};
