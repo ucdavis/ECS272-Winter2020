@@ -70,59 +70,186 @@ def render_visualization():
 
         html.Div([
 
-            html.Div(html.H4("Choose a cluster by clicking a member"), style={'width' : '30%'}, className='three columns'),
+            html.Div(dcc.Markdown('''
+            The **scatterplot** shows each survey respondent plotted by top 3 principle components and colored by K-means cluster.
+            
+            The **heatmap** shows correlation coefficients between survey responses for the selected cluster.
+            
+            The **violin plot** shows distributions of survey responses per cluster for the selected question categories.
+            
+            The **radar plot** shows survey question responses for any individual selected from the scatter plot.'''
+            ), style={'width' : '30%'}, className='three columns'),
 
             html.Div([
 
-                dcc.Checklist(
-                    id = 'question-dropdown',
-                    options=[
-                        {'label' : 'Music', 'value' : 'Music'},
-                        {'label' : 'Movies', 'value' : 'Movies'},
-                        {'label' : 'Hobbies', 'value' : 'Hobbies'},
-                        {'label' : 'Phobias', 'value' : 'Phobias'},
-                        {'label' : 'Health', 'value' : 'Health'},
-                        {'label' : 'Personality', 'value' : 'Personality'},
-                        {'label' : 'Spending', 'value' : 'Spending'},
-                        {'label' : 'Demographics', 'value' : 'Demographics'}],
-                    value=['Music','Movies'],
+                html.Div([
+                    dcc.Markdown("**Question Categories:**"),
+
+                    dcc.Checklist(
+                        id = 'question-dropdown',
+                        options=[
+                            {'label' : 'Music', 'value' : 'Music'},
+                            {'label' : 'Movies', 'value' : 'Movies'},
+                            {'label' : 'Hobbies', 'value' : 'Hobbies'},
+                            {'label' : 'Phobias', 'value' : 'Phobias'},
+                            {'label' : 'Health', 'value' : 'Health'},
+                            {'label' : 'Personality', 'value' : 'Personality'},
+                            {'label' : 'Spending', 'value' : 'Spending'}],
+                        value=['Music','Movies']
+                    )],
                     className='six columns',
                     style={'width': '45%'}
                 ),
 
-                dcc.RadioItems(
-                    id = 'cluster-dropdown',
-                    options=cluster_option_list,
-                    value=3,
+                html.Div([
+                    dcc.Markdown("**Clustering Options:**"),
+
+                    dcc.RadioItems(
+                        id = 'cluster-dropdown',
+                        options=cluster_option_list,
+                        value=3,
+                    )],
                     className='six columns',
                     style={'width': '45%'}
-                )
-            ], className="three columns", style={'backgroundColor' : 'rgb(220,220,220)', 'width' : '25%'})
-        ],className="row"),
+                )],
+                className="three columns",
+                style={'backgroundColor' : 'rgb(220,220,220)', 'width' : '25%'})
+        ],
+        className="row",
+        style={'width' : '100%'}),
 
         html.Div([
             html.Div(
-                    dcc.Graph(
-                            id='3d-plot',
-                            style={'height' : '50em'}
-                        ),
-                    className='six columns',
-                    style={'width': '50em', 'height': '50em', 'backgroundColor' : 'rgb(0,0,0)'}
-                ),
-            html.Div(
-                    dcc.Graph(
-                        id='corr-heatmap',
+                dcc.Graph(
+                        id='3d-plot',
                         style={'height' : '50em'}
-                    ),
-                    className='six columns',
-                    style={'width': '50em', 'height' : '50em'}),
-        ], className="row", style={}),
+                ),
+                className='six columns',
+                style={'width': '50em', 'height': '50em', 'backgroundColor' : 'rgb(0,0,0)'}
+            ),
+            # html.Div([
+            #     dcc.Graph(
+            #         id='radar-chart',
+            #         style={'width' : '30em'}),
+            #     html.Div([
+            #         dcc.Markdown("###### Selected Individual's Demographic Info",
+            #                         style={'textAlign' : 'center', 'width' : '30em', }),
+            #         dcc.Markdown(
+            #             id='demographic-info',
+            #             style={'textAlign' : 'center', 'width' : '30em'}
+            #         )
+            #     ], style={'backgroundColor' : 'rgb(220, 220,220)'}),
+            #     ],
+            #     style={'width' : '30em', 'height' : '50em'},
+            #     className='six columns'
+            # ),
+            html.Div(
+                dcc.Graph(
+                    id='corr-heatmap',
+                    style={'height' : '49em'}
+                ),
+                className='six columns',
+                style={'width': '49em', 'height' : '49em'}
+            ),
+        ], className="row"),
         
-        html.Div(dcc.Graph(id='violins',style={'width':'100%'}),
-                style={'maxWidth' : '100%', 'overflowX' : 'scroll'},
-                className='row')
+        html.Div([
+            html.Div([
+                html.Div([
+                    dcc.Markdown("###### Selected Individual's Demographic Info",
+                                    style={'textAlign' : 'center', 'width' : '39em', }),
+                    dcc.Markdown(
+                        id='demographic-info',
+                        style={'textAlign' : 'center', 'width' : '39em'}
+                    )
+                ], style={'backgroundColor' : 'rgb(220, 220,220)'}),
+                dcc.Graph(
+                    id='radar-chart',
+                    style={'width' : '39em'}),
+                ],
+                style={'width' : '39em', 'height' : '50em'},
+                className='six columns'
+            ),
 
+            # html.Div(
+            #     dcc.Graph(
+            #         id='corr-heatmap',
+            #         style={'height' : '40em'}
+            #     ),
+            #     className='six columns',
+            #     style={'width': '40em', 'height' : '40em'}
+            # ),
+            html.Div([
+                html.Div(
+                    dcc.Markdown("#### Distribution of Survey Responses Per Cluster",
+                                    style={'textAlign': 'center', 'width' : '60em'}),
+                    style={'width' : '60em'}, className='six-columns'
+                ),
+
+                html.Div(
+                    dcc.Graph(
+                        id='violins',
+                        style={'width':'100%'}
+                    ),
+                style={'maxWidth' : '60em', 'overflowX' : 'scroll'}
+                )], 
+                className='six columns'
+            )
+        ], className='row')
     ])
+
+
+    @app.callback(
+        [Output('radar-chart', 'figure'),
+        Output('demographic-info', 'children')],
+        [Input('question-dropdown', 'value'),
+        Input('3d-plot', 'clickData')]
+    )
+    def update_radar_chart(category_choices, click_data):
+        if click_data:
+            x = click_data['points'][0]['x']
+            y = click_data['points'][0]['y']
+            z = click_data['points'][0]['z']
+        else:
+            x = df.iloc[0]['xcoord']
+            y = df.iloc[0]['ycoord']
+            z = df.iloc[0]['zcoord']
+
+        df_single = df[(df['xcoord'] == x ) & (df['ycoord'] == y) & (df['zcoord'] == z)]
+        
+        chosen_columns = []
+        for choice in category_choices:
+            chosen_columns = chosen_columns + question_categories[choice]
+
+        individual = pd.DataFrame(dict(
+            r = df_single[chosen_columns].values[0].tolist(),
+            theta = chosen_columns
+        ))
+
+        demographic_info = '''**Age**: {}
+        
+**Height**: {} cm
+
+**Weight**: {} kg
+
+**Gender**: {}
+
+**Number of Siblings** : {}
+        '''.format(int(df_single['Age'].tolist()[0]),
+                    df_single['Height'].tolist()[0],
+                    df_single['Weight'].tolist()[0],
+                    ["Male" if int(x) == 5 else "Female" for x in df_single['Gender'].tolist()][0],
+                    int(df_single['Number of siblings'].tolist()[0]))
+
+        fig = px.line_polar(individual,
+                            r='r',
+                            theta='theta',
+                            line_close=True,
+                            hover_data=['theta','r'])
+        fig.update_traces(fill='toself', line_color = default_colors[int(df_single['clusterGrouping{}'.format(CURRENT_CLUSTER_NO)].tolist()[0])])
+
+        return fig, demographic_info
+
 
     # updates the 3d scatterplot of survey response clusters
     @app.callback(
@@ -150,19 +277,22 @@ def render_visualization():
             )
 
         fig.update_layout(showlegend=True, legend={'x' : 0.8, 'y' : 0.9, 'bordercolor': "Black", 'borderwidth': 1},
-                            title={'text':"Plot by top 3 principal components, color by K-means cluster",
-                                    'y' : 0.9,
-                                    'yanchor' : 'middle',
-                            },
-                            titlefont={'size':25},
+                            # title={'text':"Plot by top 3 principal components, color by K-means cluster",
+                            #         'y' : 0.9,
+                            #         'yanchor' : 'middle',
+                            # },
+                            # titlefont={'size':25},
                             scene={
                                 'xaxis_title':'PC1',
                                 'yaxis_title':'PC2',
                                 'zaxis_title':'PC3',
+                            },
+                            margin = {
+                                't' : 5
                             }
         )
 
-        return  fig#px.scatter_3d(df, x='xcoord', y='ycoord', z='zcoord', color='clusterNo')
+        return  fig
 
 
     # updates the heatmap of correlation coefficients
@@ -197,8 +327,9 @@ def render_visualization():
         fig = go.Figure(data=go.Heatmap(z=[np.flip(x) for x in matrix.filled(np.nan)],
                                         x=[x for x in np.flip(df_selected.columns)[:-1]],
                                         y=[x for x in df_selected.columns[:-1]],
-                                        colorscale='gray_r',
-                                        hoverongaps=False
+                                        colorscale=px.colors.diverging.balance,
+                                        hoverongaps=False,
+                                        zmid=0,
                                         )
                         )
 
@@ -255,8 +386,16 @@ def render_visualization():
         #                         points='all')
         #             )
 
-        fig.update_traces(side='positive', points=False, width = 1.5)
-        fig.update_layout(xaxis_showgrid=False, xaxis_zeroline=False, width=len(chosen_columns) * 100, autosize=False, height=750)
+        fig.update_traces(side='positive', points=False, width = 1.5, hoverinfo='skip')
+        fig.update_layout(xaxis_showgrid=False,
+                            xaxis_zeroline=False,
+                            width=len(chosen_columns) * 100,
+                            autosize=False,
+                            height=750,
+                            margin={
+                                't' : 5,
+                                'l' : 5
+                            })
 
         return fig
 
