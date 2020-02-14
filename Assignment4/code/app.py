@@ -11,11 +11,12 @@ import os
 import random
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
-cluster_description = '''Pokemon are assigned a vector based on their stats of HP, Attack, Defense, Special Attack, Special Defense, and Speed, and
-clustred based off of the Euclidian distance of those vectors after normalization (such that the max value for a given position in the vector is 1).
-The X and Y axis in the scatter chart is the first and second principal component of the stat vector, respectively. Clusters correspond roughly what
-how good the Pokemon is, with high X value and high Y value corresponding to better Pokemon. Mousing over a given point will return the name of the
-Pokemon, and update the bar and star plots to reflect the stats of that Pokemon.'''
+cluster_description = '''Pokemon are assigned a vector based on their stats of HP, Attack, Defense, Special Attack, 
+Special Defense, and Speed, and clustered based off of the Euclidian distance of those vectors after normalization 
+(such that the max value for a given position in the vector is 1). The X and Y axis in the scatter chart are the first 
+and second principal components of the stat vector, respectively. Clusters correspond roughly with how good the Pokemon 
+is, with high X value and high Y value corresponding to better Pokemon. Mousing over a given point will return the name 
+of the Pokemon, and update the bar and star plots to reflect the stats of that Pokemon.'''
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
@@ -174,7 +175,7 @@ app.layout = html.Div(style={'padding': '1em', 'border-style': 'solid'}, childre
                 }
             ),
 
-# container for slider and its header
+            # container for slider and its header
             html.Div([
                 # slider's header
                 html.Label(
@@ -201,11 +202,14 @@ app.layout = html.Div(style={'padding': '1em', 'border-style': 'solid'}, childre
             ], style={'height': '12vh'}),
 
             # overview graph; cluster scatter plot that uses PCA and k-means
-            dcc.Graph(style={'height': '95vh'}, id='cluster_scatterplot',
+            dcc.Graph(style={'height': '80vh'}, id='cluster_scatterplot',
                       figure=create_cluster_scatterplot(dataset, 4),
                       hoverData={'points': [{'customdata': ['Bulbasaur']}]}),
 
-
+            html.P(
+                cluster_description,
+                style={'margin-left': '4vw', 'margin-right': '4vw', 'font-size': '10px', 'height': '15vh'}
+            )
 
         ], style={'width': '50%', 'float': 'left'}),
 
