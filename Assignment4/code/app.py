@@ -11,6 +11,11 @@ import os
 import random
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
+cluster_description = '''Pokemon are assigned a vector based on their stats of HP, Attack, Defense, Special Attack, Special Defense, and Speed, and
+clustred based off of the Euclidian distance of those vectors after normalization (such that the max value for a given position in the vector is 1).
+The X and Y axis in the scatter chart is the first and second principal component of the stat vector, respectively. Clusters correspond roughly what
+how good the Pokemon is, with high X value and high Y value corresponding to better Pokemon. Mousing over a given point will return the name of the
+Pokemon, and update the bar and star plots to reflect the stats of that Pokemon.'''
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
