@@ -1,3 +1,5 @@
+# Group Member: Chen Zhou (chezhou@ucdavis.edu), Roger Lee (rcclee@ucdavis.edu)
+
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
