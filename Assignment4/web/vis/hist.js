@@ -1,5 +1,5 @@
 class Histogram {
-    constructor(data, h_data, html_root, dimensions, setting){
+    constructor(data, html_root, dimensions, setting){
 
         eventbus.on('scatter_vis_changed', (filtered_data, ...args) => {
           this.updateLinking(args[0], filtered_data)
@@ -82,15 +82,13 @@ class Histogram {
             .append("div")
               .style("opacity", 0)
               .attr("class", "tooltip")
-              .style("background-color", "black")
-              .style("border-radius", "2px")
               .style("padding", "5px")
               .style("width", "100px")
               .style("height", "15px")
-              .attr("font-anchor", "mid")
+              .style("font-anchor", "mid")
 
-        this.mouseover = function(d) {
-          tooltip.html("<span style='color: white'>" + d.value + " students </span>")
+        this.mouseover = function(d){
+          tooltip.html("<span style='color: black'>" + d.value + " students </span>")
             .style("left", (d3.mouse(this)[0]+10) + "px")
             .style("top", (d3.mouse(this)[1]) + "px")
 
@@ -101,7 +99,7 @@ class Histogram {
           tooltip
             .transition()
             .duration(200)
-              .style("opacity", 0.6)
+              .style("opacity", 1)
         }
 
         this.mousemove = function(d){
