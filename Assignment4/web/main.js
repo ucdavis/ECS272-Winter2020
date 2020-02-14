@@ -43,13 +43,11 @@ function ThirdDropdownChange(value){
     } else if (value == "absences"){
       setting.x_domain.max = 80
     }
-
-    hist_vis.update(data, null, setting, true)
+    hist_vis.updateDropdown(setting, true)
 
   } else {
   //else, we are gonna update a barchart
-
-    hist_vis.update(data, null, setting, false)
+    hist_vis.updateDropdown(setting, false)
 
   }
 

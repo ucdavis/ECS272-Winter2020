@@ -2,7 +2,7 @@ class Histogram {
     constructor(data, h_data, html_root, dimensions, setting){
 
         eventbus.on('scatter_vis_changed', (filtered_data, ...args) => {
-          this.updateLasso(args[0], filtered_data)
+          this.updateLinking(args[0], filtered_data)
       })
 
         this.setting = setting
@@ -183,12 +183,12 @@ class Histogram {
         .on("mouseleave", this.mouseleave)
     }
 
-    updateLasso(data, h_data){
-
-      console.log(this.data)
-      console.log(this.h_data)
+    updateLinking(data, h_data){
       this.update(data, h_data, this.setting, this.isHist)
-      //this.init()
+    }
+
+    updateDropdown(setting, isHist){
+      this.update(this.data, this.h_data, setting, isHist)
     }
 
     update(data, h_data, setting, isHist){

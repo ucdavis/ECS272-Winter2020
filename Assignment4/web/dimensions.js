@@ -14,7 +14,7 @@ var scatter_vis_dimensions = {
 var alluvial_vis_dimensions = {
     width: 900,
     height: 400,
-    margin: { left: 40, right: 150, top: 20, bottom: 40 }
+    margin: { left: 40, right: 150, top: 40, bottom: 40 }
 }
 
 var hist_vis_dimensions = {
