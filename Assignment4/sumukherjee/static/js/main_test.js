@@ -41,8 +41,7 @@ window.onload = function() { // calls this on loading index.html
     
       console.log(scoregroup)
       
-      var questions = ['Movies','Comedy','Romantic','Fantasy/Fairy tales'];
-      var padding=40;
+      var questions = ["Movies","Horror","Thriller","Comedy",	"Romantic","Sci-fi",	"War","Fantasy/Fairy tales"	,"Animated",	"Documentary","Western","Action"];
 
 
       var selecteddata  = [];
@@ -66,7 +65,7 @@ window.onload = function() { // calls this on loading index.html
 
       var margin = {top: 50, right: 160, bottom: 50, left: 30};
 
-      var width = 600 - margin.left - margin.right,
+      var width = 1500 - margin.left - margin.right,
          height = 600 - margin.top - margin.bottom;
 
       var svg = d3.select("#bar")
