@@ -107,7 +107,7 @@ class AlluvialVis {
         // create sankey layout
         sankey(this.graph)
 
- 
+
 
 
         // create category labels
@@ -198,7 +198,7 @@ class AlluvialVis {
         var filtered_data
         var column
 
-        
+
         if (selected) {
             column = this.index_cat_ref[d.node]
             filtered_data = this.data.filter(j => {

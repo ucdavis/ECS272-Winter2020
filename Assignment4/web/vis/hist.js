@@ -1,14 +1,17 @@
 class Histogram {
-    constructor(data, h_data, html_root, dimensions, setting){
+    constructor(data, html_root, dimensions, setting){
+
         eventbus.on('scatter_vis_changed', (filtered_data, ...args) => {
-          this.updateLasso(args[0], filtered_data)
+          this.updateLinking(args[0], filtered_data)
       })
 
         this.setting = setting
-        this.data = this.transformData_Hist(data, setting.key)
-        this.h_data = this.transformData_Hist(h_data, setting.key)
-        this.html_root = html_root
         this.isHist = true
+        //raw data
+        this.data = data
+        this.h_data = null
+
+        this.html_root = html_root
 
         this.width = dimensions.width
         this.height = dimensions.height
@@ -28,42 +31,38 @@ class Histogram {
         this.init()
     }
 
-    transformData_Hist(data, key) {
+    transformData(data, key, isHist) {
       if(data == null){
         return
       }
 
-      var hist = d3.histogram()
-        .domain([this.setting.x_domain.min, this.setting.x_domain.max])
-        .thresholds([...Array(this.setting.x_ticks+1).keys()]);
+      if(isHist){
+        var hist = d3.histogram()
+          .domain([this.setting.x_domain.min, this.setting.x_domain.max])
+          .thresholds([...Array(this.setting.x_ticks+1).keys()]);
 
-      var temp = hist(data.map(d => d[key]).map(d => { return +d }) ).map(d => {
-        return{
-          x0: d.x0,
-          x1: d.x1,
-          value: d.length
-        }
-      })
-
-      return temp
-    }
-
-    transformData_Bar(data, key){
-      if(data == null){
-        return
-      }
-
-      var nested = d3.nest()
-      .key(d => d[key])
-      .rollup(v => v.length)
-      .entries(data)
-
-      return nested.map(d => {
-          return {
-              key: d.key,
-              value: +d.value,
+        var temp = hist(data.map(d => d[key]).map(d => { return +d }) ).map(d => {
+          return{
+            x0: d.x0,
+            x1: d.x1,
+            value: d.length
           }
-      }).sort((a, b) => d3.ascending(a.key, b.key))
+        })
+
+        return temp
+      } else {
+        var nested = d3.nest()
+        .key(d => d[key])
+        .rollup(v => v.length)
+        .entries(data)
+
+        return nested.map(d => {
+            return {
+                key: d.key,
+                value: +d.value,
+            }
+        }).sort((a, b) => d3.ascending(a.key, b.key))
+      }
     }
 
     init(){
@@ -83,25 +82,24 @@ class Histogram {
             .append("div")
               .style("opacity", 0)
               .attr("class", "tooltip")
-              .style("background-color", "black")
-              .style("border-radius", "2px")
               .style("padding", "5px")
               .style("width", "100px")
               .style("height", "15px")
-              .attr("font-anchor", "mid")
+              .style("font-anchor", "mid")
 
-        this.mouseover = function(d) {
-          tooltip.html("<span style='color: white'>" + d.value + " students </span>")
+        this.mouseover = function(d){
+          tooltip.html("<span style='color: black'>" + d.value + " students </span>")
             .style("left", (d3.mouse(this)[0]+10) + "px")
             .style("top", (d3.mouse(this)[1]) + "px")
 
           d3.select(this)
             .style("stroke", "gray")
+            .style("fill-opacity", 1)
 
           tooltip
             .transition()
             .duration(200)
-              .style("opacity", 0.6)
+              .style("opacity", 1)
         }
 
         this.mousemove = function(d){
@@ -118,7 +116,10 @@ class Histogram {
 
           d3.select(this)
             .style("stroke", "none")
+            .style("fill-opacity", 0.6)
         }
+
+        var data_p = this.transformData(this.data, this.setting.key, this.isHist)
 
         //scale functions
         this.x = d3.scaleLinear()
@@ -126,7 +127,7 @@ class Histogram {
           .range([0,this.width]);
 
         this.y = d3.scaleLinear()
-          .domain([0, d3.max(this.data, function(d){ return d.value; })])
+          .domain([0, d3.max(data_p, function(d){ return d.value; })])
           .range([this.height, 0]);
 
         //axis
@@ -134,8 +135,7 @@ class Histogram {
         this.yAxis = d3.axisLeft(this.y)
 
         //create the bar rectangles for histogram
-        this.drawBars(view, this.data, "base", "lightgray")
-        //this.drawBars(view, this.h_data, "highlight", "#69b3a2")
+        this.drawBars(view, data_p, "base", "lightgray")
 
         //x axis
         view.append("g")
@@ -182,23 +182,23 @@ class Histogram {
         .on("mouseleave", this.mouseleave)
     }
 
-    updateLasso(data, h_data){
-      //this.data = this.transformData_Hist(data, this.setting.key)
-      //this.h_data = this.transformData_Hist(h_data, this.setting.key)
-      console.log(this.data)
-      console.log(this.h_data)
-      this.update(data, h_data, this.setting, this.isHist)
-      //this.init()
+    updateLinking(data, h_data){ //raw data
+      this.data = data
+      this.h_data = h_data
+      this.update(this.setting, this.isHist)
     }
 
-    update(data, h_data, setting, isHist){
+    updateDropdown(setting, isHist){ //not raw data
+      this.update(setting, isHist)
+    }
+
+    update(setting, isHist){
       console.log("start update: ", setting.x_axis)
       this.setting = setting
       this.isHist = isHist
 
       //re-transform the data
-      if (isHist) this.retransform_Hist(data, h_data)
-      else this.retransform_Bar(data, h_data)
+      this.updateAxis()
 
       d3.select(this.html_root).select(".x.axis")
         .transition()
@@ -214,9 +214,12 @@ class Histogram {
         .duration(500)
         .call(this.yAxis)
 
+      var data_p = this.transformData(this.data, this.setting.key, this.isHist)
+      var h_data_p = this.transformData(this.h_data, this.setting.key, this.isHist)
       // update the rectangles
-      var base_bars = d3.select(this.html_root).select("g").selectAll(".base").data(this.data)
-      var highlight_bars = d3.select(this.html_root).select("g").selectAll(".highlight").data(this.h_data)
+      var base_bars = d3.select(this.html_root).select("g").selectAll(".base").data(data_p)
+      var highlight_bars = null
+      if(h_data_p) highlight_bars = d3.select(this.html_root).select("g").selectAll(".highlight").data(h_data_p)
 
       var tooltip = d3.select(".vis-container")
           .append("div")
@@ -231,10 +234,10 @@ class Histogram {
 
       if(isHist){
         this.updateBars_Hist(base_bars, "lightgray", "base")
-        this.updateBars_Hist(highlight_bars, "#69b3a2", "highlight")
+        if (highlight_bars) this.updateBars_Hist(highlight_bars, "#69b3a2", "highlight")
       } else {
         this.updateBars_Bar(base_bars, "lightgray", "base")
-        this.updateBars_Bar(highlight_bars, "#69b3a2", "highlight")
+        if (highlight_bars) this.updateBars_Bar(highlight_bars, "#69b3a2", "highlight")
       }
 
       d3.selectAll(".base, .highlight")
@@ -243,27 +246,20 @@ class Histogram {
         .on("mouseleave", this.mouseleave)
     }
 
-    retransform_Hist(data, h_data){
-      this.data = this.transformData_Hist(data, this.setting.key)
-      this.h_data = this.transformData_Hist(h_data, this.setting.key)
-
-      this.x = d3.scaleLinear()
-        .domain([this.setting.x_domain.min, this.setting.x_domain.max])
-        .range([0,this.width]);
+    updateAxis(){
+      var data_p = this.transformData(this.data, this.setting.key, this.isHist)
+      if(this.isHist){
+        this.x = d3.scaleLinear()
+          .domain([this.setting.x_domain.min, this.setting.x_domain.max])
+          .range([0,this.width]);
+      } else {
+        this.x = d3.scaleBand()
+            .domain(data_p.map(d =>  d.key))
+            .range([0, this.width])
+            .padding(0.2)
+      }
       this.xAxis = d3.axisBottom(this.x)
-      this.y.domain([0, d3.max(this.data, d => d.value)])
-    }
-
-    retransform_Bar(data, h_data){
-      this.data = this.transformData_Bar(data, this.setting.key)
-      this.h_data = this.transformData_Bar(h_data, this.setting.key)
-
-      this.x = d3.scaleBand()
-          .domain(this.data.map(d =>  d.key))
-          .range([0, this.width])
-          .padding(0.2)
-      this.xAxis = d3.axisBottom(this.x)
-      this.y.domain([0, d3.max(this.data, d => d.value)])
+      this.y.domain([0, d3.max(data_p, d => d.value)])
     }
 
     updateBars_Hist(bars, color, bar_class){
