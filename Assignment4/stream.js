@@ -143,6 +143,10 @@ function onChangeStreamGraph() {
     var selectedAspect = dropDown.options[dropDown.selectedIndex].value;
     var selectedData = null
     var possibleKeys = null
+    selectedStream = -1
+    selectedBar = -1
+    document.getElementById("tooltip-bar-chart").innerHTML = "Touch a bar to see the quantity!"
+    tooltipStreamGraph.innerHTML = "Select a stream to continue!"
     if (selectedAspect == 'vote-average') {
         barChartSVG.selectAll('*')
             .remove()

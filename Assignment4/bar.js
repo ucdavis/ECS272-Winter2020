@@ -45,6 +45,8 @@ function onChangeBarChart(text) {
     // pieChartSVG.selectAll("*").remove();
     // removePieChartElement();
 
+    selectedBar = -1
+    document.getElementById("tooltip-bar-chart").innerHTML = "Touch a bar to see the quantity!"
     barChartSVG.selectAll('*')
         .remove()
     tagCloudSVG.selectAll("*")
