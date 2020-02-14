@@ -206,6 +206,7 @@ app.layout = html.Div(style={'padding': '1em', 'border-style': 'solid'}, childre
                       figure=create_cluster_scatterplot(dataset, 4),
                       hoverData={'points': [{'customdata': ['Bulbasaur']}]}),
 
+            # overview graph's description
             html.P(
                 cluster_description,
                 style={'margin-left': '4vw', 'margin-right': '4vw', 'font-size': '10px', 'height': '15vh'}
