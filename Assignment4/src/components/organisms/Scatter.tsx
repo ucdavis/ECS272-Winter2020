@@ -47,9 +47,22 @@ const Scatter: React.FC<Props> = (props: Props) => {
     opacity: item.id === highlight ? 1 : 0.25
   }));
 
+  const tickValues =
+    scatterData !== undefined
+      ? {
+          x:
+            typeof scatterData[0].x !== 'number'
+              ? [...Array.from(new Set(scatterData.map(item => item.x)))]
+              : undefined,
+          y:
+            typeof scatterData[0].y !== 'number'
+              ? [...Array.from(new Set(scatterData.map(item => item.y)))]
+              : undefined
+        }
+      : { x: undefined, y: undefined };
+
   const [tooltip, setTooltip] = useState<ToolTip | undefined>(undefined);
 
-  const [temp, setTemp] = useState<any | undefined>(undefined);
   const onValueClick = (node: any, event: any) => {
     client.writeData({
       data: {
@@ -90,11 +103,14 @@ const Scatter: React.FC<Props> = (props: Props) => {
           <XYPlot
             width={containerSize.width / 1.55}
             height={containerSize.height * 0.78}
+            xType={tickValues.x !== undefined ? 'ordinal' : undefined}
+            yType={tickValues.y !== undefined ? 'ordinal' : undefined}
+            margin={{ left: tickValues.y !== undefined ? 60 : 40 }}
           >
             <HorizontalGridLines />
             <VerticalGridLines />
-            <XAxis title={props.x} />
-            <YAxis title={props.y} />
+            <XAxis title={props.x} tickValues={tickValues.x} />
+            <YAxis title={props.y} tickValues={tickValues.y} />
             <MarkSeries
               data={scatterData}
               onValueClick={onValueClick}
@@ -118,12 +134,19 @@ const Scatter: React.FC<Props> = (props: Props) => {
         md={4}
         lg={4}
         xl={4}
-        justify="flex-start"
+        justify="center"
         alignItems="center"
       >
         <SelectorPanel domain={'scatter'} target={'x'} value={props.x} />
         <SelectorPanel domain={'scatter'} target={'y'} value={props.y} />
         <SliderPanel initial={2} />
+        {tickValues.x !== undefined || tickValues.y !== undefined ? (
+          <Grid item container xs={10} sm={10} md={10} lg={10} xl={10}>
+            <Typography variant={'body1'} color={'error'} align={'left'}>
+              Clustering is not enabled as one or more variables are discrete.
+            </Typography>
+          </Grid>
+        ) : null}
       </Grid>
     </Grid>
   );

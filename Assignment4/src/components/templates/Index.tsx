@@ -14,7 +14,7 @@ type Props = {
 
 const useStyles = makeStyles({
   main: {
-    height: 'calc(100vh - 4rem)',
+    minHeight: 'calc(100vh - 4rem)',
     backgroundColor: '#FBF6E5'
   },
   scatter: {
@@ -91,7 +91,7 @@ const Index: React.FC<Props> = (props: Props) => {
           xl={4}
           className={`${classes.parallel} ${classes.visBox}`}
         >
-          <Parallel targets={props.parallel.targets} />
+          <Parallel {...props.parallel} />
         </Grid>
       </Grid>
     </>

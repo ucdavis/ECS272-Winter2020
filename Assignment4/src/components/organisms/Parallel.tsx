@@ -1,20 +1,28 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { XYPlot, LineSeries, DecorativeAxis, LabelSeries } from 'react-vis';
+import {
+  XYPlot,
+  LineSeries,
+  DecorativeAxis,
+  LabelSeries,
+  LineSeriesPoint
+} from 'react-vis';
 import useParallelData from '../uses/useParallelData';
 import SelectorPanel from '../molecules/SelectorPanel';
-import { Grid, makeStyles } from '@material-ui/core';
+import { Grid, makeStyles, Typography } from '@material-ui/core';
 import useColor from '../uses/useColor';
 import useHighlight from '../uses/useHighlight';
 import { useWindowSize } from 'react-use';
 
-export type Props = { targets: { position: number; name: string }[] };
+export type Props = {
+  targets: { position: number; name: string }[];
+};
 
 const useStyles = makeStyles({
   selectorPanel: {
-    height: 'calc(25vh - 1rem - 8px)'
+    height: 'calc(30vh - 1.2rem - 9.6px)'
   },
   parallel: {
-    height: 'calc(75vh - 3rem - 24px)'
+    height: 'calc(70vh - 2.8rem - 22.4px)'
   }
 });
 
@@ -23,8 +31,6 @@ const Parallel: React.FC<Props> = (props: Props) => {
   const [parallelData, domains] = useParallelData({
     targets: props.targets
   });
-
-  console.log(parallelData, domains);
 
   const ref = useRef<HTMLDivElement>(null);
   const [containerSize, setContainerSize] = useState({ width: 0, height: 0 });
@@ -61,6 +67,7 @@ const Parallel: React.FC<Props> = (props: Props) => {
         lg={12}
         xl={12}
         alignContent={'space-around'}
+        justify={'center'}
         className={classes.selectorPanel}
       >
         {Array(6)
@@ -75,6 +82,14 @@ const Parallel: React.FC<Props> = (props: Props) => {
               />
             </Grid>
           ))}
+        {colors[0] === '#12939a' ? (
+          <Grid item container xs={10} sm={10} md={10} lg={10} xl={10}>
+            <Typography variant={'body1'} color={'error'} align={'left'}>
+              Clustering is not enabled as one or more variables in the scatter
+              plot are discrete.
+            </Typography>
+          </Grid>
+        ) : null}
       </Grid>
       <Grid
         item
@@ -95,33 +110,37 @@ const Parallel: React.FC<Props> = (props: Props) => {
           margin={{ top: 15, left: 0, bottom: 15, right: 0 }}
         >
           {parallelData !== undefined
-            ? parallelData!.map(
-                (
-                  item:
-                    | (any[] | import('react-vis').LineSeriesPoint)[]
-                    | undefined,
-                  index: React.ReactText
-                ) => {
-                  return (
-                    <LineSeries
-                      data={item}
-                      color={highlight === index ? '#222222' : colors[index]}
-                      opacity={highlight === index ? 1 : 0.15}
-                    />
-                  );
-                }
-              )
+            ? parallelData!.map((item: LineSeriesPoint[], index: number) => {
+                return (
+                  <LineSeries
+                    data={item}
+                    color={highlight === index + 1 ? '#222222' : colors[index]}
+                    opacity={highlight === index + 1 ? 1 : 0.15}
+                  />
+                );
+              })
             : null}
           {parallelData !== undefined
             ? parallelData![0].map(
                 (item: { x: React.ReactText }, index: any) => {
+                  const isNumeric = Number(domains![item.x][0]);
                   return [
                     [
                       <DecorativeAxis
-                        key={`${index}-axis`}
                         axisStart={{ x: item.x, y: 0 }}
                         axisEnd={{ x: item.x, y: 1 }}
-                        axisDomain={[domains![item.x][0], domains![item.x][1]]}
+                        axisDomain={isNumeric ? domains![item.x] : [0, 1]}
+                        tickValue={
+                          isNumeric
+                            ? undefined
+                            : (v: any) =>
+                                domains![item.x][
+                                  Math.round(v * (domains![item.x].length - 1))
+                                ]
+                        }
+                        numberOfTicks={
+                          isNumeric ? undefined : domains![item.x].length - 1
+                        }
                       />,
                       <LabelSeries
                         data={[

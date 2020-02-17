@@ -20,7 +20,7 @@ const query = gql`
         name
       }
     }
-    details {
+    details @client {
       title
       id
     }

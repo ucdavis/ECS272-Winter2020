@@ -33,7 +33,8 @@ const useScatterData = (props: Props) => {
       setScatterData(clustering(array, client, props.k));
     }
     return undefined;
-  }, [client, props.k, props.x, props.y]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.k, props.x, props.y]);
 
   return scatterData;
 };

@@ -18,18 +18,23 @@ const useParallelData = (props: Props) => {
   useEffect(() => {
     const newDomains = getDomains(targets);
     if (props.targets !== undefined && newDomains !== undefined) {
-      console.log(newDomains);
       setParallelData(
         data.map(item => {
           return targets.reduce((prev, curr) => {
+            const minMax = newDomains[curr];
+            const key = curr as keyof Pokemon;
             return [
               ...prev,
               {
                 x: curr,
                 y:
-                  ((item[curr as keyof Pokemon] as number) -
-                    (newDomains as any)[curr][0]) /
-                  ((newDomains as any)[curr][1] - (newDomains as any)[curr][0])
+                  typeof minMax[0] === typeof 1
+                    ? ((item[key] as number) - minMax[0]) /
+                      (minMax[1] - minMax[0])
+                    : item[key] !== null
+                    ? minMax.indexOf(item[key]!.toString()) /
+                      (minMax.length - 1)
+                    : minMax.indexOf('')
               }
             ];
           }, [] as LineSeriesPoint[]);

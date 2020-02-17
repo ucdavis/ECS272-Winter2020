@@ -8,7 +8,14 @@ const clustering = (
   client: ApolloClient<object>,
   k: number
 ) => {
-  if (!Number(data[0].x) || !Number(data[0].y)) return;
+  if (!Number(data[0].x) || !Number(data[0].y)) {
+    client.writeData({
+      data: {
+        colors: Array(data.length).fill('#12939a')
+      }
+    });
+    return data;
+  }
   const array1 = data.map(item => item.x) as number[]; //from data find all variable1 values
   const array2 = data.map(item => item.y) as number[]; //from data find all variable2 values
 
@@ -33,7 +40,7 @@ const clustering = (
   const ans = kmeans(chosendata, k, { initialization: centers }).clusters;
 
   const getColor = (str: string | number) => {
-    const hue = (str.toString().charCodeAt(0) * 147) % 360;
+    const hue = (str.toString().charCodeAt(0) * 157.5) % 360;
     return `hsl(${hue}, 75%, 60%)`;
   };
 

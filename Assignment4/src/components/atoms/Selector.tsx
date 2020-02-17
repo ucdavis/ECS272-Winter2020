@@ -12,6 +12,9 @@ export type Props = {
 
 const options = [
   'Number',
+  'Name',
+  'Type_1',
+  'Type_2',
   'Total',
   'HP',
   'Attack',
@@ -20,10 +23,17 @@ const options = [
   'Sp_Def',
   'Speed',
   'Generation',
+  'isLegendary',
+  'Color',
+  'hasGender',
   'Pr_Male',
+  'Egg_Group_1',
+  'Egg_Group_2',
+  'hasMegaEvolution',
   'Height_m',
   'Weight_kg',
-  'Catch_Rate'
+  'Catch_Rate',
+  'Body_Style'
 ].map(item => ({ value: item, label: item }));
 
 const UPDATE_PARALLEL = gql`

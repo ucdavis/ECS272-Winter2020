@@ -27,22 +27,6 @@ const Details: React.FC<Props> = (props: Props) => {
     {}
   );
 
-  console.log(
-    domains
-      ? Object.entries(domains).map(([key, value]) => ({
-          name: key,
-          domain: value
-        }))
-      : null
-  );
-
-  console.log(
-    Object.entries(domains!).map(([key, value]) => ({
-      name: key,
-      domain: value
-    }))
-  );
-
   useEffect(() => {
     if (pokemon !== undefined) {
       setContainerSize({
@@ -195,7 +179,7 @@ const Details: React.FC<Props> = (props: Props) => {
         </>
       ) : (
         <Typography variant={'body1'}>
-          Click any mark to show the details of a pokemon.
+          Click any mark to show the details of the pokemon.
         </Typography>
       )}
     </Grid>
