@@ -82,7 +82,7 @@ const Parallel: React.FC<Props> = (props: Props) => {
               />
             </Grid>
           ))}
-        {colors[0] === '#12939a' ? (
+        {colors === null ? (
           <Grid item container xs={10} sm={10} md={10} lg={10} xl={10}>
             <Typography variant={'body1'} color={'error'} align={'left'}>
               Clustering is not enabled as one or more variables in the scatter
@@ -114,8 +114,14 @@ const Parallel: React.FC<Props> = (props: Props) => {
                 return (
                   <LineSeries
                     data={item}
-                    color={highlight === index + 1 ? '#222222' : colors[index]}
-                    opacity={highlight === index + 1 ? 1 : 0.15}
+                    color={
+                      highlight === index + 1
+                        ? '#222222'
+                        : colors
+                        ? colors[index]
+                        : '#12939a'
+                    }
+                    opacity={highlight === index + 1 ? 1 : 0.125}
                   />
                 );
               })

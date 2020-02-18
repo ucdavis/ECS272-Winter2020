@@ -105,11 +105,18 @@ const Scatter: React.FC<Props> = (props: Props) => {
             height={containerSize.height * 0.78}
             xType={tickValues.x !== undefined ? 'ordinal' : undefined}
             yType={tickValues.y !== undefined ? 'ordinal' : undefined}
-            margin={{ left: tickValues.y !== undefined ? 60 : 40 }}
+            margin={{
+              left: tickValues.y !== undefined ? 85 : 40,
+              bottom: tickValues.x !== undefined ? 80 : 40
+            }}
           >
             <HorizontalGridLines />
             <VerticalGridLines />
-            <XAxis title={props.x} tickValues={tickValues.x} />
+            <XAxis
+              title={props.x}
+              tickValues={tickValues.x}
+              tickLabelAngle={tickValues.x !== undefined ? -45 : undefined}
+            />
             <YAxis title={props.y} tickValues={tickValues.y} />
             <MarkSeries
               data={scatterData}

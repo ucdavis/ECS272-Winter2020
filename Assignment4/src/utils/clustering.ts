@@ -11,10 +11,10 @@ const clustering = (
   if (!Number(data[0].x) || !Number(data[0].y)) {
     client.writeData({
       data: {
-        colors: Array(data.length).fill('#12939a')
+        colors: null
       }
     });
-    return data;
+    return data.map(item => ({ ...item, color: '#12939a' }));
   }
   const array1 = data.map(item => item.x) as number[]; //from data find all variable1 values
   const array2 = data.map(item => item.y) as number[]; //from data find all variable2 values
