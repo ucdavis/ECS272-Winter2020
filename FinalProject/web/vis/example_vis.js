@@ -11,7 +11,7 @@ class ExampleVis {
     }
 
     init() {
-        var svg = d3.select('.vis-container')
+        var svg = d3.select(this.html_root)
             .append('svg')
             .attr('width', this.width + this.margin.left + this.margin.right)
             .attr('height', this.height + this.margin.top + this.margin.bottom)
