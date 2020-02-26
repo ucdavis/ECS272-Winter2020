@@ -1,15 +1,16 @@
 # Constructing the dataset
 ## Each row in the dataFrame includes:
-### url
- - dtype = `string`
- - shortened url of the chart/visualization
-    - right click the image of the visualization in the kaggle kernel,
-      copy image location, shorten url via
-      [this](https://www.shorturl.at/) tool
+### image
+ - dtype = `object`
+ - image object of the visualization, created with the `Image` module from the `PIL` library
+    - [See documentation here](https://pillow.readthedocs.io/en/stable/reference/Image.html)
 ### title
  - dtype = `string`
  - title of the chart/visualization
  - `None` if there is no title
+### author
+ - dtype = `string`
+ - author of the Kaggle Kernel
 ### keywords
  - dtype = `list` of `string`
  - include details like type of plot, axis labels, caption, categorical vs numerical, discrete vs continuous, etc...
@@ -67,8 +68,9 @@ plt.barh(x, y)
 ### ...the dataFrame row representing the data point might look like:
 ```
 {
-    "url" : "shorturl.at/dijwY",
+    "image" : generatedImageObject,
     "title" : "Most Popular Neighbourhood",
+    "author" : Jane Doe,
     "keywords" : ["bar chart", "counts", "categorical", "discrete", "Neighbourhood Area", "Number of guest Who host in this Area"],
     "features" : ["neighbourhood"],
     "code" : "plt.barh(list(data.index), list(data.values))"
