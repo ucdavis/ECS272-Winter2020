@@ -28,6 +28,7 @@ class MainWindow(QtWidgets.QMainWindow):
 		self.createTabs()
 		self.createSetupWindow()
 		self.createViewWindow()
+		self.createAnalysisWindow()
 
 		self.cw.setLayout(self.grid)
 
@@ -126,6 +127,37 @@ class MainWindow(QtWidgets.QMainWindow):
 		self.view_grid.addWidget(self.category_tree, 4, 3)
 		# Set setup layout
 		self.view_tab.setLayout(self.view_grid)
+
+	def createAnalysisWindow(self):
+		# Setup window grid and frame
+		self.analysis_grid = QtWidgets.QGridLayout()
+		self.analysis_frame = QtWidgets.QFrame(self.cw)
+		self.analysis_frame.setFrameShadow(QtWidgets.QFrame.Sunken)
+		self.analysis_frame.setFrameShape(QtWidgets.QFrame.Panel)
+		# Setup widgets
+		self.analysis_title = QtWidgets.QLabel("Analysis")
+		self.analysis_title.setFont(QtGui.QFont("Arial", 24, QtGui.QFont.Bold))
+		self.vis_combobox = QtWidgets.QComboBox()
+		self.populate_vis_combobox()
+		self.analysis_category_tree = QtWidgets.QTreeWidget()
+		self.analysis_image = QtWidgets.QLabel()
+		analysis_pixmap = QtGui.QPixmap(os.path.join('images', 'placeholder.jpg'))
+		self.analysis_image.setPixmap(analysis_pixmap.scaled(480, 360))
+		self.reset_visualization_button = QtWidgets.QPushButton('Reset')
+		# Add analysis widgets to grid
+		self.analysis_grid.addWidget(self.analysis_title, 0, 0)
+		self.analysis_grid.addWidget(self.analysis_image, 1, 0, 4, 3)
+		self.analysis_grid.addWidget(self.vis_combobox, 1, 3)
+		self.analysis_grid.addWidget(self.analysis_category_tree, 2, 3)
+		self.analysis_grid.addWidget(self.reset_visualization_button, 3, 0)
+		self.analysis_tab.setLayout(self.analysis_grid)
+
+
+	def populate_vis_combobox(self):
+		self.vis_combobox.addItem('Value Barchart')
+		self.vis_combobox.addItem('Weight Barchart')
+		self.vis_combobox.addItem('Value-Weight Scatterplot')
+		self.vis_combobox.addItem('Alluvial Diagram')
 
 '''Launches MainWindow object'''
 def launch(filename=None):
