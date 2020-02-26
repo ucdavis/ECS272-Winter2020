@@ -12,25 +12,34 @@ class MapVis {
         this.minZoom = 2
         this.maxZoom = 6
         this.centerPoint = [41.9028, 12.4964]
-        //this.mapBounds = new L.LatLngBounds([-383, 1], [1, 511]),
 
         this.init()
     }
 
     init() {
-        var map = L.map(this.html_root).setView(this.centerPoint, this.minZoom)
-
-        L.tileLayer('https://api.mapbox.com/styles/v1/lukasmaxim/ck72h8cr40cts1imo4e0ujcms/tiles/{z}/{x}/{y}?access_token=' + this.accessToken, {
+        var map_style = {
             //attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
             minZoom: this.minZoom,
             maxZoom: this.maxZoom,
-            //bounds: this.mapBounds,
+            //bounds: new L.LatLngBounds([-383, 1], [1, 511]),
             //noWrap: true,
             tileSize: 512,
             zoomOffset: -1,
-        }).addTo(map)
+        }
 
-        L.geoJson(statesData).addTo(map)
+        var geojson_style = {
+            fillColor: '#FF0000',
+            fillOpacity: '0',
+            color: '#000000',
+            opacity: '1',
+            weight: '0.4',
+        }
+        
+        var map = L.map(this.html_root).setView(this.centerPoint, this.minZoom)
+
+        L.tileLayer('https://api.mapbox.com/styles/v1/lukasmaxim/ck72h8cr40cts1imo4e0ujcms/tiles/{z}/{x}/{y}?access_token=' + this.accessToken, map_style).addTo(map)
+
+        L.geoJson(countries, geojson_style).addTo(map)
 
     }
 }
