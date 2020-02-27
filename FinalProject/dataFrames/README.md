@@ -17,11 +17,14 @@
  - e.g. `["multiple plots", "histogram", "totals", "discrete", "numerical"]`
 ### features
  - dtype = `list` of `string`
- - chosen features/variables/dimensions that are visualized
- - make sure that you only put one or more of the column names
-   **exactly as they are in the dataframe**
+ - chosen features/variables/dimensions that are visualized; for our dataset, it is a list of one or more of the following:
+```
+school, sex, age, address, famsize, Pstatus, Medu, Fedu, Mjob, Fjob, reason, guardian, traveltime, studytime, failures, schoolsup, famsup, paid, activities, nursery, higher, internet, romantic, famrel, freetime, goout, Dalc, Walc, health, absences, G1, G2, G3
+```
+- make sure that you only put one or more of the column names
+   **exactly as they are in the original data set**
    - for instance, in the example below, the column being used is
-     called `neighbourhood` and is the only feature being used in the
+     called `neighbourhood` (even though the axis label showing it is renamed "Neighbourhood Area") and is the only feature being used in the
      visualization (because the other dimension is just a count)
 ### code
  - dtype = `string`
