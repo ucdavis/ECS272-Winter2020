@@ -23,11 +23,7 @@ def maskImage(source,color_dictionary):
     # load the COCO class labels our Mask R-CNN was trained on
     labelsPath = os.path.sep.join([directory,"object_detection_classes_coco.txt"])
     LABELS = open(labelsPath).read().strip().split("\n")
-    colorsPath = os.path.sep.join([directory, "colors.txt"])
-    #COLORS = open(colorsPath).read().strip().split("\n")
-    #COLORS = [np.array(c.split(",")).astype("int") for c in COLORS]
-    #COLORS = np.array(COLORS, dtype="uint8")
-    #print(COLORS)
+    
     # derive the paths to the Mask R-CNN weights and model configuration
     weightsPath = os.path.sep.join([directory,"frozen_inference_graph.pb"])
     configPath = os.path.sep.join([directory,
@@ -93,7 +89,7 @@ def maskImage(source,color_dictionary):
             color = np.array(color_dictionary[LABELS[classID]])
             '''POI: This is how opacity is defined, with the right flow being high opacity and the left
     		being low. THey should add to 1.0'''
-            blended = ((0.4 * color) + (0.6 * roi)).astype("uint8")
+            blended = makeColor(color,roi)
             # store the blended ROI in the original image
             clone[startY:endY, startX:endX][mask] = blended
 
@@ -109,6 +105,13 @@ def maskImage(source,color_dictionary):
             # show the output image
     cv2.imshow("Output", clone)
     cv2.waitKey(0)
+
+def makeColor(color,roi):
+    print("color is {}".format(color))
+    print("roi is {}".format(roi))
+    blended = ((0.9 * color) + (0.1 * roi)).astype("uint8")
+    print ("blended is {}".format(blended))
+    return blended
 
 cd = {"car":(140,33,255)}
 maskImage("images/example_01.jpg",cd)
