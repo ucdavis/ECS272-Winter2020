@@ -1,20 +1,20 @@
 <template>
-    <div class="content-panel">
+  <div class="content-panel">
       <div>
-          <h3>MAP</h3>
+          <h3>NEWS FEED</h3>
       </div>
   </div>
 </template>
 
 <script>
 export default {
-    name: 'Map',
+    name: 'NewsFeed',
     props: {
         data: Object
     }
 }
 </script>
 
-<style>
+<style scoped>
 
 </style>

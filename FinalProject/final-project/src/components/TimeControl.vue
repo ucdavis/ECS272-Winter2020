@@ -1,6 +1,6 @@
 <template>
   <div class="content-panel">
-      <div style="min-height: 50px; min-width: 640px;">
+      <div>
           <h3>TIMECONTROL</h3>
       </div>
   </div>

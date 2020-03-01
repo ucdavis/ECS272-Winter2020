@@ -1,12 +1,12 @@
 <template>
   <div id="app">
-    <StatusBar title="ECS272 - Final Project"/>
+    <StatusBar title="COVID-19 News & Spread"/>
     <div class="main-content">
-      <Map :data="null" />
-      <WordCloud :data="null" />
-      <TwitterFeed :data="null" />
-      <br>
-      <TimeControl :data="null" />
+      <Map :data="null" style="grid-area: main"/>
+      <TwitterFeed :data="null" style="grid-area: side1"/>
+      <NewsFeed :data="null" style="grid-area: side2"/>
+      <WordCloud :data="null" style="grid-area: side3"/>
+      <TimeControl :data="null" style="grid-area: control"/>
     </div>
   </div>
 </template>
@@ -17,8 +17,7 @@ import WordCloud from './components/WordCloud.vue'
 import Map from './components/Map.vue'
 import TimeControl from './components/TimeControl.vue'
 import TwitterFeed from './components/TwitterFeed.vue'
-
-
+import NewsFeed from './components/NewsFeed.vue'
 
 export default {
   name: 'App',
@@ -27,14 +26,21 @@ export default {
     WordCloud,
     Map,
     TimeControl,
-    TwitterFeed
+    TwitterFeed,
+    NewsFeed
+  },
+  mounted() {
+    console.log("here i am")
+  },
+  created() {
+    console.log("once again")
   }
 }
 </script>
 
 <style>
 body {
-  background-color: #0e1924;
+  background-color: #05192B;
 }
 
 #app {
@@ -60,6 +66,15 @@ h3 {
 }
 
 .main-content {
+  display: grid;
+  grid-template-columns: 0.5fr 3fr 1fr 0.5fr;
+  grid-template-rows: 25vh 25vh 15vh 22vh;
+  grid-template-areas: 
+  ". main side1 ."
+  ". main side2 ."
+  ". main side2 ."
+  ". control side3 ."
+  ". . . .";
   padding: 20px 0;
 }
 
@@ -67,9 +82,10 @@ h3 {
   display: inline-block;
   padding: 10px;
   margin: 10px;
-  background-color: #182736;
-  -webkit-box-shadow: 0px 0px 8px 1px rgba(0,0,0,0.5); 
-  box-shadow: 0px 0px 8px 1px rgba(0,0,0,0.5);
+  background-color: #242A3D;
+  border-radius: 4px;
+  -webkit-box-shadow: 0px 0px 8px 1px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 0px 8px 1px rgba(0, 0, 0, 0.2);
 }
 
 </style>
