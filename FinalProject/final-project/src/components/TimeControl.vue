@@ -1,7 +1,7 @@
 <template>
   <div class="content-panel">
       <div>
-          <h3>TIMECONTROL</h3>
+          <h3>TIMECONTROL ({{date.toUTCString()}})</h3>
       </div>
   </div>
 </template>
@@ -10,7 +10,8 @@
 export default {
     name: 'TimeControl',
     props: {
-        data: Object
+        data: Object,
+        date: Date
     }
 }
 </script>

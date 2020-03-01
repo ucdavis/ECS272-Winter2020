@@ -10,7 +10,7 @@
 export default {
     name: 'NewsFeed',
     props: {
-        data: Object
+        data: Array
     }
 }
 </script>

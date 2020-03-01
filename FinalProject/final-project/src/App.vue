@@ -3,15 +3,17 @@
     <StatusBar title="COVID-19 News & Spread"/>
     <div class="main-content">
       <Map :data="null" style="grid-area: main"/>
-      <TwitterFeed :data="null" style="grid-area: side1"/>
+      <TwitterFeed :data="twitter" :date="date" style="grid-area: side1"/>
       <NewsFeed :data="null" style="grid-area: side2"/>
       <WordCloud :data="null" style="grid-area: side3"/>
-      <TimeControl :data="null" style="grid-area: control"/>
+      <TimeControl :data="null" :date="date" style="grid-area: control"/>
     </div>
   </div>
 </template>
 
 <script>
+import * as d3 from 'd3'
+
 import StatusBar from './components/StatusBar.vue'
 import WordCloud from './components/WordCloud.vue'
 import Map from './components/Map.vue'
@@ -29,11 +31,21 @@ export default {
     TwitterFeed,
     NewsFeed
   },
-  mounted() {
-    console.log("here i am")
+  data() {
+    return {
+      twitter: null
+    }
   },
   created() {
-    console.log("once again")
+    this.date = new Date()
+    this.date.setUTCMonth(1, 26)
+    console.log(this.date)
+
+    d3.json('/data/twitter.json')
+      .then((data) => {
+        console.log(data)
+        this.twitter = data.tweets
+      })
   }
 }
 </script>
@@ -67,21 +79,22 @@ h3 {
 
 .main-content {
   display: grid;
-  grid-template-columns: 0.5fr 3fr 1fr 0.5fr;
-  grid-template-rows: 25vh 25vh 15vh 22vh;
+  grid-template-columns: 0.5fr 3fr 400px 0.5fr;
+  grid-template-rows: 25vh 25vh 15vh 20vh;
   grid-template-areas: 
   ". main side1 ."
-  ". main side2 ."
+  ". main side1 ."
   ". main side2 ."
   ". control side3 ."
   ". . . .";
-  padding: 20px 0;
+  grid-column-gap: 10px;
+  grid-row-gap: 15px;
+  padding: 40px 0 0 0;
 }
 
 .content-panel {
   display: inline-block;
   padding: 10px;
-  margin: 10px;
   background-color: #242A3D;
   border-radius: 4px;
   -webkit-box-shadow: 0px 0px 8px 1px rgba(0, 0, 0, 0.2);
