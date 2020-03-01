@@ -18,3 +18,7 @@ Promise.all([
     new_map_vis = new NewMapVis(data_confirmed, 'map_container', map_vis_dimensions)
 })
 
+
+function OnDateSliderChanged(value){
+    new_map_vis.update()
+}

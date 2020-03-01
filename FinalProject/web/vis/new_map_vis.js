@@ -7,23 +7,29 @@ class NewMapVis {
         this.height = dimensions.height
         this.margin = dimensions.margin
 
-        this.min_color = '#ffe5e5'
+        this.min_color = '#ffffff'
         this.max_color = '#cc0000'
         this.outline_color = '#b9bbb6'
         this.fill_color = '#ffffff'
 
-        this.process_data()
         this.init()
     }
 
-    process_data() {
+    init() {
+        this.process_data(1)
+        this.visualize()
+        this.update()
+    }
+
+    process_data(timestamp_row) {
 
         // group incidents in countries at a specific date
         this.grouped_data = d3.nest()
             .key(d => { return d['Country/Region'] })
             .rollup(row => {
                 return d3.sum(row, d => {
-                    return d['2/1/20']
+                    console.log(d[timestamp_row])
+                    return d[timestamp_row]
                 })
             })
             .entries(this.data)
@@ -31,10 +37,10 @@ class NewMapVis {
         // sum all infections
         var sum = d3.sum(this.grouped_data, d => { return d.value })
 
-        // add data country names' ISO codes, calculate ratio to total cases
+        // add data country names' ISO codes, calculate the logged value
         this.grouped_data.forEach(element => {
             element.id = name_iso_lookup[element.key]
-            element.value = element.value / sum
+            element.value = Math.log(1 + element.value)
         });
 
         // IF NOT FAST ENOUGH USE THIS? ADD ALL ENTRIES, FILTER ON CHANGE
@@ -47,7 +53,11 @@ class NewMapVis {
         console.log(this.grouped_data)
     }
 
-    init() {
+    filter_data(timestamp) {
+        this.grouped_data
+    }
+
+    visualize() {
 
         // Use theme
         am4core.useTheme(am4themes_animated);
@@ -61,7 +71,8 @@ class NewMapVis {
         this.map.projection = new am4maps.projections.Miller();
 
         // Create polygon series
-        var polygonSeries = this.map.series.push(new am4maps.MapPolygonSeries());
+        this.polygonSeries = this.map.series.push(new am4maps.MapPolygonSeries());
+
 
         this.map.colors.list = [
             am4core.color(this.min_color),
@@ -75,21 +86,21 @@ class NewMapVis {
           ];
 
         // Set min / max fill color
-        polygonSeries.heatRules.push({
+        this.polygonSeries.heatRules.push({
             property: 'fill',
-            target: polygonSeries.mapPolygons.template,
+            target: this.polygonSeries.mapPolygons.template,
             min: this.map.colors.getIndex(0),
             max: this.map.colors.getIndex(1),
         })
 
-        polygonSeries.data = this.grouped_data
+        this.polygonSeries.data = this.grouped_data
     
           
         // Make map load polygon data (state shapes and names) from GeoJSON
-        polygonSeries.useGeodata = true;
+        this.polygonSeries.useGeodata = true;
 
         /* Configure series */
-        var polygonTemplate = polygonSeries.mapPolygons.template;
+        var polygonTemplate = this.polygonSeries.mapPolygons.template;
         polygonTemplate.applyOnClones = true;
         polygonTemplate.togglable = true;
         polygonTemplate.tooltipText = "{name} : {value}";
@@ -123,14 +134,14 @@ class NewMapVis {
         hs.properties.fill = this.map.colors.getIndex(4);
 
         // Hide Antarctica
-        polygonSeries.exclude = ["AQ"];
+        this.polygonSeries.exclude = ["AQ"];
 
         // Small map
         this.map.smallMap = new am4maps.SmallMap();
         // Re-position to top right (it defaults to bottom left)
         this.map.smallMap.align = "right";
         this.map.smallMap.valign = "top";
-        this.map.smallMap.series.push(polygonSeries);
+        this.map.smallMap.series.push(this.polygonSeries);
 
         // Zoom control
         this.map.zoomControl = new am4maps.ZoomControl();
@@ -149,7 +160,18 @@ class NewMapVis {
         homeButton.insertBefore(this.map.zoomControl.plusButton);
     }
 
-    update() {
-        //this.map.dataProvider.areas = 
+    update(timestamp_column) {
+
+        this.process_data(timestamp_column)
+        this.polygonSeries.data = this.grouped_data
+                // Set min / max fill color
+                // this.polygonSeries.heatRules.push({
+                //     property: 'fill',
+                //     target: this.polygonSeries.mapPolygons.template,
+                //     min: this.map.colors.getIndex(0),
+                //     max: this.map.colors.getIndex(1),
+                // })
     }
-}
+
+
+}    
