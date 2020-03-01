@@ -17,13 +17,15 @@ import random
 import time
 import cv2
 import os
+import pandas as pd
 
-def maskImage(source,color_dictionary):
+def maskImage(source,color_dictionary,price_range,weight_range,view):
+    df = pd.read_csv("project_dataset.csv")
     directory = "mask-rcnn-coco"
     # load the COCO class labels our Mask R-CNN was trained on
     labelsPath = os.path.sep.join([directory,"object_detection_classes_coco.txt"])
     LABELS = open(labelsPath).read().strip().split("\n")
-    
+
     # derive the paths to the Mask R-CNN weights and model configuration
     weightsPath = os.path.sep.join([directory,"frozen_inference_graph.pb"])
     configPath = os.path.sep.join([directory,
@@ -85,11 +87,21 @@ def maskImage(source,color_dictionary):
             # particular instance segmentation then create a transparent
             # overlay by blending the randomly selected color with the ROI
             ## TODO: get data from radio button choice and check for view type for color and opacity
-
-            color = np.array(color_dictionary[LABELS[classID]])
-            '''POI: This is how opacity is defined, with the right flow being high opacity and the left
-    		being low. THey should add to 1.0'''
-            blended = makeColor(color,roi)
+            name = LABELS[classID]
+            category = df[df['name']==name]['category'].unique()
+            category = category[0]
+            if view == 'category':
+                color = np.array(color_dictionary[category])
+                proportion = 0.5
+            elif view == 'price':
+                color = np.array([0,255,255])
+                avgPrice = np.mean(np.array(price_range[name]))
+                proportion = findProportion(df['price'],avgPrice)
+            else:
+                color = np.array([0,0,255])
+                avgWt = np.mean(np.array(weight_range[name]))
+                proportion = findProportion(df['weight'],avgWt)
+            blended = makeColor(color,roi,view,proportion)
             # store the blended ROI in the original image
             clone[startY:endY, startX:endX][mask] = blended
 
@@ -104,14 +116,17 @@ def maskImage(source,color_dictionary):
 
             # show the output image
     cv2.imshow("Output", clone)
-    cv2.waitKey(0)
+    cv2.imwrite("opimg.jpg",clone)
 
-def makeColor(color,roi):
-    print("color is {}".format(color))
-    print("roi is {}".format(roi))
-    blended = ((0.9 * color) + (0.1 * roi)).astype("uint8")
-    print ("blended is {}".format(blended))
+def findProportion(scaleVals,objVal):
+    prop = (objVal-float(scaleVals.min()))/(float(scaleVals.max())-float(scaleVals.min()))
+    return float(round(prop,1))
+
+def makeColor(color,roi,view,proportion):
+    blended = ((proportion * color) + ((1-proportion) * roi)).astype("uint8")
     return blended
 
-cd = {"car":(140,33,255)}
-maskImage("images/example_01.jpg",cd)
+cd = {"furniture":(140,33,255),"electronics":(100,100,200)}
+pr = {"tv":(300,1200),"couch":(60,800),"chair":(8,30)}
+wt = {"tv":(8,60),"couch":(25,500),"chair":(9,70)}
+maskImage("images/example_04.jpeg",cd,pr,wt,'price')
