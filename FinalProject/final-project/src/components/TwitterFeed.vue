@@ -1,6 +1,6 @@
 <template>
   <div class="content-panel">
-      <div style="overflow: hidden">
+      <div style="overflow: hidden; height:100%">
           <h3>Twitter Feed</h3>
           <div class="scroll">
             <Tweet v-for="tweet in getTweets(5)" :key="tweet.tweet_id" :id="tweet.tweet_id" :options="{ cards: 'hidden', width: '350', align: 'center' }"/>
@@ -26,7 +26,6 @@ export default {
             if (this.data == null) {
                 return []
             }
-                        console.log(limit)
 
             return this.data.filter(e => {
                 var tweet_date = new Date(e.timestamp * 1000)
@@ -53,7 +52,9 @@ export default {
     padding:10px;
     overflow-x: hidden;
     overflow-y: scroll;
-    max-height: 520px;
+    display: flex; 
+    flex-direction: column;
+    height: calc(100% - 95px);
     /* Below lines hide the scroll bar */
     width: 100%;
     padding-right: 17px;
