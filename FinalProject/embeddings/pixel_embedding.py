@@ -12,4 +12,5 @@ shape is 100x100x1, flattens to an array of length 10000, saves this
 as a "pixel_embedding"
 '''
 def generate_pixel_embeddings(df):
-    return df["pixel_embedding"] = df.apply(lambda x : np.array(x.image.resize((100,100)).convert("L")).flatten(), axis=1)
+    df["pixel_embedding"] = df.apply(lambda x : np.array(x.image.resize((100,100)).convert("L")).flatten(), axis=1)
+    return df
