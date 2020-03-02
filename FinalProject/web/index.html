@@ -1,28 +1,43 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <script src="https://d3js.org/d3.v5.min.js"></script>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+    <!-- <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
     integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
     crossorigin=""/>
     <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
     integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
-    crossorigin=""></script>
+    crossorigin=""></script> -->
+
+    <!-- MAP LIBRARIES -->
+    <script src="https://www.amcharts.com/lib/4/core.js"></script>
+    <script src="https://www.amcharts.com/lib/4/maps.js"></script>
+    <script src="https://www.amcharts.com/lib/4/geodata/worldLow.js"></script>
+    <script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
 
     <script src="./main.js"></script>
     <script src="./config/dimensions.js"></script>
     <script src="./config/colors.js"></script>
-    <script src="./GeoJSONs/us_states.js"></script>
-    <script src="./GeoJSONs/countries.js"></script>
-    <link rel="stylesheet" type="text/css" href="./config/map.css">
+    <script src="./util/name_iso_lookup.js"></script>
+    <!-- <script src="./GeoJSONs/us_states.js"></script>
+    <script src="./GeoJSONs/countries.js"></script> -->
+    <!-- <link rel="stylesheet" type="text/css" href="./config/map.css"> -->
+    <link rel="stylesheet" type="text/css" href="./config/new_map.css">
     <script src="./vis/example_vis.js"></script>
-    <script src="./vis/map_vis.js"></script>
+    <!-- <script src="./vis/map_vis.js"></script> -->
+    <script src="./vis/new_map_vis.js"></script>
 </head>
 
 <body>
     <div class="vis-container" style="float: left">
-        <div class="example-vis-container" style="float: left"></div>
-        <div id="mapid" style="float: left"></div>
+        <!-- <div class="example-vis-container" style="float: left"></div> -->
+        <!-- <div id="mapid" style="float: left"></div> -->
+        <div id="map_container"></div>
+        <div class="slidecontainer">
+            <input class="slider" id="date_slider" type="range" min="1" max="34" value="1" onchange="OnDateSliderChanged(value)">
+        </div>
     </div>
 </body>
+
 </html>

@@ -14,6 +14,11 @@ Promise.all([
     data_recovered = files[2]
 
     //example_vis = new ExampleVis(data_confirmed, '.example-vis-container', example_vis_dimensions)
-    map_vis = new MapVis(data_confirmed, 'mapid', map_vis_dimensions)
+    // map_vis = new MapVis(data_confirmed, 'mapid', map_vis_dimensions)
+    new_map_vis = new NewMapVis(data_confirmed, 'map_container', map_vis_dimensions)
 })
 
+
+function OnDateSliderChanged(value){
+    new_map_vis.update()
+}
