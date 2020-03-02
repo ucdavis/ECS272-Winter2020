@@ -2,7 +2,7 @@
   <div id="app">
     <StatusBar title="COVID-19 News & Spread"/>
     <div class="main-content">
-      <Map :data="null" style="grid-area: main"/>
+      <Map :data="covid_confirmed" :date="date" style="grid-area: main"/>
       <TwitterFeed :data="twitter" :date="date" style="grid-area: side1"/>
       <NewsFeed :data="news" :date="date" style="grid-area: side2"/>
       <WordCloud :data="null" style="grid-area: side3"/>
@@ -35,6 +35,7 @@ export default {
     return {
       twitter: null,
       news: null,
+      covid_confirmed: null,
     }
   },
   created() {
@@ -50,6 +51,11 @@ export default {
     d3.json('/data/news.json')
       .then((data) => {
         this.news = data
+      })
+
+    d3.csv('/data/covid_confirmed_02_25_20.csv')
+      .then((data) => {
+        this.covid_confirmed = data
       })
   }
 }
