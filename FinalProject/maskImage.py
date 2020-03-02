@@ -86,7 +86,6 @@ def maskImage(source,color_dictionary,price_range,weight_range,view):
             # randomly select a color that will be used to visualize this
             # particular instance segmentation then create a transparent
             # overlay by blending the randomly selected color with the ROI
-            ## TODO: get data from radio button choice and check for view type for color and opacity
             name = LABELS[classID]
             category = df[df['name']==name]['category'].unique()
             category = category[0]
