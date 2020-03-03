@@ -1,0 +1,31 @@
+All current source code can be found on Github under the master branch:
+https://github.com/picaguo1997/ECS272-Winter2020/tree/master/FinalProject
+
+## Implementation Work So Far
+So far we worked on implementing the main aspects of the original idea. 
+We implemented a choropleth visualization showing the total number of COVID-19 infections per country on a logarithmic color scale (since China's number of cases is disproportionate to the rest of the world). The data is time-variant and specific dates can be visualized by interacting with a range slider, showing the spread of the virus over time. 
+Further, we worked on implementing widgets for showing the top tweets and news articles of the respective date selected. 
+For tying it all together we opted for using Vue.js to compartmentalize individual components into our visualization dashboard. 
+To start the application in its current state, refer to the README.md in the 'final-project' folder. 
+
+Apart from the implementation work done on the dashboard and its views, we worked on NLP analysis of texts, as well as news-scraping of tweets and big news outlets. 
+All of these auxiliary files can be found in the 'preprocess' folder of the project.
+
+## Division of Work
+Lukas -> Map visualization
+David -> News scraping / System
+YunHsin -> Text analysis / NLP
+
+## Changes from Original Proposal
+After going through a new design revision we decided to focus more on the news data as opposed to the infection focus of the original design.
+
+Refer to "New Layout.pdf" for a rough sketch of the new design.
+
+Users will be able to scroll through a timeline (bottom part). Infection data will be shown as a line chart while daily news coverage will be overlaid as a histogram. 
+For better orientation users will be able to see impactful events as event markers on the line chart. One such event might be the first case of COVID-19 outside of China or the cruise ship incident in Japan. These events will be curated manually.
+Users will be able to select a time slice here to inspect further in the main view.
+
+The main view will feature a small version of the current infection map. It reflects the state of infections across the globe using continuous color coding. 
+Aside from that, there will be a word cloud view of news coverage. This reflects current trends in reporting for each timeslice selected in the timeline view.
+The main part of this view is the coverage comparison chart. In essence, it's a circular chart showing various dimensions of news data. This can include sentiment, polarity, credibility and various other NLP metrics.
+Aggregate data from news, on the one hand, will be compared to data collected from twitter. In this way, users can efficiently compare how different events are received by media and community.
