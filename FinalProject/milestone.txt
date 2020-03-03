@@ -10,3 +10,7 @@ Every feature except for the paid and free disposal options was extracted from l
 Masking Script
 
 We wrote a masking script that uses the Mask R-CNN method of detecting objects in an image to identify items in the image. Depending on the UI view selected, the segmentation mask differs- in the category view, items in the same category are masked with the same color and all items' masks have the same opacity; in the price view, all items are yellow in color but opacity differs based on price(dark-is-more); in the weight view, all items are red but opacity differs based on weight(dark-is-more). The function is given the image source, the color-to-category dictionary, the item-to-price-range and item-to-weight-range dictionary and the view as parameters, and it computes the mask on a copy of the original image and saves the image as a jpg file on disk.
+
+UI
+
+We have created a cross-platform GUI application that allows user interaction to specify the input images, the parameters of the masking algorithm, the visualization view, parameters of the visualization, and embedded interaction within the visualizations. While the GUI is functional now, it does not connect to the backend masking scripts, and therefor does not provide the visualizations at the moment. The next steps will be interfacing the backend scripts with the front end, and testing both the embedded and widget based interactions.
