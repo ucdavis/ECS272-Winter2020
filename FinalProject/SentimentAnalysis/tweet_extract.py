@@ -15,6 +15,7 @@ def extract_tweet_1():
     user_tweets = [[tweet.date, tweet.text] for tweet in tweets]
     with open('output_got.csv', 'w+', newline='') as file:
         writer = csv.writer(file)
+        writer.writerow(['DateTime', 'Original Tweet'])
         for tweet in user_tweets:
             writer.writerow(tweet)
         file.close()
@@ -27,11 +28,12 @@ def extract_tweet_2():
     user_tweets2 = [[tweet.date, tweet.text] for tweet in tweets2]
     with open('output2_got.csv', 'w+', newline='') as file2:
         writer2 = csv.writer(file2)
+        writer2.writerow(['DateTime', 'Original Tweet'])
         for tweet in user_tweets2:
             writer2.writerow(tweet)
         file2.close()
 
 
-if __name__ == "__main__":
-    extract_tweet_1()
+#if __name__ == "__main__":
+    #extract_tweet_1()
     #extract_tweet_2()
