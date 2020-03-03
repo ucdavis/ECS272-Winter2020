@@ -16,7 +16,7 @@ export default {
 <style scoped>
 .bar{
     overflow: hidden;
-    background-color: #182736;
+    background-color: #242A3D;
     position: fixed;
     top: 0;
     left: 0;
