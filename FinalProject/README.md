@@ -1,4 +1,4 @@
-### NOTE: All embeddings need to be normalized, i.e., same length vectors (within each embedding method) and all elements of those vectors are in the range [0,1]. Functions that generate embeddings should be in their own module, take the whole dataframe as input, output the whole dataframe with a new column containing the generated embeddings
+### NOTE: All embeddings need to be normalized, i.e., same length vectors (within each embedding method) and all elements of those vectors are in the range [0,1]. Functions that generate embeddings should be in their own module, take the whole dataframe as input, output the whole dataframe with a new column containing the generated embeddings. See the `pixel_embedding.py` module in the `embeddings` directory for an example
 
 # Components and task breakdown
 
