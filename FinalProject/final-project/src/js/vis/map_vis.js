@@ -1,8 +1,9 @@
 import name_iso_lookup from '../util/name_iso_lookup'
+import getDates from '../util/utils'
 import * as d3 from 'd3'
 import * as am4core from '@amcharts/amcharts4/core'
 import * as am4maps from '@amcharts/amcharts4/maps'
-import am4themes_animated from '@amcharts/amcharts4/themes/animated'
+//import am4themes_animated from '@amcharts/amcharts4/themes/animated'
 import am4geodata_worldLow from '@amcharts/amcharts4-geodata/worldLow'
 
 class MapVis {
@@ -14,65 +15,72 @@ class MapVis {
         this.height = dimensions.height
         this.margin = dimensions.margin
 
-        this.min_color = '#666666'
+        this.grouped_data = []
+
+        this.min_color = '#666'
         this.max_color = '#34DDCC'
         this.outline_color = '#b9bbb6'
-        this.fill_color = '#666666'
+        this.fill_color = '#666'
+
+        this.start_date = '1/22/20'
+        this.end_date = '2/24/20'
 
         this.init()
     }
 
     init() {
-        this.process_data('2/18/20')
+        this.process_data()
+        this.filtered_data = this.filter_data(0)
         this.visualize()
-        this.update()
+        this.filter_data(0)
     }
 
-    process_data(timestamp_row) {
+    update(timestamp_column) {
 
-        // group incidents in countries at a specific date
-        this.grouped_data = d3.nest()
-            .key(d => { return d['Country/Region'] })
-            .rollup(row => {
-                return d3.sum(row, d => {
-                    console.log(d[timestamp_row])
-                    return d[timestamp_row]
+        this.filtered_data = this.filter_data(timestamp_column)
+        this.polygonSeries.data = this.filtered_data
+    }
+
+    process_data() {
+
+        // get all the dates in the dataset
+        var dates = getDates(this.start_date, this.end_date)
+
+        dates.forEach(date => {
+            // group incidents in countries at a specific date
+            var date_data = d3.nest()
+                .key(d => { return d['Country/Region'] })
+                .rollup(row => {
+                    return d3.sum(row, d => {
+                        return d[date]
+                    })
                 })
-            })
-            .entries(this.data)
-        
-        // sum all infections
-        //var sum = d3.sum(this.grouped_data, d => { return d.value })
+                .entries(this.data)
+            
+            // add data country names' ISO codes, calculate the logged value
+            date_data.forEach(row => {
+                row.id = name_iso_lookup[row.key]
+                row.cases = row.value
+                row.value = Math.log(1 + row.value)
+            }); 
 
-        // add data country names' ISO codes, calculate the logged value
-        this.grouped_data.forEach(element => {
-            element.id = name_iso_lookup[element.key]
-            element.value = Math.log(1 + element.value)
-        });
-
-        // IF NOT FAST ENOUGH USE THIS? ADD ALL ENTRIES, FILTER ON CHANGE
-        // total2017 = d3.sum(
-        //     plastics.filter(d => d.date.getFullYear() === 2017),
-        //     d => d.weight
-        //   )
-    
-
-        console.log(this.grouped_data)
+            this.grouped_data.push(date_data)
+        })
     }
 
-    filter_data() {
-        this.grouped_data
+    filter_data(timestamp) {
+        return this.grouped_data[timestamp]
     }
 
     visualize() {
 
         // Use theme
-        am4core.useTheme(am4themes_animated);
+        //am4core.useTheme(am4themes_animated);
 
         // Create Map instance
         var map = am4core.create(this.html_root, am4maps.MapChart);
         this.map = map
-        
+
         // Set map size
         this.map.htmlContainer.style.height = this.height + 'px';
         this.map.htmlContainer.style.width = this.width + 'px';
@@ -94,7 +102,7 @@ class MapVis {
             // am4core.color("#FF9671"),
             // am4core.color("#FFC75F"),
             // am4core.color("#F9F871")
-          ];
+        ];
 
         // Set min / max fill color
         this.polygonSeries.heatRules.push({
@@ -102,11 +110,13 @@ class MapVis {
             target: this.polygonSeries.mapPolygons.template,
             min: this.map.colors.getIndex(0),
             max: this.map.colors.getIndex(1),
+            minValue: 0,
+            maxValue: 12,
         })
 
-        this.polygonSeries.data = this.grouped_data
-    
-          
+        this.polygonSeries.data = this.filtered_data
+
+
         // Make map load polygon data (state shapes and names) from GeoJSON
         this.polygonSeries.useGeodata = true;
 
@@ -114,9 +124,9 @@ class MapVis {
         var polygonTemplate = this.polygonSeries.mapPolygons.template;
         polygonTemplate.applyOnClones = true;
         polygonTemplate.togglable = true;
-        polygonTemplate.tooltipText = "{name} : {value}";
+        polygonTemplate.tooltipText = "{name} : {cases}";
         polygonTemplate.nonScalingStroke = true;
-        polygonTemplate.strokeOpacity = 0.5;
+        //polygonTemplate.strokeOpacity = 0.5;
         polygonTemplate.stroke = am4core.color(this.outline_color)
         polygonTemplate.fill = am4core.color(this.fill_color)
         //polygonTemplate.fill = chart.colors.getIndex(2);
@@ -147,12 +157,12 @@ class MapVis {
         // Hide Antarctica
         this.polygonSeries.exclude = ["AQ"];
 
-        // Small map
-        this.map.smallMap = new am4maps.SmallMap();
-        // Re-position to top right (it defaults to bottom left)
-        this.map.smallMap.align = "right";
-        this.map.smallMap.valign = "top";
-        this.map.smallMap.series.push(this.polygonSeries);
+        // // Small map
+        // this.map.smallMap = new am4maps.SmallMap();
+        // // Re-position to top right (it defaults to bottom left)
+        // this.map.smallMap.align = "right";
+        // this.map.smallMap.valign = "top";
+        // this.map.smallMap.series.push(this.polygonSeries);
 
         // Zoom control
         this.map.zoomControl = new am4maps.ZoomControl();
@@ -169,19 +179,6 @@ class MapVis {
         homeButton.marginBottom = 10;
         homeButton.parent = this.map.zoomControl;
         homeButton.insertBefore(this.map.zoomControl.plusButton);
-    }
-
-    update(timestamp_column) {
-
-        this.process_data(timestamp_column)
-        this.polygonSeries.data = this.grouped_data
-                // Set min / max fill color
-                // this.polygonSeries.heatRules.push({
-                //     property: 'fill',
-                //     target: this.polygonSeries.mapPolygons.template,
-                //     min: this.map.colors.getIndex(0),
-                //     max: this.map.colors.getIndex(1),
-                // })
     }
 
 }    

@@ -33,12 +33,23 @@ export default {
             }
         }
     },
+    created() {
+        this.$root.$on('time-control-slider-changed', this.timeControlSliderChanged)
+    },
+    destroyed() {
+        this.$root.$off('time-control-slider-changed', this.timeControlSliderChanged)
+    },
     methods: {
         init() {
             this.map_vis_dimensions.width = document.getElementById('map-content-panel').offsetWidth
             this.map_vis_dimensions.height = document.getElementById('map-content-panel').offsetHeight - 95
 
             this.map_vis = new MapVis(this.data, 'map-container', this.map_vis_dimensions)
+        },
+        timeControlSliderChanged(value) {
+            if (this.map_vis != null) {
+                this.map_vis.update(value)
+            }
         },
     },
 }
