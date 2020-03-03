@@ -143,22 +143,22 @@ function createVisualization(nodeData) {
             // nodeLabel = nodes.filter(function(d) {
             //     return (d.name != "NA" && d.name.length > 0); // BJF: Do not show the "end" markings.
             //     });
-    vis.selectAll('.label').data(nodes).enter().append('text')
-        .attr('x', d => arc.centroid(d)[0])
-        .attr('y', d => arc.centroid(d)[1])
-        .attr("transform", function(d) { return "rotate(" + getAngle(d) + ")"})
-        .attr('text-anchor', 'middle')
-  .text(d => d.name)
-        totalSize = path.node().__data__.value;
-        function getAngle(d) {
-            // Offset the angle by 90 deg since the '0' degree axis for arc is Y axis, while
-            // for text it is the X axis.
-            var thetaDeg = (180 / Math.PI * (arc.startAngle()(d) + arc.endAngle()(d)) / 2 - 90);
-            // If we are rotating the text by more than 90 deg, then "flip" it.
-            // This is why "text-anchor", "middle" is important, otherwise, this "flip" would
-            // a little harder.
-            return (thetaDeg > 90) ? thetaDeg - 180 : thetaDeg;
-        }
+//     vis.selectAll('.label').data(nodes).enter().append('text')
+//         .attr('x', d => arc.centroid(d)[0])
+//         .attr('y', d => arc.centroid(d)[1])
+//         .attr("transform", function(d) { return "rotate(" + getAngle(d) + ")"})
+//         .attr('text-anchor', 'middle')
+//   .text(d => d.name)
+//         totalSize = path.node().__data__.value;
+//         function getAngle(d) {
+//             // Offset the angle by 90 deg since the '0' degree axis for arc is Y axis, while
+//             // for text it is the X axis.
+//             var thetaDeg = (180 / Math.PI * (arc.startAngle()(d) + arc.endAngle()(d)) / 2 - 90);
+//             // If we are rotating the text by more than 90 deg, then "flip" it.
+//             // This is why "text-anchor", "middle" is important, otherwise, this "flip" would
+//             // a little harder.
+//             return (thetaDeg > 90) ? thetaDeg - 180 : thetaDeg;
+        //}
 
   }
 
