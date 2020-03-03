@@ -12,6 +12,7 @@
     "@amcharts/amcharts4-geodata": "^4.1.12",
     "core-js": "^3.6.4",
     "d3": "^5.15.0",
+    "moment": "^2.24.0",
     "vue": "^2.6.11",
     "vue-tweet-embed": "^2.4.0"
   },
