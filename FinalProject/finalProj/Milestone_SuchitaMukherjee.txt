@@ -1,0 +1,9 @@
+Milestone Report
+
+The dataset used in the project is available as a JSON in the raw format and required considerable EDA effort. There are several dimensions of the data which are not required for the purpose of the visualization and hence they are excluded from the dataset. The most significant challenge during the EDA phase was that some of the columns had data in the form of nested JSON. These columns had to be flattened and important values extracted. The final challenge was to transform the dataframe into a hierarchial nested json which can be used for creating the visualization.
+
+The interface is being built with a Python backend and a HTML+Javascript front-end, using python-flask to render the HTML, CSS and Javascript. All data wrangling work is being done by the Python backend and the visualizations are being created by D3.js.
+
+The Gate part of the StarGate visualization is essentially a SunBurst chart. In the published paper, the Gate shows the folder structure of the project being visualized. The dataset being used is a bug dataset mined from 186 open-source GitHub repositories. Adapting the Gate, the SunBurst chart created shows Language, OS, Test Framework, Reproduction Status, Reproducibility, Patch Location, Build Systems and Exceptions. This visualization has been completed at the time this report is being written.
+
+The developers were shown as the Stars of the StarGate visualization. To draw the same analogy for the BugSwarm dataset indicates that the repositories are the Stars of the visualizations. This part of the visualization is effectively a Bubble chart where the locations of the bubbles are created using the centroid of their relevant arcs. As of now, the data for visualizing the Stars is in the process of being created and the visualization is not complete.
