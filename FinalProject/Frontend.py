@@ -30,6 +30,8 @@ class MainWindow(QtWidgets.QMainWindow):
 		self.createViewWindow()
 		self.createAnalysisWindow()
 
+		self.connect_widgets()
+
 		self.cw.setLayout(self.grid)
 
 		screenShape = QtWidgets.QDesktopWidget().screenGeometry(self)
@@ -64,6 +66,7 @@ class MainWindow(QtWidgets.QMainWindow):
 		self.setup_title = QtWidgets.QLabel("Setup")
 		self.setup_title.setFont(QtGui.QFont("Arial", 24, QtGui.QFont.Bold))
 		self.path_entry = FileEntry()
+		self.upload_button = QtWidgets.QPushButton("Upload")
 		self.raw_image = QtWidgets.QLabel()
 		raw_pixmap = QtGui.QPixmap(os.path.join('images', 'placeholder.jpg'))
 		self.raw_image.setPixmap(raw_pixmap.scaled(480, 360))
@@ -83,12 +86,13 @@ class MainWindow(QtWidgets.QMainWindow):
 		# Add setup widgets to setup grid
 		self.setup_grid.addWidget(self.setup_title, 0, 0)
 		self.setup_grid.addWidget(self.path_entry, 1, 0)
-		self.setup_grid.addWidget(self.raw_image, 1, 1)
-		self.setup_grid.addWidget(self.advanced_label, 2, 0)
-		self.setup_grid.addWidget(self.prediction_confidence_label, 3, 0)
-		self.setup_grid.addWidget(self.prediction_confidence_slider, 4, 0, 1, 2)
-		self.setup_grid.addWidget(self.masking_confidence_label, 5, 0)
-		self.setup_grid.addWidget(self.masking_confidence_slider, 6, 0, 1, 2)
+		self.setup_grid.addWidget(self.upload_button, 2, 0)
+		self.setup_grid.addWidget(self.raw_image, 1, 1, 2, 1)
+		self.setup_grid.addWidget(self.advanced_label, 3, 0)
+		self.setup_grid.addWidget(self.prediction_confidence_label, 4, 0)
+		self.setup_grid.addWidget(self.prediction_confidence_slider, 5, 0, 1, 2)
+		self.setup_grid.addWidget(self.masking_confidence_label, 6, 0)
+		self.setup_grid.addWidget(self.masking_confidence_slider, 7, 0, 1, 2)
 		# Set setup layout
 		self.setup_tab.setLayout(self.setup_grid)
 
@@ -152,12 +156,32 @@ class MainWindow(QtWidgets.QMainWindow):
 		self.analysis_grid.addWidget(self.reset_visualization_button, 3, 0)
 		self.analysis_tab.setLayout(self.analysis_grid)
 
-
 	def populate_vis_combobox(self):
 		self.vis_combobox.addItem('Value Barchart')
 		self.vis_combobox.addItem('Weight Barchart')
 		self.vis_combobox.addItem('Value-Weight Scatterplot')
 		self.vis_combobox.addItem('Alluvial Diagram')
+
+	def populateTreeWidget(self, widget):
+		newEntry = QtWidgets.QTreeWidgetItem()
+		self.category_tree.addTopLevelItem(newEntry)
+
+	# Connect widgets
+
+	def connect_widgets(self):
+		self.connect_setup_widgets()
+
+	def connect_setup_widgets(self):
+		self.upload_button.clicked.connect(self.upload_picture)
+
+	# Update methods
+
+	def upload_picture(self):
+		path = str(self.path_entry.text())
+		if os.path.isfile(path):
+			raw_pixmap = QtGui.QPixmap(path)
+			self.raw_image.setPixmap(raw_pixmap.scaled(480, 360))
+
 
 '''Launches MainWindow object'''
 def launch(filename=None):
