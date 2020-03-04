@@ -119,6 +119,8 @@ class MainWindow(QtWidgets.QMainWindow):
 		self.view_changer.addButton(self.value_button)
 		self.view_changer.addButton(self.weight_button)
 		self.category_tree = QtWidgets.QTreeWidget()
+		# Populate
+		self.populate_tree_widget(self.category_tree)
 		# Add setup widgets to setup grid
 		self.view_grid.addWidget(self.view_title, 0, 0)
 		self.view_grid.addWidget(self.view_image, 1, 0, 4, 3)
@@ -148,6 +150,8 @@ class MainWindow(QtWidgets.QMainWindow):
 		analysis_pixmap = QtGui.QPixmap(os.path.join('images', 'placeholder.jpg'))
 		self.analysis_image.setPixmap(analysis_pixmap.scaled(480, 360))
 		self.reset_visualization_button = QtWidgets.QPushButton('Reset')
+		# Populate
+		self.populate_tree_widget(self.analysis_category_tree)
 		# Add analysis widgets to grid
 		self.analysis_grid.addWidget(self.analysis_title, 0, 0)
 		self.analysis_grid.addWidget(self.analysis_image, 1, 0, 4, 3)
@@ -162,9 +166,21 @@ class MainWindow(QtWidgets.QMainWindow):
 		self.vis_combobox.addItem('Value-Weight Scatterplot')
 		self.vis_combobox.addItem('Alluvial Diagram')
 
-	def populateTreeWidget(self, widget):
-		newEntry = QtWidgets.QTreeWidgetItem()
-		self.category_tree.addTopLevelItem(newEntry)
+	def populate_tree_widget(self, widget):
+		parents = ['Furniture', 'Sports Equipment', 'Electronics']
+		children = {'Furniture': ['Sofa', 'Chair'], 'Sports Equipment': ['Baseball Glove', 'Baseball Bat', 'Bicycle'],
+		'Electronics': ['Blender', 'Toaster', 'Befrigerator']}
+		for parent in parents:
+			newEntry = QtWidgets.QTreeWidgetItem(widget)
+			newEntry.setText(0, parent)
+			newEntry.setFlags(newEntry.flags() | QtCore.Qt.ItemIsTristate | QtCore.Qt.ItemIsUserCheckable)
+			newEntry.setCheckState(0, QtCore.Qt.Checked)
+			widget.addTopLevelItem(newEntry)
+			for child_category in children[parent]:
+				child = QtWidgets.QTreeWidgetItem(newEntry)
+				child.setFlags(child.flags() | QtCore.Qt.ItemIsUserCheckable)
+				child.setText(0, child_category)
+				child.setCheckState(0, QtCore.Qt.Checked)
 
 	# Connect widgets
 
