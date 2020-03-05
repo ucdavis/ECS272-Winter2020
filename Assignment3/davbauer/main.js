@@ -7,7 +7,7 @@ var max_year = null
 var current_year = null
 
 // This is the entry point of the app
-d3.csv('../datasets/Los_Angeles_International_Airport_-_Passenger_Traffic_By_Terminal.csv')
+d3.csv('../datasets/LAX_Terminal_Passengers.csv')
   .then(csv => {
     // log csv in browser console
     console.log(csv)
