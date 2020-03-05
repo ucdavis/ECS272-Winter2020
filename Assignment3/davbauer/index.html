@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>ECS 272 InfoVis Assignment 3</title>
+    <link rel="stylesheet" href="style.css">
+
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="complexChart.js"></script>
+    <script src="simpleChart.js"></script>
+    <script src="main.js"></script>
+  </head>
+  <body>
+    <h2>ECS 272 Assignment 3 - David Bauer</h2>
+
+    <div class="vis-container" style="float:left">
+
+      <h2 id="current_flight_type" style="padding-left: 100px; text-align: center;"></h2>
+      <br><br>
+      <div style="padding-left: 590px;">
+      <span>Select Flight Type:</span>
+      <select onchange="onComplexChartSelectionChanged(this.value)">
+        <option value="All">Show All</option>
+        <option value="International">International Flights</option>
+        <option value="Domestic">Domestic Flights</option>
+      </select>
+      </div>
+
+      <div id="container-complex" class="vis"></div>
+    </div>
+
+
+
+    <div class="vis-container" style="float:left">
+      
+      <h2 id="current_year" style="padding-left: 100px; text-align: center;"></h2>
+      <br><br>
+      <div style="padding-left: 90px;">
+      <span id="min_year"></span>
+      <input id="year_range" type="range" min="0" max="100" value="50" class="slider" id="timerangeslider" style="width: 600px" onchange="onSimpleChartSelectionChanged(this.value)">
+      <span id="max_year"></span>
+      </div>
+
+      <div id="container-simple" class="vis"></div>
+
+    </div>
+    
+  </body>
+</html>
