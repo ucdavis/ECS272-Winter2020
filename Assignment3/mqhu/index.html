@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>ECS 272 InfoVis Assignment 3</title> 
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+
+
+  </head>
+  <style type="text/css">
+    #descrip {
+      border-style: hidden hidden outset hidden;
+      width: 1000px;
+      border-width: thin;
+    }
+    #longerDescrip{
+      width: 1200px;
+    }
+    #rightMove{
+      padding-left: 80px;
+    }
+    body{padding-top: 20px;
+      padding-left: 10px;
+    }
+
+    .node rect {
+        cursor: move;
+        fill-opacity: .9;
+        shape-rendering: crispEdges;
+      }
+
+    .node text {
+      pointer-events: none;
+      text-shadow: 0 1px 0 #fff;
+      color: red;
+    }
+    .link {
+      fill: none;
+      stroke: #000;
+      stroke-opacity: .2;
+    }
+    .link:hover {
+      stroke-opacity: .5;
+    }
+
+  </style>
+
+  <body>
+    <h2>ECS 272 Assignment 3-D3</h2>
+    <div id="container">
+      <h2>Visualization 1:</h2>
+
+      <h3 id = descrip>Pie chart that depicts the distribution of the released year of the movies played in San Francisco theaters</h3>
+      <div>
+         <b>Show Labels: </b>
+        <select id="select">
+          <option value="noParameters" selected="selected">No Labels</option>
+          <option value="showNumbers">Show Numbers</option>
+          <option value="showPercentages">Show Percentages</option>
+        </select>
+        <b>Change Year Range: </b>
+        <select id="select2">
+          <option selected="selected">Every 20 Years</option>
+          <option >Every 40 Years</option>
+        </select>
+      </div>
+
+    </div>
+    <h2>Visualization 2:</h2>
+    <h3 id = descrip>Sankey Diagram Shows the flow of movies produced years to production companies</h3>
+    <p id = longerDescrip><b>Description</b>:It shows the sankey diagram of the flows of movie produced year into producers, hover over the links and right nodes, we can see the degree of quatity of movies in a specific year range are produced by which producer.
+    </p>
+    <p id = longerDescrip><b>Put the mouse on nodes we can see the number of movies represented by the nodes. From this diagram the users can see the preference of producing movies in different ages by different production companies. </b>
+    </p>
+
+      <div id = "rightMove">
+        <b>Change Nodes Padding To: </b>
+        <select id="select3">
+          <option selected="selected">Small</option>
+          <option >Medium</option>
+          <option >Large</option>
+        </select>
+      </div>
+
+<!--       load sankey diagram function -->
+    <script src="https://cdn.jsdelivr.net/gh/holtzy/D3-graph-gallery@master/LIB/sankey.js"></script>
+    <script src="./scripts/d3.min.js"> </script>
+    <script src="./scripts/main.js"> </script> 
+  </body>
+</html>
