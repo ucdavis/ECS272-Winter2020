@@ -9,7 +9,7 @@ from ipywidgets import widgets
 import pandas as pd
 import numpy as np
 
-df = pd.read_csv("/Users/dongbinxin/Desktop/Police_Department_Incidents_-_Previous_Year__2016_.csv")
+df = pd.read_csv("../datasets/Police_Department_Incidents_-_Previous_Year__2016_.csv")
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 df2 = df[1:1000]
 
