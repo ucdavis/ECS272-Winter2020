@@ -1,0 +1,30 @@
+.dimension { cursor: ns-resize; }
+.category { cursor: ew-resize; }
+.dimension tspan.name { font-size: 1.5em; fill: rgb(15, 13, 53); font-weight: bold; }
+.dimension:hover tspan.name { fill: rgb(231, 6, 6); }
+.dimension line { stroke: rgb(16, 14, 46); }
+.dimension rect { stroke: none; fill-opacity: 0; }
+.dimension > rect, .category-background { fill: rgb(255, 255, 255); }
+.dimension > rect { display: none; }
+.category:hover rect { fill-opacity: .4; }
+.dimension:hover > rect { fill-opacity: .4; }
+.ribbon path { stroke-opacity: 0; fill-opacity: .5; }
+.ribbon path.active { fill-opacity: .9; }
+.ribbon-mouse path { fill-opacity: 0; }
+
+.category-0 { fill: #3989c2; stroke: #1f77b4; }
+.category-1 { fill: #fa9740; stroke: #ff7f0e; }
+.category-2 { fill: #4fe44f; stroke: #2ca02c; }
+.category-3 { fill: #ee4747; stroke: #d62728; }
+.category-4 { fill: #c689ff; stroke: #9467bd; }
+.category-5 { fill: #d68e7f; stroke: #8c564b; }
+.category-6 { fill: #ff8fdd; stroke: #e377c2; }
+.category-7 { fill: #c2c2c2; stroke: #7f7f7f; }
+.category-8 { fill: #e9e933; stroke: #bcbd22; }
+.category-9 { fill: #27e2f7; stroke: #17becf; }
+
+.tooltip {
+  background-color: rgba(242, 242, 242, .6);
+  position: absolute;
+  padding: 5px;
+}
