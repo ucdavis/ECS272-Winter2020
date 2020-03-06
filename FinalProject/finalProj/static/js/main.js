@@ -125,7 +125,7 @@ function createVisualization(nodeData) {
         .attr("display", function(d) { return d.depth ? null : "none"; })
         .attr("d", arc)
         .attr("fill-rule", "evenodd")
-        .style("fill", function(d, i) { console.log(colors(d.name));return colors(d.name); })
+        .style("fill", '#808080')//function(d, i) { console.log(colors(d.name));return colors(d.name); })
         .style("opacity", 1)
         .on("mouseover", function(d) {
             div.transition()
@@ -159,6 +159,36 @@ function createVisualization(nodeData) {
 //             // a little harder.
 //             return (thetaDeg > 90) ? thetaDeg - 180 : thetaDeg;
         //}
+
+        function mouseover(d) {
+
+  var percentage = (100 * d.value / totalSize).toPrecision(3);
+  var percentageString = percentage + "%";
+  if (percentage < 0.1) {
+    percentageString = "< 0.1%";
+  }
+
+  d3.select("#percentage")
+      .text(percentageString);
+
+  d3.select("#explanation")
+      .style("visibility", "");
+
+  var sequenceArray = d.ancestors().reverse();
+  sequenceArray.shift(); // remove root node from the array
+  updateBreadcrumbs(sequenceArray, percentageString);
+
+  // Fade all the segments.
+  d3.selectAll("path")
+      .style("opacity", 0.3);
+
+  // Then highlight only those that are an ancestor of the current segment.
+  vis.selectAll("path")
+      .filter(function(node) {
+                return (sequenceArray.indexOf(node) >= 0);
+              })
+      .style("opacity", 1);
+}
 
   }
 
