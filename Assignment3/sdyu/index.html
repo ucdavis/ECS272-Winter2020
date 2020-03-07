@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>ECS 272 InfoVis Assignment 3</title>
+    <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script src="https://d3js.org/topojson.v1.min.js"></script>
+    <script src="d3.parcoords.js"></script>
+    <link rel="stylesheet" type="text/css" href="d3.parcoords.css">
+    <style>
+	#tooltip {
+          min-width: 100px;
+          min-height: 50px;
+          background-color: white;
+        }
+
+     	path {
+  	  fill: #fff;
+  	  stroke: #ccc;
+	  stroke-width: .8px;
+        }
+
+     	circle {
+  	  fill-opacity: .5;
+  	  stroke: #fff;
+  	  stroke-width: .5px
+        }
+	
+	.demoSelection {
+	  float: left;
+	}
+
+	#indication {
+	  font-size: 20px;
+	  margin-left: 50px;
+	}
+
+	#box {
+	  margin-top:2px;
+	  font-size: 15px;
+	}
+    </style>
+  </head>
+  <body>
+    <h2 style="margin-left: 50px">Assignment 3 Shidi Yu</h2>
+    <div id="container"> 
+	<div id="tooltip">
+		<div class="demoSelection" id="indication">View the distribution of restaurants with Grade:&nbsp&nbsp  </div>		  
+		<select class="demoSelection" id="box" onchange="change(this)">
+			<option value="A">A</option>
+			<option value="B">B</option>
+			<option value="C">C</option>
+			<option value="ALL">ALL</option>
+		</select>
+	</div>
+    </div>
+    <p style="margin-left:50px; font-size: 20px;">
+    Use this slider to change the opacity. The current value is 
+	<strong id="opac">0</strong>
+	<br/>
+  	<input type="range" min="0" max="0.25" step="0.01" value="0" class="slider" id="opacity">
+    </p>
+    <p style="margin-left:50px; font-size: 20px;">
+    Use this button to switch between dark and light mode: &nbsp
+  	<input type="button" value="lighten" id="brightness"></input>
+    </p>
+    <div id="example" class="parcoords" style="width:1100px;height:300px;"></div>     
+    <div style="width:1100px;height:100px; margin-left:440px">Parallel coordinates plot of different kinds of restaurants</div>  
+    <script src="map.js"></script>
+  </body>
+</html>
