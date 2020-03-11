@@ -1,4 +1,4 @@
-﻿name,category,price,weight,paid_disposal,free_disposal,technical_name
+name,category,price,weight,paid_disposal,free_disposal,technical_name
 tv,electronics,164.09,9.5,"dumpster rental, hazardous waste facility, curbside collection","tech firm recycling program, donation","Samsung Electronics UN32M4500BFXZA 720P Smart LED TV, 32"" (2018)"
 tv,electronics,1199,44.1,"dumpster rental, hazardous waste facility, curbside collection","tech firm recycling program, donation",Samsung QN55Q8FN FLAT 55” QLED 4K UHD 8 Series Smart TV 2018
 tv,electronics,1896.99,97.4,"dumpster rental, hazardous waste facility, curbside collection","tech firm recycling program, donation","LG 86UM8070PUA 86"" 4K Ultra HD Smart LED TV (2019), Black"
@@ -124,7 +124,7 @@ speaker,electronics,31.27,1.68,"dumpster rental, hazardous waste facility, curbs
 speaker,electronics,30.81,1.06,"dumpster rental, hazardous waste facility, curbside collection","tech firm recycling program, donation",Zamkol Bluetooth Speakers Portable Wireless-Purple
 speaker,electronics,19.99,0.6,"dumpster rental, hazardous waste facility, curbside collection","tech firm recycling program, donation","Tapping & Shaking Bluetooth Speakers, VAKO RockSound Portable Wireless Speaker with Flashing Lights, IPX5 Waterproof, Bluetooth 5.0, 100ft Wireless Range, for Travel, Camping, Shower, Party & Outdoors"
 speaker,electronics,36.66,3.1,"dumpster rental, hazardous waste facility, curbside collection","tech firm recycling program, donation","Portable Bluetooth Speakers V5.0, Waterproof Wireless Home Party Speaker, 25W Rich Bass Impressive Sound, 15 Hrs Playtime & Wireless Stereo Pairing, Built-in Mic, Durable for Indoor, Outdoor - White"
-speaker,electronics,33.72,0.88,"dumpster rental, hazardous waste facility, curbside collection","tech firm recycling program, donation","Bluetooth Speakers Portable Wireless Speakers with 30H Playtime, Loud Stereo Sound, Rich Bass, AUX Line, Built-in Mic 66 ft Bluetooth Range, IPX7 Waterproof for Bike, Camping, Beach"
+speaker,electronics,33.72,0.88,"dumpster rental, hazardous waste facility, curbside collection","tech firm recycling program, donation","Bluetooth Speakers Portable Wireless Speakers with 30H Playtime, Loud Stereo Sound, Rich Bass, AUX Line, Built-in Mic 66 ft Bluetooth Range, IPX7 Waterproof for bicycle, Camping, Beach"
 speaker,electronics,412.04,17.4,"dumpster rental, hazardous waste facility, curbside collection","tech firm recycling program, donation","Marshall Woburn Bluetooth Speaker, Cream (4090971)"
 speaker,electronics,77.99,0.64,"dumpster rental, hazardous waste facility, curbside collection","tech firm recycling program, donation","Bose SoundLink Micro, Portable Outdoor Speaker, (Wireless Bluetooth Connectivity), Black"
 speaker,electronics,250,13,"dumpster rental, hazardous waste facility, curbside collection","tech firm recycling program, donation",Aiwa Exos-9 Portable Bluetooth Speaker
@@ -579,23 +579,23 @@ skateboard,sports,21.5,4,"curbside collection, junk removal service",donation,"F
 skateboard,sports,36.68,4.6,"curbside collection, junk removal service",donation,"ARCADE Pro Skateboard 31"" Standard Complete Skateboards Professional Complete Board w/Concave - Skate Boards Great for Beginners, Adults, Teens, Youth & Kids"
 skateboard,sports,75.75,6.3,"curbside collection, junk removal service",donation,"Coolstep Pro Skateboard 8-inch Full Complete for Trick Beginners, Cool Design"
 skateboard,sports,32.81,5.6,"curbside collection, junk removal service",donation,"Aceshin Skateboard, 31"" x 8"" Complete PRO Skateboard, 9 Layer Canadian Maple Wood Double Kick Tricks Skate Board Concave Design for Beginner,Gift for Kids Boys Girls Youths"
-bike,sports,177.55,32.7,"recycling facility, junk removal service","scrap dealer, donation",Retrospec Harper Single-Speed Fixed Gear Urban Commuter Bike
-bike,sports,140.25,42.7,"recycling facility, junk removal service","scrap dealer, donation","Huffy Hardtail Mountain Bike, Stone Mountain 24-26 inch 21-Speed, Lightweight (Summit Ridge)"
-bike,sports,141.07,42,"recycling facility, junk removal service","scrap dealer, donation","Schwinn Wayfarer Bike Mens and Womens Hybrid Retro-Styled Cruiser, 7-Speed"
-bike,sports,152.62,40,"recycling facility, junk removal service","scrap dealer, donation","sixthreezero Around the Block Women's Cruiser Bike with Rear Rack (24-Inch, 26-Inch, and eBike)"
-bike,sports,149.99,40,"recycling facility, junk removal service","scrap dealer, donation","Kent KZ2600 Dual-Suspension Mountain Bike, 26-Inch"
-bike,sports,277.35,45,"recycling facility, junk removal service","scrap dealer, donation","Schwinn Discover Hybrid Bike for Men and Women, 21-Speed, 28-inch Wheels"
-bike,sports,115.3,41.5,"recycling facility, junk removal service","scrap dealer, donation",Kent Pomona Women's Dual Suspension Comfort Bike
-bike,sports,133.39,31.1,"recycling facility, junk removal service","scrap dealer, donation","Dynacraft Tony Hawk Park Series 720 Boys BMX Freestyle Bike 24"""", Matte Black"
-bike,sports,91.59,33,"recycling facility, junk removal service","scrap dealer, donation","Huffy Kids Bike Go Girl & Ignyte 20 inch, Quick Connect or Regular Assembly, Kickstand Included"
-bike,sports,158.25,31.2,"recycling facility, junk removal service","scrap dealer, donation","KENT Gzr700 Road Bike, 700C"
-bike,sports,165.75,40.6,"recycling facility, junk removal service","scrap dealer, donation","Mongoose Mech Mountain Bike, 24-Inch or 26-Inch Wheels"
-bike,sports,126.94,40,"recycling facility, junk removal service","scrap dealer, donation","Mongoose Legion Freestyle BMX Bike Line for Beginner-Level to Advanced Riders, Steel Frame, 16-20-Inch Wheels"
-bike,sports,73.5,29.4,"recycling facility, junk removal service","scrap dealer, donation","Razor High Roller BMX/Freestyle Bike, 20-Inch"
-bike,sports,118.72,37.3,"recycling facility, junk removal service","scrap dealer, donation","Diamondback Bicycles Cobra 20 Youth 20"" Wheel Mountain Bike, Orange"
-bike,sports,167.58,37.4,"recycling facility, junk removal service","scrap dealer, donation","Mongoose Maxim Girls Mountain Bike, 24-Inch Wheels"
-bike,sports,232.94,33,"recycling facility, junk removal service","scrap dealer, donation","Schwinn Loop Adult Folding Bike, 20-inch Wheels, Rear Carry Rack, Black"
-bike,sports,91.99,31.5,"recycling facility, junk removal service","scrap dealer, donation","Razor Nebula BMX/Freestyle Bike, 20-Inch"
-bike,sports,148.73,44.5,"recycling facility, junk removal service","scrap dealer, donation","Schwinn Destiny Womens Beach Cruiser Bike, Single Speed, 24-inch Wheels"
-bike,sports,471.27,47,"recycling facility, junk removal service","scrap dealer, donation","RINKMO FEB-S1 Folding Electric Bike,14 Inch Electric Bicycle with Dual Disc Brakes,36V 8Ah Removable Lithium-Ion Battery, Power Assist,250W Brushless Gear Motor, Suitable for Teens and Adults"
-bike,sports,499.99,34,"recycling facility, junk removal service","scrap dealer, donation",Diamondback Bicycles Overdrive Hardtail Mountain Bike
+bicycle,sports,177.55,32.7,"recycling facility, junk removal service","scrap dealer, donation",Retrospec Harper Single-Speed Fixed Gear Urban Commuter bicycle
+bicycle,sports,140.25,42.7,"recycling facility, junk removal service","scrap dealer, donation","Huffy Hardtail Mountain bicycle, Stone Mountain 24-26 inch 21-Speed, Lightweight (Summit Ridge)"
+bicycle,sports,141.07,42,"recycling facility, junk removal service","scrap dealer, donation","Schwinn Wayfarer bicycle Mens and Womens Hybrid Retro-Styled Cruiser, 7-Speed"
+bicycle,sports,152.62,40,"recycling facility, junk removal service","scrap dealer, donation","sixthreezero Around the Block Women's Cruiser bicycle with Rear Rack (24-Inch, 26-Inch, and ebicycle)"
+bicycle,sports,149.99,40,"recycling facility, junk removal service","scrap dealer, donation","Kent KZ2600 Dual-Suspension Mountain bicycle, 26-Inch"
+bicycle,sports,277.35,45,"recycling facility, junk removal service","scrap dealer, donation","Schwinn Discover Hybrid bicycle for Men and Women, 21-Speed, 28-inch Wheels"
+bicycle,sports,115.3,41.5,"recycling facility, junk removal service","scrap dealer, donation",Kent Pomona Women's Dual Suspension Comfort bicycle
+bicycle,sports,133.39,31.1,"recycling facility, junk removal service","scrap dealer, donation","Dynacraft Tony Hawk Park Series 720 Boys BMX Freestyle bicycle 24"""", Matte Black"
+bicycle,sports,91.59,33,"recycling facility, junk removal service","scrap dealer, donation","Huffy Kids bicycle Go Girl & Ignyte 20 inch, Quick Connect or Regular Assembly, Kickstand Included"
+bicycle,sports,158.25,31.2,"recycling facility, junk removal service","scrap dealer, donation","KENT Gzr700 Road bicycle, 700C"
+bicycle,sports,165.75,40.6,"recycling facility, junk removal service","scrap dealer, donation","Mongoose Mech Mountain bicycle, 24-Inch or 26-Inch Wheels"
+bicycle,sports,126.94,40,"recycling facility, junk removal service","scrap dealer, donation","Mongoose Legion Freestyle BMX bicycle Line for Beginner-Level to Advanced Riders, Steel Frame, 16-20-Inch Wheels"
+bicycle,sports,73.5,29.4,"recycling facility, junk removal service","scrap dealer, donation","Razor High Roller BMX/Freestyle bicycle, 20-Inch"
+bicycle,sports,118.72,37.3,"recycling facility, junk removal service","scrap dealer, donation","Diamondback Bicycles Cobra 20 Youth 20"" Wheel Mountain bicycle, Orange"
+bicycle,sports,167.58,37.4,"recycling facility, junk removal service","scrap dealer, donation","Mongoose Maxim Girls Mountain bicycle, 24-Inch Wheels"
+bicycle,sports,232.94,33,"recycling facility, junk removal service","scrap dealer, donation","Schwinn Loop Adult Folding bicycle, 20-inch Wheels, Rear Carry Rack, Black"
+bicycle,sports,91.99,31.5,"recycling facility, junk removal service","scrap dealer, donation","Razor Nebula BMX/Freestyle bicycle, 20-Inch"
+bicycle,sports,148.73,44.5,"recycling facility, junk removal service","scrap dealer, donation","Schwinn Destiny Womens Beach Cruiser bicycle, Single Speed, 24-inch Wheels"
+bicycle,sports,471.27,47,"recycling facility, junk removal service","scrap dealer, donation","RINKMO FEB-S1 Folding Electric bicycle,14 Inch Electric Bicycle with Dual Disc Brakes,36V 8Ah Removable Lithium-Ion Battery, Power Assist,250W Brushless Gear Motor, Suitable for Teens and Adults"
+bicycle,sports,499.99,34,"recycling facility, junk removal service","scrap dealer, donation",Diamondback Bicycles Overdrive Hardtail Mountain bicycle

@@ -1,0 +1,12 @@
+bicycle
+baseball bat
+baseball glove
+skateboard
+tennis racket
+chair
+couch
+bed
+dining table
+desk
+tv
+laptop

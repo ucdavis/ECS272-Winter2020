@@ -7,6 +7,7 @@ import string
 from PyQt5 import QtCore, QtWidgets, QtGui
 from AdditionalWidgets import FileEntry, RangeSlider
 from shutil import copyfile
+from maskImage import maskImage
 
 '''Primary source of interaction between all kinds of users
 and computer.'''
@@ -167,9 +168,11 @@ class MainWindow(QtWidgets.QMainWindow):
 		self.vis_combobox.addItem('Alluvial Diagram')
 
 	def populate_tree_widget(self, widget):
+		widget.setHeaderHidden(True)
 		parents = ['Furniture', 'Sports Equipment', 'Electronics']
-		children = {'Furniture': ['Sofa', 'Chair'], 'Sports Equipment': ['Baseball Glove', 'Baseball Bat', 'Bicycle'],
-		'Electronics': ['Blender', 'Toaster', 'Befrigerator']}
+		children = {'Furniture': ['Couch', 'Chair', 'Mirror', 'Dining Table'],
+		'Sports Equipment': ['Baseball Glove', 'Baseball Bat', 'Bicycle', 'Tennis Racket'],
+		'Electronics': ['Blender', 'Toaster', 'TV', 'Refrigerator']}
 		for parent in parents:
 			newEntry = QtWidgets.QTreeWidgetItem(widget)
 			newEntry.setText(0, parent)
@@ -197,7 +200,15 @@ class MainWindow(QtWidgets.QMainWindow):
 		if os.path.isfile(path):
 			raw_pixmap = QtGui.QPixmap(path)
 			self.raw_image.setPixmap(raw_pixmap.scaled(480, 360))
-
+		# Mask Image
+		cd = {"furniture":(140,33,255),"electronics":(100,100,200),"sports":(100,200,100)}
+		pr = {"tv":(300,1200),"couch":(60,800),"chair":(8,30)}
+		wt = {"tv":(8,60),"couch":(25,500),"chair":(9,70)}
+		view = 'category'
+		maskImage(path, cd, pr, wt, view)
+		# Add new image
+		view_pixmap = QtGui.QPixmap('opimg.jpg')
+		self.view_image.setPixmap(view_pixmap.scaled(480, 360))
 
 '''Launches MainWindow object'''
 def launch(filename=None):
