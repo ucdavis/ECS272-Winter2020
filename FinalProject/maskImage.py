@@ -169,7 +169,6 @@ def maskImageHelper(source, color_dictionary, price_dict, weight_dict):
     filepath = 'cat.jpg'
     price_filepath = 'price.jpg'
     weight_filepath = 'weight.jpg'
-    print ("1")
     cv2.imwrite(filepath, clone)
     cv2.imwrite(price_filepath, price_clone)
     cv2.imwrite(weight_filepath, weight_clone)
@@ -185,5 +184,3 @@ def makeColor(color,roi,proportion):
 
 if __name__ == 'main':
     maskImage("images/messyGarage.jpg")
-
-maskImage("images/messyGarage.jpg")
