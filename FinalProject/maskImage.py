@@ -17,14 +17,40 @@ import random
 import time
 import cv2
 import os
+import csv
+import statistics
 import pandas as pd
+from PyQt5 import QtGui
 
-def maskImage(source,color_dictionary,price_range,weight_range,view):
+def maskImage(source):
+    # CSV Stuff
+    price_dict = {}
+    weight_dict = {}
+    with open('project_dataset.csv', newline='') as csvfile:
+        reader = csv.reader(csvfile, delimiter=',', quotechar='|')
+        next(reader)
+        for row in reader:
+            if row[0] not in price_dict.keys():
+                price_dict[row[0]] = []
+                weight_dict[row[0]] = []
+            price_dict[row[0]].append(float(row[2]))
+            weight_dict[row[0]].append(float(row[3]))
+    average_prices = {}
+    average_weights = {}
+    for key in price_dict.keys():
+        average_prices[key] = statistics.mean(price_dict[key])
+        average_weights[key] = statistics.mean(weight_dict[key])
+    cd = {"furniture":(255,0,0),"electronics":(0,0,255),"sports":(0,255,0)}
+    maskImageHelper(source, cd, average_prices, average_weights)
+
+def maskImageHelper(source, color_dictionary, price_dict, weight_dict):
     df = pd.read_csv("project_dataset.csv")
     directory = "mask-rcnn-coco"
     # load the COCO class labels our Mask R-CNN was trained on
     labelsPath = os.path.sep.join([directory,"object_detection_classes_coco.txt"])
     LABELS = open(labelsPath).read().strip().split("\n")
+    supportedLabelsPath = os.path.sep.join([directory,'supported_classes.txt'])
+    SUPPORTEDLABELS = open(supportedLabelsPath).read().strip().split("\n")
 
     # derive the paths to the Mask R-CNN weights and model configuration
     weightsPath = os.path.sep.join([directory,"frozen_inference_graph.pb"])
@@ -53,6 +79,8 @@ def maskImage(source,color_dictionary,price_range,weight_range,view):
     # clone our original image so we can draw on it
     # POI: Clone is our image. We should be saving it after we do the for loop
     clone = image.copy()
+    price_clone = image.copy()
+    weight_clone = image.copy()
     #visualize = 0
 	#way to save clone: clone = clone.save(filename)
     # loop over the number of detected objects
@@ -63,7 +91,7 @@ def maskImage(source,color_dictionary,price_range,weight_range,view):
         confidence = boxes[0, 0, i, 2]
         # filter out weak predictions by ensuring the detected probability
         # is greater than the minimum probability
-        if confidence > 0.5:
+        if confidence > 0.5 and LABELS[classID] in SUPPORTEDLABELS:
 
             # scale the bounding box coordinates back relative to the
             # size of the image and then compute the width and the height
@@ -87,21 +115,13 @@ def maskImage(source,color_dictionary,price_range,weight_range,view):
             # particular instance segmentation then create a transparent
             # overlay by blending the randomly selected color with the ROI
             name = LABELS[classID]
+            print (name)
             category = df[df['name']==name]['category'].unique()
             category = category[0]
-            if view == 'category':
-                color = np.array(color_dictionary[category])
-                proportion = 0.5
-            elif view == 'price':
-                color = np.array([0,255,255])
-                avgPrice = np.mean(np.array(price_range[name]))
-                proportion = findProportion(df['price'],avgPrice)
-            else:
-                color = np.array([0,0,255])
-                avgWt = np.mean(np.array(weight_range[name]))
-                proportion = findProportion(df['weight'],avgWt)
-            blended = makeColor(color,roi,view,proportion)
-            # store the blended ROI in the original image
+            # Category view
+            color = np.array(color_dictionary[category])
+            proportion = 0.5
+            blended = makeColor(color,roi,proportion)
             clone[startY:endY, startX:endX][mask] = blended
 
             # draw the bounding box of the instance on the image
@@ -112,20 +132,58 @@ def maskImage(source,color_dictionary,price_range,weight_range,view):
             # instance segmentation on the image
             text = "{}: {:.4f}".format(LABELS[classID], confidence)
             cv2.putText(clone, text, (startX, startY - 5),cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
+            # Price view
+            color = np.array([0,255,255])
+            avgPrice = price_dict[name]
+            proportion = findProportion(df['price'],avgPrice)
+            blended = makeColor(color,roi,proportion)
+            price_clone[startY:endY, startX:endX][mask] = blended
+
+            # draw the bounding box of the instance on the image
+            color = [int(c) for c in color]
+            cv2.rectangle(price_clone, (startX, startY), (endX, endY), color, 2)
+
+            # draw the predicted label and associated probability of the
+            # instance segmentation on the image
+            text = "{}: {:.4f}".format(LABELS[classID], confidence)
+            cv2.putText(price_clone, text, (startX, startY - 5),cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
+            # Weight view
+            color = np.array([0,0,255])
+            avgWt = weight_dict[name]
+            proportion = findProportion(df['weight'],avgWt)
+            blended = makeColor(color,roi,proportion)
+            # store the blended ROI in the original image
+            weight_clone[startY:endY, startX:endX][mask] = blended
+
+            # draw the bounding box of the instance on the image
+            color = [int(c) for c in color]
+            cv2.rectangle(weight_clone, (startX, startY), (endX, endY), color, 2)
+
+            # draw the predicted label and associated probability of the
+            # instance segmentation on the image
+            text = "{}: {:.4f}".format(LABELS[classID], confidence)
+            cv2.putText(weight_clone, text, (startX, startY - 5),cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
 
             # show the output image
-    cv2.imshow("Output", clone)
-    cv2.imwrite("opimg.jpg",clone)
+    #cv2.imshow("Output", clone)
+    filepath = 'cat.jpg'
+    price_filepath = 'price.jpg'
+    weight_filepath = 'weight.jpg'
+    print ("1")
+    cv2.imwrite(filepath, clone)
+    cv2.imwrite(price_filepath, price_clone)
+    cv2.imwrite(weight_filepath, weight_clone)
+    return filepath
 
 def findProportion(scaleVals,objVal):
     prop = (objVal-float(scaleVals.min()))/(float(scaleVals.max())-float(scaleVals.min()))
     return float(round(prop,1))
 
-def makeColor(color,roi,view,proportion):
+def makeColor(color,roi,proportion):
     blended = ((proportion * color) + ((1-proportion) * roi)).astype("uint8")
     return blended
 
-cd = {"furniture":(140,33,255),"electronics":(100,100,200)}
-pr = {"tv":(300,1200),"couch":(60,800),"chair":(8,30)}
-wt = {"tv":(8,60),"couch":(25,500),"chair":(9,70)}
-maskImage("images/example_04.jpeg",cd,pr,wt,'price')
+if __name__ == 'main':
+    maskImage("images/messyGarage.jpg")
+
+maskImage("images/messyGarage.jpg")
