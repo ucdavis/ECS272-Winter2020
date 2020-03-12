@@ -35,6 +35,7 @@ class scatter_plot_histogram:
         widget1.setLabel('left', 'Average Price (USD)')
         widget1.setLabel('bottom', 'Average Weight (Kg)')
         widget1.setTitle('Price Vs Wgt Scatter Plot')
+        self.widget1 = widget1
 
         # creates the scatter plot's tooltip
         self.tooltip = pg.TextItem(text='', color=(176, 23, 31), anchor=(0, 1), border='w', fill='w')
@@ -81,6 +82,22 @@ class scatter_plot_histogram:
             tooltip_text = 'name: ' + point.data() + '\navg price: $' + str(point.pos()[1]) + \
                            '\navg wgt: ' + str(point.pos()[0]) + ' Kg'
             self.tooltip.setText(tooltip_text)
+
+            # gets the mouse position and the plot's max x an y values
+            x_max = self.widget1.getAxis('bottom').range[1]
+            y_max = self.widget1.getAxis('left').range[1]
+            x_pos = point.pos()[0]
+            y_pos = point.pos()[1]
+
+            # if the mouse is close to the right or left of the plot's edge
+            # set the anchor to the tooltip's top right
+            if (3 * x_max / 4) < x_pos or (3 * y_max / 4) < y_pos:
+                self.tooltip.setAnchor((1, 0))
+            # else, set the anchor to the tooltip's bottom left
+            else:
+                self.tooltip.setAnchor((0, 1))
+
+            # sets the tooltip's position and makes it viewable
             self.tooltip.setPos(point.pos()[0], point.pos()[1])
             self.tooltip.show()
 
