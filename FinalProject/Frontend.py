@@ -4,8 +4,10 @@ import os
 import time
 import random
 import string
-from PyQt5 import QtCore, QtWidgets, QtGui
+from pyqtgraph.Qt import QtWidgets, QtGui, QtCore
+import pyqtgraph as pg
 from AdditionalWidgets import FileEntry, RangeSlider
+from visualizations import scatter_plot_histogram
 from shutil import copyfile
 from maskImage import maskImage
 
@@ -160,6 +162,7 @@ class MainWindow(QtWidgets.QMainWindow):
 		self.populate_vis_combobox()
 		self.analysis_category_tree = QtWidgets.QTreeWidget()
 		self.analysis_image = QtWidgets.QLabel()
+		self.view_widget = view = pg.GraphicsLayoutWidget()
 		analysis_pixmap = QtGui.QPixmap(os.path.join('images', 'placeholder.jpg'))
 		self.analysis_image.setPixmap(analysis_pixmap.scaled(480, 360))
 		self.reset_visualization_button = QtWidgets.QPushButton('Reset')
@@ -167,7 +170,8 @@ class MainWindow(QtWidgets.QMainWindow):
 		self.populate_tree_widget(self.analysis_category_tree)
 		# Add analysis widgets to grid
 		self.analysis_grid.addWidget(self.analysis_title, 0, 0)
-		self.analysis_grid.addWidget(self.analysis_image, 1, 0, 4, 3)
+		self.analysis_grid.addWidget(self.analysis_image, 1, 0, 2, 3)
+		self.analysis_grid.addWidget(self.view_widget, 1, 0, 2, 3)
 		self.analysis_grid.addWidget(self.vis_combobox, 1, 3)
 		self.analysis_grid.addWidget(self.analysis_category_tree, 2, 3)
 		self.analysis_grid.addWidget(self.reset_visualization_button, 3, 0)
@@ -201,11 +205,15 @@ class MainWindow(QtWidgets.QMainWindow):
 
 	def connect_widgets(self):
 		self.connect_setup_widgets()
+		self.connect_vis_widgets()
 
 	def connect_setup_widgets(self):
 		self.upload_button.clicked.connect(self.upload_picture)
 		self.setup_next_button.clicked.connect(self.next_setup_picture)
 		self.setup_prev_button.clicked.connect(self.prev_setup_picture)
+
+	def connect_vis_widgets(self):
+		self.vis_combobox.currentIndexChanged.connect(self.change_vis)
 
 	# Update methods
 
@@ -216,7 +224,7 @@ class MainWindow(QtWidgets.QMainWindow):
 			self.pictures.append(raw_pixmap)
 			self.raw_image.setPixmap(raw_pixmap.scaled(480, 360))
 		# Mask Image
-		self.items.append(maskImage(path))
+		self.items += maskImage(path)
 		cat_pixmap = QtGui.QPixmap('cat.jpg')
 		price_pixmap = QtGui.QPixmap('price.jpg')
 		weight_pixmap = QtGui.QPixmap('weight.jpg')
@@ -244,9 +252,28 @@ class MainWindow(QtWidgets.QMainWindow):
 			self.raw_image.setPixmap(raw_pixmap.scaled(480, 360))
 			self.setup_pic_num -= 1
 
+	def change_vis(self):
+		if str(self.vis_combobox.currentText()) == 'Value-Weight Scatterplot':
+			self.analysis_image.hide()
+			w1 = self.view_widget.addPlot()
+			w2 = self.view_widget.addPlot()
+			individual_items = []
+			item_frequency = []
+			for item in self.items:
+				if item not in individual_items:
+					individual_items.append(item)
+					item_frequency.append(1)
+				else:
+					item_frequency[individual_items.index(item)] += 1
+			print (individual_items)
+			print (item_frequency)
+			scatter_plot_histogram(w1, w2, individual_items, item_frequency)
+
+
 '''Launches MainWindow object'''
 def launch(filename=None):
-	app = QtWidgets.QApplication(sys.argv)
+	if not QtGui.QApplication.instance():
+		app = QtGui.QApplication(sys.argv)
 	mw = MainWindow()
 	sys.exit(app.exec_())
 
