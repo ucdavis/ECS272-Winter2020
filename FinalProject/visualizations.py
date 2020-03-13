@@ -45,6 +45,7 @@ class scatter_plot_histogram:
         # adds embedded interactions
         self.plot_points.scene().sigMouseMoved.connect(self.onMove)
         self.plot_points.sigClicked.connect(self.onClick)
+        print('connect')
         self.selected_point = None
 
         # creates the histogram
@@ -57,14 +58,17 @@ class scatter_plot_histogram:
         widget2.setLabel('left', '# of Occurrences')
         widget2.setLabel('bottom', 'Price (USD)')
         widget2.setTitle(names[0].capitalize() + ' Price Histogram')
+        self.widget2 = widget2
 
     def update_histogram(self, name):
         histogram_subset = dataset.loc[dataset['name'] == name]
 
         histogram_y, histogram_x = np.histogram(histogram_subset['price'].tolist())
         self.histogram.setData(histogram_x, histogram_y, stepMode=True, fillLevel=0, brush=(0, 0, 255, 80))
+        self.widget2.setTitle(name.capitalize() + ' Price Histogram')
 
     def onMove(self, pos):
+        print('moved')
         act_pos = self.plot_points.mapFromScene(pos)
         points_list = self.plot_points.pointsAt(act_pos)
 
@@ -112,25 +116,25 @@ class scatter_plot_histogram:
                 self.selected_point = None
 
     def onClick(self, _, points_list):
+        print('clicked')
         if len(points_list) > 0:
             point = points_list[0]
             self.update_histogram(point.data())
 
-# for debugging purposes
-app = QtGui.QApplication([])
-mw = QtGui.QMainWindow()
-mw.resize(900,600)
-view = pg.GraphicsLayoutWidget()  ## GraphicsView with GraphicsLayout inserted by default
-mw.setCentralWidget(view)
-mw.show()
-
-## create 2 areas to add plots
-w1 = view.addPlot()
-w2 = view.addPlot()
-test = scatter_plot_histogram(w1, w2, ['couch', 'bed'], [1, 2])
-
 
 # Start Qt event loop unless running in interactive mode or using pyside.
 if __name__ == '__main__':
+    # for debugging purposes
+    app = QtGui.QApplication([])
+    mw = QtGui.QMainWindow()
+    mw.resize(900, 600)
+    view = pg.GraphicsLayoutWidget()  ## GraphicsView with GraphicsLayout inserted by default
+    mw.setCentralWidget(view)
+    mw.show()
+
+    # create 2 areas to add plots
+    w1 = view.addPlot()
+    w2 = view.addPlot()
+    test = scatter_plot_histogram(w1, w2, ['couch', 'bed'], [1, 2])
 
     app.exec_()  # Start QApplication event loop ***
