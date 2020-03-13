@@ -26,6 +26,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
 		self.grid = QtWidgets.QGridLayout()
 
+		self.items = []
 		self.pictures = []
 		self.processed_pictures = {'category': [], 'price': [], 'weight': []}
 
@@ -61,6 +62,7 @@ class MainWindow(QtWidgets.QMainWindow):
 		self.grid.addWidget(self.tab_widget, 0, 0)
 
 	def createSetupWindow(self):
+		self.setup_pic_num = 1
 		# Setup window grid and frame
 		self.setup_grid = QtWidgets.QGridLayout()
 		self.setup_frame = QtWidgets.QFrame(self.cw)
@@ -74,8 +76,8 @@ class MainWindow(QtWidgets.QMainWindow):
 		self.raw_image = QtWidgets.QLabel()
 		raw_pixmap = QtGui.QPixmap(os.path.join('images', 'placeholder.jpg'))
 		self.raw_image.setPixmap(raw_pixmap.scaled(480, 360))
-		self.setup_prev_button = QtWidgets.QPushButton(">>")
-		self.setup_next_button = QtWidgets.QPushButton("<<")
+		self.setup_prev_button = QtWidgets.QPushButton("<<")
+		self.setup_next_button = QtWidgets.QPushButton(">>")
 		self.advanced_label = QtWidgets.QLabel("Advanced")
 		self.advanced_label.setFont(QtGui.QFont("Arial", 16, QtGui.QFont.Bold))
 		self.prediction_confidence_label = QtWidgets.QLabel("Prediction Confidence")
@@ -94,8 +96,8 @@ class MainWindow(QtWidgets.QMainWindow):
 		self.setup_grid.addWidget(self.path_entry, 1, 0)
 		self.setup_grid.addWidget(self.upload_button, 2, 0)
 		self.setup_grid.addWidget(self.raw_image, 1, 1, 2, 2)
-		self.setup_grid.addWidget(self.setup_next_button, 3, 1)
-		self.setup_grid.addWidget(self.setup_prev_button, 3, 2)
+		self.setup_grid.addWidget(self.setup_next_button, 3, 2)
+		self.setup_grid.addWidget(self.setup_prev_button, 3, 1)
 		self.setup_grid.addWidget(self.advanced_label, 3, 0)
 		self.setup_grid.addWidget(self.prediction_confidence_label, 4, 0)
 		self.setup_grid.addWidget(self.prediction_confidence_slider, 5, 0, 1, 2)
@@ -104,8 +106,8 @@ class MainWindow(QtWidgets.QMainWindow):
 		# Set setup layout
 		self.setup_tab.setLayout(self.setup_grid)
 		# Hide hidden widgets
-		self.setup_next_button.hide()
-		self.setup_prev_button.hide()
+		#self.setup_next_button.hide()
+		#self.setup_prev_button.hide()
 
 	def createViewWindow(self):
 		# Setup window grid and frame
@@ -202,6 +204,8 @@ class MainWindow(QtWidgets.QMainWindow):
 
 	def connect_setup_widgets(self):
 		self.upload_button.clicked.connect(self.upload_picture)
+		self.setup_next_button.clicked.connect(self.next_setup_picture)
+		self.setup_prev_button.clicked.connect(self.prev_setup_picture)
 
 	# Update methods
 
@@ -212,7 +216,7 @@ class MainWindow(QtWidgets.QMainWindow):
 			self.pictures.append(raw_pixmap)
 			self.raw_image.setPixmap(raw_pixmap.scaled(480, 360))
 		# Mask Image
-		maskImage(path)
+		self.items.append(maskImage(path))
 		cat_pixmap = QtGui.QPixmap('cat.jpg')
 		price_pixmap = QtGui.QPixmap('price.jpg')
 		weight_pixmap = QtGui.QPixmap('weight.jpg')
@@ -223,6 +227,22 @@ class MainWindow(QtWidgets.QMainWindow):
 
 	def set_view_pixmap(self, pixmap):
 		self.view_image.setPixmap(pixmap.scaled(480, 360))
+
+	def next_setup_picture(self):
+		if self.setup_pic_num == len(self.pictures):
+			raw_pixmap = QtGui.QPixmap(os.path.join('images', 'placeholder.jpg'))
+			self.raw_image.setPixmap(raw_pixmap.scaled(480, 360))
+			self.setup_pic_num += 1
+		if self.setup_pic_num < len(self.pictures):
+			raw_pixmap = self.pictures[self.setup_pic_num]
+			self.raw_image.setPixmap(raw_pixmap.scaled(480, 360))
+			self.setup_pic_num += 1
+
+	def prev_setup_picture(self):
+		if self.setup_pic_num > 1:
+			raw_pixmap = self.pictures[self.setup_pic_num - 2]
+			self.raw_image.setPixmap(raw_pixmap.scaled(480, 360))
+			self.setup_pic_num -= 1
 
 '''Launches MainWindow object'''
 def launch(filename=None):
