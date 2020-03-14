@@ -125,7 +125,7 @@ class scatter_plot_histogram:
 
 class bar_chart(QtWidgets.QWidget):
 
-    def __init__(self, items, freqs, parent=None):
+    def __init__(self, items, freqs, value=True, parent=None):
 
         QtWidgets.QWidget.__init__(self, parent)
         price_dict = {}
@@ -149,16 +149,22 @@ class bar_chart(QtWidgets.QWidget):
 
         entries = []
         type_entries = [0, 0, 0]
+
+        if value:
+            value_dict = average_prices
+        else:
+            value_dict = average_weights
+
         for i in range(len(items)):
             item = items[i]
             freq = freqs[i]
-            entries.append(freq * average_prices[item])
+            entries.append(freq * value_dict[item])
             if type_dict[item] == 'electronics':
-                type_entries[0] += freq * average_prices[item]
+                type_entries[0] += freq * value_dict[item]
             elif type_dict[item] == 'furniture':
-                type_entries[1] += freq * average_prices[item]
+                type_entries[1] += freq * value_dict[item]
             else:
-                type_entries[2] += freq * average_prices[item]
+                type_entries[2] += freq * value_dict[item]
 
         self.set0 = QBarSet('Electronics')
         self.set1 = QBarSet('Furniture')
