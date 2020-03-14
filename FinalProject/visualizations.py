@@ -3,6 +3,8 @@ from pyqtgraph.Qt import QtGui, QtCore
 import pyqtgraph as pg
 import pandas
 import os
+import csv
+import statistics
 import numpy as np
 
 relative_path = os.path.join('.', 'project_dataset.csv')
@@ -68,7 +70,6 @@ class scatter_plot_histogram:
         self.widget2.setTitle(name.capitalize() + ' Price Histogram')
 
     def onMove(self, pos):
-        print('moved')
         act_pos = self.plot_points.mapFromScene(pos)
         points_list = self.plot_points.pointsAt(act_pos)
 
@@ -116,10 +117,49 @@ class scatter_plot_histogram:
                 self.selected_point = None
 
     def onClick(self, _, points_list):
-        print('clicked')
         if len(points_list) > 0:
             point = points_list[0]
             self.update_histogram(point.data())
+
+class value_bar_chart:
+
+    def __init__(self, widget1, items, freqs):
+
+        price_dict = {}
+        weight_dict = {}
+        type_dict = {}
+        with open('project_dataset.csv', newline='') as csvfile:
+            reader = csv.reader(csvfile, delimiter=',', quotechar='|')
+            next(reader)
+            for row in reader:
+                if row[0] not in price_dict.keys():
+                    price_dict[row[0]] = []
+                    weight_dict[row[0]] = []
+                    type_dict[row[0]] = row[1]
+                price_dict[row[0]].append(float(row[2]))
+                weight_dict[row[0]].append(float(row[3]))
+        average_prices = {}
+        average_weights = {}
+        for key in price_dict.keys():
+            average_prices[key] = statistics.mean(price_dict[key])
+            average_weights[key] = statistics.mean(weight_dict[key])
+
+        entries = []
+        type_entries = [0, 0, 0]
+        for i in range(len(items)):
+            item = items[i]
+            freq = freqs[i]
+            entries.append(freq * average_prices[item])
+            if type_dict[item] == 'electronics':
+                type_entries[0] += freq * average_prices[item]
+            elif type_dict[item] == 'furniture':
+                type_entries[1] += freq * average_prices[item]
+            else:
+                type_entries[2] += freq * average_prices[item]
+
+        self.bar_graph = pg.BarGraphItem(x=np.asarray([1, 2, 3]), height=np.asarray(type_entries), width=0.6, brush='r')
+        widget1.addItem(self.bar_graph)
+
 
 
 # Start Qt event loop unless running in interactive mode or using pyside.
@@ -129,12 +169,9 @@ if __name__ == '__main__':
     mw = QtGui.QMainWindow()
     mw.resize(900,600)
     mw.resize(900, 600)
-    view = pg.GraphicsLayoutWidget()  ## GraphicsView with GraphicsLayout inserted by default
+    view = pg.plot()  ## GraphicsView with GraphicsLayout inserted by default
     mw.setCentralWidget(view)
     mw.show()
-    # create 2 areas to add plots
-    w1 = view.addPlot()
-    w2 = view.addPlot()
-    test = scatter_plot_histogram(w1, w2, ['couch', 'bed'], [1, 2])
+    test = value_bar_chart(view, ['couch', 'bed'], [1, 2])
 
     app.exec_()  # Start QApplication event loop ***
