@@ -128,51 +128,52 @@ class bar_chart(QtWidgets.QWidget):
     def __init__(self, items, freqs, value=True, parent=None):
 
         QtWidgets.QWidget.__init__(self, parent)
-        price_dict = {}
-        weight_dict = {}
-        type_dict = {}
+        self.items = items
+        self.price_dict = {}
+        self.weight_dict = {}
+        self.type_dict = {}
         with open('project_dataset.csv', newline='') as csvfile:
             reader = csv.reader(csvfile, delimiter=',', quotechar='|')
             next(reader)
             for row in reader:
-                if row[0] not in price_dict.keys():
-                    price_dict[row[0]] = []
-                    weight_dict[row[0]] = []
-                    type_dict[row[0]] = row[1]
-                price_dict[row[0]].append(float(row[2]))
-                weight_dict[row[0]].append(float(row[3]))
-        average_prices = {}
-        average_weights = {}
-        for key in price_dict.keys():
-            average_prices[key] = statistics.mean(price_dict[key])
-            average_weights[key] = statistics.mean(weight_dict[key])
+                if row[0] not in self.price_dict.keys():
+                    self.price_dict[row[0]] = []
+                    self.weight_dict[row[0]] = []
+                    self.type_dict[row[0]] = row[1]
+                self.price_dict[row[0]].append(float(row[2]))
+                self.weight_dict[row[0]].append(float(row[3]))
+        self.average_prices = {}
+        self.average_weights = {}
+        for key in self.price_dict.keys():
+            self.average_prices[key] = statistics.mean(self.price_dict[key])
+            self.average_weights[key] = statistics.mean(self.weight_dict[key])
 
-        entries = []
-        type_entries = [0, 0, 0]
+        self.entries = []
+        self.type_entries = [0, 0, 0]
 
         if value:
-            value_dict = average_prices
+            value_dict = self.average_prices
         else:
-            value_dict = average_weights
+            value_dict = self.average_weights
 
         for i in range(len(items)):
             item = items[i]
             freq = freqs[i]
-            entries.append(freq * value_dict[item])
-            if type_dict[item] == 'electronics':
-                type_entries[0] += freq * value_dict[item]
-            elif type_dict[item] == 'furniture':
-                type_entries[1] += freq * value_dict[item]
+            self.entries.append(freq * value_dict[item])
+            if self.type_dict[item] == 'electronics':
+                self.type_entries[0] += freq * value_dict[item]
+            elif self.type_dict[item] == 'furniture':
+                self.type_entries[1] += freq * value_dict[item]
             else:
-                type_entries[2] += freq * value_dict[item]
+                self.type_entries[2] += freq * value_dict[item]
 
         self.set0 = QBarSet('Electronics')
         self.set1 = QBarSet('Furniture')
         self.set2 = QBarSet('Sports Equipment')
 
-        self.set0.append([type_entries[0]])
-        self.set1.append([type_entries[1]])
-        self.set2.append([type_entries[2]])
+        self.set0.append([self.type_entries[0]])
+        self.set1.append([self.type_entries[1]])
+        self.set2.append([self.type_entries[2]])
 
         self.series = QBarSeries()
         self.series.append(self.set0)
@@ -200,14 +201,52 @@ class bar_chart(QtWidgets.QWidget):
 
         self.chartView = QChartView(self.chart)
 
-        self.set0.clicked.connect(self.click)
+        self.set0.clicked.connect(self.click_electronics)
+        self.set1.clicked.connect(self.click_furniture)
+        self.set2.clicked.connect(self.click_sports)
 
         self.grid = QtWidgets.QGridLayout()
         self.grid.addWidget(self.chartView, 0, 0)
         self.setLayout(self.grid)
 
-    def click(self):
-        print('clicked 0')
+    def click_electronics(self):
+        self.change_view('electronics')
+
+    def click_furniture(self):
+        self.change_view('furniture')
+
+    def click_sports(self):
+        self.change_view('sports')
+
+    def change_view(self, category):
+        self.series = QBarSeries()
+        for i in range(len(self.items)):
+            item = self.items[i]
+            if self.type_dict[item] == category:
+                new_set = QBarSet(item)
+                new_set.append(self.entries[i])
+                self.series.append(new_set)
+        self.chart = QChart()
+        self.chart.addSeries(self.series)
+        self.chart.setTitle('Value by category')
+        self.chart.setAnimationOptions(QChart.SeriesAnimations)
+        months = ('Price By Category')
+
+        axisX = QBarCategoryAxis()
+        axisX.append(months)
+
+        axisY = QValueAxis()
+        axisY.setRange(0, 15)
+
+        self.chart.addAxis(axisX, Qt.AlignBottom)
+        self.chart.addAxis(axisY, Qt.AlignLeft)
+
+        self.chart.legend().setVisible(True)
+        self.chart.legend().setAlignment(Qt.AlignBottom)
+
+        self.chartView = QChartView(self.chart)
+
+        self.grid.addWidget(self.chartView, 0, 0)
 
     def mouseClickEvent(self, event):
         print("clicked")
@@ -226,7 +265,7 @@ if __name__ == '__main__':
     mw.resize(900,600)
     mw.resize(900, 600)
     mw.show()
-    test = bar_chart(['couch', 'bed', 'laptop', 'baseball bat'], [1, 1, 1, 2])
+    test = bar_chart(['couch', 'bed', 'laptop', 'baseball bat'], [1, 1, 1, 2], value=True)
     mw.setCentralWidget(test)
 
     app.exec_()  # Start QApplication event loop ***
