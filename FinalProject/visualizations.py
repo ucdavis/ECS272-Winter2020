@@ -1,5 +1,7 @@
 # file with all the visualization code
-from pyqtgraph.Qt import QtGui, QtCore
+from pyqtgraph.Qt import QtGui, QtCore, QtWidgets
+from PyQt5.QtChart import QChart, QChartView, QValueAxis, QBarCategoryAxis, QBarSet, QBarSeries
+from PyQt5.Qt import Qt
 import pyqtgraph as pg
 import pandas
 import os
@@ -121,10 +123,11 @@ class scatter_plot_histogram:
             point = points_list[0]
             self.update_histogram(point.data())
 
-class value_bar_chart:
+class bar_chart(QtWidgets.QWidget):
 
-    def __init__(self, widget1, items, freqs):
+    def __init__(self, items, freqs, parent=None):
 
+        QtWidgets.QWidget.__init__(self, parent)
         price_dict = {}
         weight_dict = {}
         type_dict = {}
@@ -157,8 +160,55 @@ class value_bar_chart:
             else:
                 type_entries[2] += freq * average_prices[item]
 
-        self.bar_graph = pg.BarGraphItem(x=np.asarray([1, 2, 3]), height=np.asarray(type_entries), width=0.6, brush='r')
-        widget1.addItem(self.bar_graph)
+        self.set0 = QBarSet('Electronics')
+        self.set1 = QBarSet('Furniture')
+        self.set2 = QBarSet('Sports Equipment')
+
+        self.set0.append([type_entries[0]])
+        self.set1.append([type_entries[1]])
+        self.set2.append([type_entries[2]])
+
+        self.series = QBarSeries()
+        self.series.append(self.set0)
+        self.series.append(self.set1)
+        self.series.append(self.set2)
+
+        self.chart = QChart()
+        self.chart.addSeries(self.series)
+        self.chart.setTitle('Value by category')
+        self.chart.setAnimationOptions(QChart.SeriesAnimations)
+
+        months = ('Price By Category')
+
+        axisX = QBarCategoryAxis()
+        axisX.append(months)
+
+        axisY = QValueAxis()
+        axisY.setRange(0, 15)
+
+        self.chart.addAxis(axisX, Qt.AlignBottom)
+        self.chart.addAxis(axisY, Qt.AlignLeft)
+
+        self.chart.legend().setVisible(True)
+        self.chart.legend().setAlignment(Qt.AlignBottom)
+
+        self.chartView = QChartView(self.chart)
+
+        self.set0.clicked.connect(self.click)
+
+        self.grid = QtWidgets.QGridLayout()
+        self.grid.addWidget(self.chartView, 0, 0)
+        self.setLayout(self.grid)
+
+    def click(self):
+        print('clicked 0')
+
+    def mouseClickEvent(self, event):
+        print("clicked")
+
+    def onClick(self, _, points_list):
+        point = points_list[0]
+        print (point)
 
 
 
@@ -169,9 +219,8 @@ if __name__ == '__main__':
     mw = QtGui.QMainWindow()
     mw.resize(900,600)
     mw.resize(900, 600)
-    view = pg.plot()  ## GraphicsView with GraphicsLayout inserted by default
-    mw.setCentralWidget(view)
     mw.show()
-    test = value_bar_chart(view, ['couch', 'bed'], [1, 2])
+    test = bar_chart(['couch', 'bed', 'laptop', 'baseball bat'], [1, 1, 1, 2])
+    mw.setCentralWidget(test)
 
     app.exec_()  # Start QApplication event loop ***
