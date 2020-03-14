@@ -162,7 +162,7 @@ class MainWindow(QtWidgets.QMainWindow):
 		self.populate_vis_combobox()
 		self.analysis_category_tree = QtWidgets.QTreeWidget()
 		self.analysis_image = QtWidgets.QLabel()
-		self.view_widget = view = pg.GraphicsLayoutWidget()
+		self.view_widget = pg.GraphicsLayoutWidget()
 		analysis_pixmap = QtGui.QPixmap(os.path.join('images', 'placeholder.jpg'))
 		self.analysis_image.setPixmap(analysis_pixmap.scaled(480, 360))
 		self.reset_visualization_button = QtWidgets.QPushButton('Reset')
@@ -255,8 +255,8 @@ class MainWindow(QtWidgets.QMainWindow):
 	def change_vis(self):
 		if str(self.vis_combobox.currentText()) == 'Value-Weight Scatterplot':
 			self.analysis_image.hide()
-			w1 = self.view_widget.addPlot()
-			w2 = self.view_widget.addPlot()
+			self.w1 = self.view_widget.addPlot()
+			self.w2 = self.view_widget.addPlot()
 			individual_items = []
 			item_frequency = []
 			for item in self.items:
@@ -265,9 +265,7 @@ class MainWindow(QtWidgets.QMainWindow):
 					item_frequency.append(1)
 				else:
 					item_frequency[individual_items.index(item)] += 1
-			print (individual_items)
-			print (item_frequency)
-			scatter_plot_histogram(w1, w2, individual_items, item_frequency)
+			self.test = scatter_plot_histogram(self.w1, self.w2, individual_items, item_frequency)
 
 
 '''Launches MainWindow object'''
