@@ -46,6 +46,7 @@ class FileEntry(QtWidgets.QWidget):
         '''returns the entry_box text'''
         return self.entry_box.text()
 
+# Credit: Jeong Hweon Woo of StackOverflow
 class RangeSlider(QtWidgets.QWidget):
 
     def __init__(self, maxval=100):

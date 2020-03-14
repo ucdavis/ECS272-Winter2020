@@ -116,21 +116,19 @@ class scatter_plot_histogram:
             point = points_list[0]
             self.update_histogram(point.data())
 
-# for debugging purposes
-app = QtGui.QApplication([])
-mw = QtGui.QMainWindow()
-mw.resize(900,600)
-view = pg.GraphicsLayoutWidget()  ## GraphicsView with GraphicsLayout inserted by default
-mw.setCentralWidget(view)
-mw.show()
-
-## create 2 areas to add plots
-w1 = view.addPlot()
-w2 = view.addPlot()
-test = scatter_plot_histogram(w1, w2, ['couch', 'bed'], [1, 2])
-
-
 # Start Qt event loop unless running in interactive mode or using pyside.
 if __name__ == '__main__':
+    # for debugging purposes
+    app = QtGui.QApplication([])
+    mw = QtGui.QMainWindow()
+    mw.resize(900,600)
+    view = pg.GraphicsLayoutWidget()  ## GraphicsView with GraphicsLayout inserted by default
+    mw.setCentralWidget(view)
+    mw.show()
+
+    ## create 2 areas to add plots
+    w1 = view.addPlot()
+    w2 = view.addPlot()
+    test = scatter_plot_histogram(w1, w2, ['couch', 'bed'], [1, 2])
 
     app.exec_()  # Start QApplication event loop ***

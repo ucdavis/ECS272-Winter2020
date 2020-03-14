@@ -41,7 +41,7 @@ def maskImage(source):
         average_prices[key] = statistics.mean(price_dict[key])
         average_weights[key] = statistics.mean(weight_dict[key])
     cd = {"furniture":(255,0,0),"electronics":(0,0,255),"sports":(0,255,0)}
-    maskImageHelper(source, cd, average_prices, average_weights)
+    return maskImageHelper(source, cd, average_prices, average_weights)
 
 def maskImageHelper(source, color_dictionary, price_dict, weight_dict):
     df = pd.read_csv("project_dataset.csv")
@@ -84,6 +84,7 @@ def maskImageHelper(source, color_dictionary, price_dict, weight_dict):
     #visualize = 0
 	#way to save clone: clone = clone.save(filename)
     # loop over the number of detected objects
+    items = []
     for i in range(0, boxes.shape[2]):
         # extract the class ID of the detection along with the confidence
         # (i.e., probability) associated with the prediction
@@ -115,7 +116,7 @@ def maskImageHelper(source, color_dictionary, price_dict, weight_dict):
             # particular instance segmentation then create a transparent
             # overlay by blending the randomly selected color with the ROI
             name = LABELS[classID]
-            print (name)
+            items.append(name)
             category = df[df['name']==name]['category'].unique()
             category = category[0]
             # Category view
@@ -172,7 +173,7 @@ def maskImageHelper(source, color_dictionary, price_dict, weight_dict):
     cv2.imwrite(filepath, clone)
     cv2.imwrite(price_filepath, price_clone)
     cv2.imwrite(weight_filepath, weight_clone)
-    return filepath
+    return items
 
 def findProportion(scaleVals,objVal):
     prop = (objVal-float(scaleVals.min()))/(float(scaleVals.max())-float(scaleVals.min()))
