@@ -191,7 +191,7 @@ class bar_chart(QtWidgets.QWidget):
         axisX.append(months)
 
         axisY = QValueAxis()
-        axisY.setRange(0, 15)
+        axisY.setRange(0, max(self.type_entries))
 
         self.chart.addAxis(axisX, Qt.AlignBottom)
         self.chart.addAxis(axisY, Qt.AlignLeft)
@@ -236,7 +236,12 @@ class bar_chart(QtWidgets.QWidget):
         axisX.append(months)
 
         axisY = QValueAxis()
-        axisY.setRange(0, 15)
+        if category == 'electronics':
+            axisY.setRange(0, self.type_entries[0])
+        if category == 'furniture':
+            axisY.setRange(0, self.type_entries[1])
+        if category == 'sports':
+            axisY.setRange(0, self.type_entries[2])
 
         self.chart.addAxis(axisX, Qt.AlignBottom)
         self.chart.addAxis(axisY, Qt.AlignLeft)
@@ -265,7 +270,7 @@ if __name__ == '__main__':
     mw.resize(900,600)
     mw.resize(900, 600)
     mw.show()
-    test = bar_chart(['couch', 'bed', 'laptop', 'baseball bat'], [1, 1, 1, 2], value=True)
+    test = bar_chart(['couch', 'bed', 'laptop', 'baseball bat'], [1, 1, 1, 2], value=False)
     mw.setCentralWidget(test)
 
     app.exec_()  # Start QApplication event loop ***
