@@ -125,10 +125,13 @@ class scatter_plot_histogram:
 
 class bar_chart(QtWidgets.QWidget):
 
-    def __init__(self, items, freqs, value=True, parent=None):
+    def __init__(self, parent=None):
 
         QtWidgets.QWidget.__init__(self, parent)
-        self.items = items
+
+        self.grid = QtWidgets.QGridLayout()
+
+        self.items = []
         self.price_dict = {}
         self.weight_dict = {}
         self.type_dict = {}
@@ -150,6 +153,12 @@ class bar_chart(QtWidgets.QWidget):
 
         self.entries = []
         self.type_entries = [0, 0, 0]
+
+        self.setLayout(self.grid)
+
+    def populate(self, items, freqs, value=True,):
+
+        self.items = items
 
         if value:
             value_dict = self.average_prices
@@ -205,9 +214,7 @@ class bar_chart(QtWidgets.QWidget):
         self.set1.clicked.connect(self.click_furniture)
         self.set2.clicked.connect(self.click_sports)
 
-        self.grid = QtWidgets.QGridLayout()
         self.grid.addWidget(self.chartView, 0, 0)
-        self.setLayout(self.grid)
 
     def click_electronics(self):
         self.change_view('electronics')
@@ -228,9 +235,9 @@ class bar_chart(QtWidgets.QWidget):
                 self.series.append(new_set)
         self.chart = QChart()
         self.chart.addSeries(self.series)
-        self.chart.setTitle('Value by category')
+        self.chart.setTitle('Value by Item')
         self.chart.setAnimationOptions(QChart.SeriesAnimations)
-        months = ('Price By Category')
+        months = ('Price By Item')
 
         axisX = QBarCategoryAxis()
         axisX.append(months)
@@ -270,7 +277,8 @@ if __name__ == '__main__':
     mw.resize(900,600)
     mw.resize(900, 600)
     mw.show()
-    test = bar_chart(['couch', 'bed', 'laptop', 'baseball bat'], [1, 1, 1, 2], value=False)
+    test = bar_chart()
+    test.populate(['couch', 'bed', 'laptop', 'baseball bat'], [1, 1, 1, 2], value=False)
     mw.setCentralWidget(test)
 
     app.exec_()  # Start QApplication event loop ***
